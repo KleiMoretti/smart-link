@@ -1,7 +1,7 @@
 import "../../css/LoginSignUp.css"
 import { useEffect, useState } from "react"
 import supabase from "../../lib/supabaseClient";
-//import { signInWithGoogle } from "../../firebase/firebase";
+import { signInWithGoogle } from "../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
 
 
@@ -14,11 +14,9 @@ export default function LoginPage() {
 
     const handleLogin = async () => {
         const user = await signInWithGoogle();
-
         if (user) {
             navigate("/dashboard")
         }
-
 
     };
 
