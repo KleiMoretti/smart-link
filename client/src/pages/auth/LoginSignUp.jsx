@@ -7,7 +7,7 @@ export default function LoginPage() {
 
     const [check, setcheck] = useState("");
     const [active, setactive] = useState(false);
-    const [showInputPassword, setshowInputPassword] = useState(false);
+    const [showInputCode, setshowInputCode] = useState(false);
 
 
 
@@ -23,9 +23,9 @@ export default function LoginPage() {
 
     function showInput() {
         if (active) {
-            setshowInputPassword(true)
+            setshowInputCode(true)
         } else {
-            setshowInputPassword(false)
+            setshowInputCode(false)
         }
     }
 
@@ -118,9 +118,9 @@ export default function LoginPage() {
                                     <i className={`cursor-pointer bi bi-arrow-right-circle ${active ? "text-green-500" : ""}`} onClick={showInput}></i>
                                 </div>
 
-                                {showInputPassword && (
+                                {showInputCode && (
                                     <div className="email flex bg-gray-100 px-3 py-3 rounded-lg w-[500px]">
-                                        <input className="outline-none w-full" type="text" placeholder="Password"
+                                        <input className="outline-none w-full" type="text" placeholder="Code"
                                         />
                                         <i className={`cursor-pointer bi bi-arrow-right-circle`}></i>
                                     </div>
@@ -135,7 +135,7 @@ export default function LoginPage() {
                         <div className="text  w-full flex justify-start text-sm">
                             <div className="flex items-center justify-center  text-sky-500">
                                 <div className="flex items-center">
-                                    <a href="#">Forgotten your password? </a>
+                                    <a href="#">Forgotten your Code? </a>
                                 </div>
                                 <div className="flex items-center">
                                     <i className="bi bi-arrow-right-short"></i>
