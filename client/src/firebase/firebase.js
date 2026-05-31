@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const firebaseConfig = {
@@ -14,10 +13,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-const analytics = getAnalytics(app);
-
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+export const auth = getAuth(app);
+export const provider = new GoogleAuthProvider();
 
 export const signInWithGoogle = async () => {
     const result = await signInWithPopup(auth, provider);
