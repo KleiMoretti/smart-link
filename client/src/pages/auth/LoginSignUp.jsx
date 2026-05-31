@@ -18,6 +18,7 @@ export default function LoginPage() {
             setactive(true)
         } else {
             setactive(false)
+            setshowInputCode(false)
         }
     }
 
@@ -119,8 +120,8 @@ export default function LoginPage() {
                                 </div>
 
                                 {showInputCode && (
-                                    <div className="email flex bg-gray-100 px-3 py-3 rounded-lg w-[500px]">
-                                        <input className="outline-none w-full" type="text" placeholder="Code"
+                                    <div className="email flex bg-gray-100 px-3 py-3 rounded-lg w-[500px] mt-2">
+                                        <input className="outline-none w-full" type="text" placeholder="code"
                                         />
                                         <i className={`cursor-pointer bi bi-arrow-right-circle`}></i>
                                     </div>
