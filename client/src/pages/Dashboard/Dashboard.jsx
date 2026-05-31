@@ -1,27 +1,27 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
 export default function Dashboard() {
     const navigate = useNavigate();
+    const [userDetails, setUserDetails] = useState(null);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (!user) {
                 navigate("/login");
             } else {
-                console.log(user);
+                setUserDetails(user);
             }
         });
 
-        // 🔥 IMPORTANT: cleanup
         return () => unsubscribe();
     }, [navigate]);
 
     return (
         <div>
-            <p>a</p>
+            <h1>Hi {userDetails?.displayName} 👋</h1>
         </div>
     );
 }
