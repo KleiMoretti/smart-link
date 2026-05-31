@@ -1,0 +1,58 @@
+@media (max-width: 320px) {
+    .title-2 {
+        font-size: 13px;
+    }
+
+    .text-2 {
+        font-size: 10px;
+        width: 100%;
+    }
+
+    .main {
+        display: flex;
+        flex-direction: column;
+    }
+
+}
+
+@media (max-width: 400px) {
+    .title-2 {
+        font-size: 16px;
+    }
+
+    .text-2 {
+        font-size: 12px;
+        width: 100%;
+    }
+
+    .main {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .bi-link-45deg {
+        font-size: 30vw;
+    }
+
+}
+
+@media (max-width: 800px) {
+    .title-2 {
+        font-size: 20px;
+    }
+
+    .text-2 {
+        font-size: 16px;
+        width: 70%;
+    }
+
+    .main {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .bi-link-45deg {
+        font-size: 25vw;
+    }
+
+}
