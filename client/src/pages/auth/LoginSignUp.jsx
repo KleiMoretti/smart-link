@@ -1,7 +1,8 @@
 import "../../css/LoginSignUp.css"
 import { useEffect, useState } from "react"
 import supabase from "../../lib/supabaseClient";
-import { signInWithGoogle } from "../../firebase/firebase";
+//import { signInWithGoogle } from "../../firebase/firebase";
+import { useNavigate } from "react-router-dom";
 
 
 export default function LoginPage() {
@@ -9,10 +10,16 @@ export default function LoginPage() {
     const [check, setcheck] = useState("");
     const [active, setactive] = useState(false);
     const [showInputPassword, setshowInputPassword] = useState(false);
+    const navigate = useNavigate();
 
     const handleLogin = async () => {
         const user = await signInWithGoogle();
-        console.log(user);
+
+        if (user) {
+            navigate("/dashboard")
+        }
+
+
     };
 
 
@@ -160,7 +167,7 @@ export default function LoginPage() {
 
                         <div className="flex gap-2 justify-start items-center w-full mt-3 p-3 h-full cursor-pointer border border-gray-400 hover:bg-gray-100 rounded-lg" onClick={handleLogin}>
                             <div className="flex justify-start items-center">
-                                <i class="bi bi-google"></i>
+                                <i className="bi bi-google"></i>
 
                             </div>
                             <div className="flex justify-start items-center">
