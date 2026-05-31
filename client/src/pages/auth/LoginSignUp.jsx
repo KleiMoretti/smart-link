@@ -1,13 +1,20 @@
 import "../../css/LoginSignUp.css"
 import { useEffect, useState } from "react"
 import supabase from "../../lib/supabaseClient";
+import { signInWithGoogle } from "../../firebase/firebase";
 
 
 export default function LoginPage() {
 
     const [check, setcheck] = useState("");
     const [active, setactive] = useState(false);
-    const [showInputCode, setshowInputCode] = useState(false);
+    const [showInputPassword, setshowInputPassword] = useState(false);
+
+    const handleLogin = async () => {
+        const user = await signInWithGoogle();
+        console.log(user);
+    };
+
 
 
 
@@ -18,15 +25,15 @@ export default function LoginPage() {
             setactive(true)
         } else {
             setactive(false)
-            setshowInputCode(false)
+            setshowInputPassword(false)
         }
     }
 
     function showInput() {
         if (active) {
-            setshowInputCode(true)
+            setshowInputPassword(true)
         } else {
-            setshowInputCode(false)
+            setshowInputPassword(false)
         }
     }
 
@@ -114,20 +121,18 @@ export default function LoginPage() {
                         <div className="w-full flex justify-center">
                             <form action="">
                                 <div className="email flex bg-gray-100 px-3 py-3 rounded-lg w-[500px]">
-                                    <input className="outline-none w-full" type="text" placeholder="Email"
+                                    <input className="outline-none w-full" type="text" placeholder="Username"
                                         value={check} onChange={checker} />
                                     <i className={`cursor-pointer bi bi-arrow-right-circle ${active ? "text-green-500" : ""}`} onClick={showInput}></i>
                                 </div>
 
-                                {showInputCode && (
-                                    <div className="email flex bg-gray-100 px-3 py-3 rounded-lg w-[500px] mt-2">
-                                        <input className="outline-none w-full" type="text" placeholder="code"
+                                {showInputPassword && (
+                                    <div className="username flex bg-gray-100 px-3 py-3 rounded-lg w-[500px] mt-2">
+                                        <input className="outline-none w-full" type="text" placeholder="Password"
                                         />
                                         <i className={`cursor-pointer bi bi-arrow-right-circle`}></i>
                                     </div>
                                 )}
-
-
                             </form>
                         </div>
 
@@ -136,13 +141,14 @@ export default function LoginPage() {
                         <div className="text  w-full flex justify-start text-sm">
                             <div className="flex items-center justify-center  text-sky-500">
                                 <div className="flex items-center">
-                                    <a href="#">Forgotten your Code? </a>
+                                    <a href="#">Forgotten your Password? </a>
                                 </div>
                                 <div className="flex items-center">
                                     <i className="bi bi-arrow-right-short"></i>
                                 </div>
                             </div>
                         </div>
+
 
                         <div className="text flex flex-col w-full  text-sm mt-3">
                             <p className="m-0">Do not have an Flux Link Account?</p>
@@ -151,7 +157,18 @@ export default function LoginPage() {
                                 Create Your Flux Link Account
                             </p>
                         </div>
+
+                        <div className="flex gap-2 justify-start items-center w-full mt-3 p-3 h-full cursor-pointer border border-gray-400 hover:bg-gray-100 rounded-lg" onClick={handleLogin}>
+                            <div className="flex justify-start items-center">
+                                <i class="bi bi-google"></i>
+
+                            </div>
+                            <div className="flex justify-start items-center">
+                                <p className="m-0">Sign Up With Google Account</p>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
 
 
