@@ -14,11 +14,10 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-// optional lang analytics
 const analytics = getAnalytics(app);
 
-export const auth = getAuth(app);
-export const provider = new GoogleAuthProvider();
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
 export const signInWithGoogle = async () => {
     const result = await signInWithPopup(auth, provider);
