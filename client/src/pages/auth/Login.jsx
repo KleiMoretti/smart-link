@@ -3,6 +3,9 @@
 import "../../css/LoginSignUp.css"
 import { MoveY, MoveX } from "../../animation/Moves"
 
+// U T I L S
+import { checker, showInput, } from "../../utils/Checkers";
+
 //L I B  I M P O R T
 import { useEffect, useState, useRef } from "react"
 import { useNavigate } from "react-router-dom";
@@ -14,10 +17,12 @@ import { onAuthStateChanged } from "firebase/auth";
 
 export default function LoginPage() {
 
-    const [check, setcheck] = useState("");
+
+    const [checkActive, setcheckActive] = useState("");
+    const [check, setcheck] = useState(false);
     const [activeSignIn, setactiveSignIn] = useState(false);
 
-    const [showSignInInputPassword, setshowSignInInputPassword] = useState(false);
+    const [showSignInPassword, setshowSignInPassword] = useState(false);
 
     const MoveYRef = useRef();
     const MoveXRef = useRef();
@@ -29,7 +34,6 @@ export default function LoginPage() {
         MoveX(MoveXRef.current, -100, 0)
     }, [])
 
-
     const handleLogin = async () => {
         try {
             await signInWithGoogle();
@@ -40,36 +44,6 @@ export default function LoginPage() {
             console.error(error);
         }
     };
-
-    const checker = (e, checkState, active, show) => {
-        const value = e.target.value;
-        checkState(value)
-        if (value.length > 10) {
-            active(true)
-        } else {
-            active(false)
-            show(false)
-        }
-    }
-
-    const handleSignUp = (e, setState, setState1) => {
-        if (!e || !setState) return;
-        const value = e.target.value;
-        setState(value.length > 8)
-        setState1(value.length > 8)
-    }
-
-
-    function showInput(setState, setState1) {
-        if (!setState || !setState1) return;
-        if (setState) {
-            setState1(true)
-        } else {
-            setState1(false)
-        }
-    }
-
-
 
 
     return (
@@ -152,11 +126,21 @@ export default function LoginPage() {
                                 <form>
                                     <div className="email flex bg-gray-100 px-3 py-3 rounded-lg w-[500px]">
                                         <input className="outline-none w-full" type="text" placeholder="Username"
-                                            value={check} onChange={(e) => checker(e, setcheck, setactiveSignIn, setshowSignInInputPassword)} />
-                                        <i className={`cursor-pointer bi bi-arrow-right-circle ${activeSignIn ? "text-green-500" : ""}`}
-                                            onClick={() => showInput(activeSignIn, setshowSignInInputPassword)}></i>
+                                            value={checkActive} onChange={(e) => checker(e, setcheckActive, setactiveSignIn, setshowSignInPassword, setcheck)} />
+
+                                        <i className={`cursor-pointer bi bi-arrow-right-circle  
+                                        ${check ? "hidden" : ""}  
+                                        ${activeSignIn ? "text-green-500" : ""}`}
+                                            onClick={() => {
+                                                showInput(activeSignIn, setshowSignInPassword);
+                                                setcheck(true)
+                                            }
+                                            }>
+                                        </i>
+
+                                        <i class={`bi bi-check-circle-fill ${check ? "text-green-500" : "hidden"}`}></i>
                                     </div>
-                                    {showSignInInputPassword && (
+                                    {showSignInPassword && (
                                         <div className="username flex bg-gray-100 px-3 py-3 rounded-lg w-[500px] mt-2">
                                             <input className="outline-none w-full" type="text" placeholder="Password"
                                             />
@@ -193,6 +177,8 @@ export default function LoginPage() {
                         </div>
                     </div>
                 </div>
+
+
             </section >
         </>
     )
