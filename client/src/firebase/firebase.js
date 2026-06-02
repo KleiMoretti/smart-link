@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { deleteUser, getAdditionalUserInfo, getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: "AIzaSyA1Ao8-XBHXoqJfAPGWWOJ4k6LQJl0GZGc",
@@ -17,6 +17,16 @@ export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
 
 export const signInWithGoogle = async () => {
-    const result = await signInWithPopup(auth, provider);
-    return result.user;
+    try {
+        const result = await signInWithPopup(auth, provider);
+        const exist = getAdditionalUserInfo(result)
+        if (exist.isNewUser) {
+            alert("not exist")
+            deleteUser(result.user)
+        }
+        return true;
+    } catch (err) {
+        console.log(err)
+    }
+
 };
