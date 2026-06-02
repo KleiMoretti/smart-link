@@ -1,7 +1,9 @@
 
 import "../../css/LandingPage.css"
+import { Link } from "react-router-dom"
 
 export default function LandingPage() {
+
 
     return (
 
@@ -24,9 +26,11 @@ export default function LandingPage() {
                     <div className=" hover:bg-pink-500">
                         CONTACT
                     </div>
-                    <div className="inline-flex items-center justify-center bg-black text-white px-4 py-2 rounded-md hover:bg-sky-700 transition-colors duration-300">
-                        <button>LOGIN</button>
-                    </div>
+                    <Link to={"/login"}>
+                        <div className="inline-flex items-center justify-center bg-black text-white px-4 py-2 rounded-md hover:bg-sky-700 transition-colors duration-300">
+                            <button>LOGIN</button>
+                        </div>
+                    </Link>
                 </div>
 
                 <div className="flex lg:hidden items-center text-xl leading-none">
