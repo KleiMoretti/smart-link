@@ -20,6 +20,8 @@ export default function LoginPage() {
 
     const [checkActive, setcheckActive] = useState("");
     const [check, setcheck] = useState(false);
+    const [checkPass, setcheckPass] = useState("");
+    const [activeCheckPass, setActiveCheckPass] = useState("");
     const [activeSignIn, setactiveSignIn] = useState(false);
 
     const [showSignInPassword, setshowSignInPassword] = useState(false);
@@ -42,6 +44,15 @@ export default function LoginPage() {
             }
         } catch (error) {
             console.error(error);
+        }
+    };
+    const checkLength = (value) => {
+        if (!value) return;
+
+        if (value.length > 8) {
+            setActiveCheckPass(true);
+        } else {
+            setActiveCheckPass(false);
         }
     };
 
@@ -133,18 +144,19 @@ export default function LoginPage() {
                                         ${activeSignIn ? "text-green-500" : ""}`}
                                             onClick={() => {
                                                 showInput(activeSignIn, setshowSignInPassword);
-                                                setcheck(true)
+                                                if (activeSignIn) {
+                                                    setcheck(true)
+                                                }
                                             }
                                             }>
                                         </i>
 
-                                        <i class={`bi bi-check-circle-fill ${check ? "text-green-500" : "hidden"}`}></i>
+                                        <i className={`bi bi-check-circle-fill ${check ? "text-green-500" : "hidden"}`}></i>
                                     </div>
                                     {showSignInPassword && (
                                         <div className="username flex bg-gray-100 px-3 py-3 rounded-lg w-[500px] mt-2">
-                                            <input className="outline-none w-full" type="text" placeholder="Password"
-                                            />
-                                            <i className={`cursor-pointer bi bi-arrow-right-circle`}></i>
+                                            <input className="outline-none w-full" type="text" placeholder="Password" value={checkPass} onChange={(e) => { setcheckPass(e.target.value); checkLength(e.target.value); }} />
+                                            <i className={`cursor-pointer bi bi-arrow-right-circle ${activeCheckPass ? "text-green-500" : ""}`}></i>
                                         </div>
                                     )}
                                 </form>
