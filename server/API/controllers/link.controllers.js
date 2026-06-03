@@ -36,7 +36,7 @@ export const SaveLink = async (req, res) => {
             .from("Links")
             .insert(linksToInsert)
             .select();
-
+        //a
         if (error) {
             console.log("SUPABASE ERROaR:", error);
             return res.status(500).json({ success: false, message: error.message });
