@@ -20,7 +20,7 @@ export const SaveLink = async (req, res) => {
 
         const { Links } = req.body;
         if (!Links || !Array.isArray(Links)) {
-            return res.status(400).json({ success: false, message: "Invalid data format." });
+            return res.status(400).json({ success: false, message: "Invalid Data format." });
         }
 
         const linksToInsert = Links.map(item => ({
