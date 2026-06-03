@@ -38,7 +38,7 @@ export const SaveLink = async (req, res) => {
             .select();
 
         if (error) {
-            console.log("SUPABASE ERROR:", error);
+            console.log("SUPABASE ERROaR:", error);
             return res.status(500).json({ success: false, message: error.message });
         }
 
