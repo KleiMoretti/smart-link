@@ -2,22 +2,36 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import Table from "../Dashboard/Table"
+import CreateLink from "../Dashboard/Create"
 
 export default function Dashboard() {
     const navigate = useNavigate();
     const [userDetails, setUserDetails] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    const [tab, setTab] = useState("")
+
+    const handleDashboard = () => setTab("Dashboard");
+    const handleSchedules = () => setTab("Schedule");
+    const handleSubscription = () => setTab("Subscription");
+    const handleSettings = () => setTab("Settings");
+    const handleCreateLink = () => setTab("CreateLink");
+
+
+
     useEffect(() => {
+        setTab("Schedule");
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (!user) {
                 navigate("/login");
                 setLoading(true)
+
             } else {
                 setUserDetails(user);
-            }
-            setLoading(true)
+                setLoading(false)
 
+            }
         });
 
         return () => unsubscribe();
@@ -25,8 +39,6 @@ export default function Dashboard() {
 
     const handleSignOUt = async () => {
         await signOut(auth)
-
-
     }
     if (loading) return <p>Loading...</p>
 
@@ -38,159 +50,36 @@ export default function Dashboard() {
                 </div>
                 <div className="flex gap-5 flex items-center">
                     <div>
-                        <p className="m-0 cursor-pointer font-bold">Dashboard</p>
+                        <p className={`m-0 cursor-pointer ${tab === "Dashboard" ? "font-bold" : ""}`} onClick={handleDashboard} >Dashboard</p>
                     </div>
                     <div>
-                        <p className="m-0 cursor-pointer">Schedules</p>
+                        <p className={`m-0 cursor-pointer ${tab === "Schedule" ? "font-bold" : ""}`} onClick={handleSchedules}>Schedules</p>
                     </div>
                     <div>
-                        <p className="m-0 cursor-pointer">Subscription</p>
+                        <p className={`m-0 cursor-pointer ${tab === "Subscription" ? "font-bold" : ""}`} onClick={handleSubscription}>Subscription</p>
                     </div>
                     <div>
-                        <p className="m-0 cursor-pointer">Settings</p>
+                        <p className={`m-0 cursor-pointer ${tab === "Settings" ? "font-bold" : ""}`} onClick={handleSettings}>Settings</p>
                     </div>
                 </div>
 
-                <div className="bg-black text-white font-bold flex items-center p-2 rounded-md cursor-pointer">
-                    <p className="m-0">Create Link</p>
+                <div className={`bg-black text-white font-bold flex items-center p-2 rounded-md cursor-pointer  ${tab === "CreateLink" ? "hidden" : ""}`} onClick={handleCreateLink}>
+                    < p className="m-0" >Create Link</p>
                 </div>
             </nav>
 
-            <div className="flex items-center space-x-2 mt-10">
-                <div>
-                    <img className="w-10 h-10 rounded-full" src={userDetails?.photoURL} alt="" />
-                </div>
-                <div className="leading-none">
-                    <div><p className="m-0 text-sm leading-none">{userDetails?.displayName}</p></div>
-                    <div><p className="m-0 text-sm text-sky-500 leading-none">{userDetails?.email}</p></div>
-                </div>
+
+
+            {tab === "Dashboard" && "<Dashboard/>"}
+            {tab === "Schedule" && <Table profile={userDetails?.photoURL} name={userDetails?.displayName} email={userDetails?.email} />}
+            {tab === "Subscription" && "<Subscription />"}
+            {tab === "Settings" && "<Settings />"}
+            {tab === "CreateLink" && <CreateLink />}
+
+
+            <div className="text-white cursor-pointer bg-red-500 w-[100px] items-center flex justify-center p-2 rounded-md mt-4 hover:bg-red-400">
+                <p className="m-0" onClick={handleSignOUt}>Sign Out</p>
             </div>
-
-            <div className="flex justify-between mt-20">
-                <div>
-                    <select className="cursor-pointer border border-gray-2 p-2 outline-none">
-                        <option>My Class</option>
-                        <option>My Job</option>
-                    </select>
-
-                </div>
-                <div className="flex space-x-5">
-
-                    <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                        <p className="m-0">Active Link</p>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                        <p className="m-0">Next Schedule</p>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-indigo-500 rounded-full"></div>
-                        <p className="m-0">Most Visitor</p>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                        <p className="m-0">Less Active</p>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                        <p className="m-0">Inactive</p>
-                    </div>
-
-                </div>
-            </div>
-
-            <div className="w-full overflow-x-auto">
-                <table className="w-full border-collapse border border-gray-300 text-center">
-                    <thead className="bg-gray-100">
-                        <tr>
-                            <th className="border p-3">MONDAY</th>
-                            <th className="border p-3">TUESDAY</th>
-                            <th className="border p-3">WEDNESDAY</th>
-                            <th className="border p-3">THURSDAY</th>
-                            <th className="border p-3">FRIDAY</th>
-                            <th className="border p-3">SATURDAY</th>
-                            <th className="border p-3">SUNDAY</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr>
-                            <td className="border p-3 bg-green-200">
-                                8:00 AM <br />
-                                https://meet.google.com/abc-defg-hij
-                            </td>
-
-                            <td className="border p-3">
-                                9:30 AM <br />
-                                https://meet.google.com/qwe-rtyu-iop
-                            </td>
-
-                            <td className="border p-3">
-                                1:00 PM <br />
-                                https://meet.google.com/zxc-vbnm-asd
-                            </td>
-
-                            <td className="border p-3">
-                                3:00 PM <br />
-                                https://meet.google.com/fgh-jklm-qwe
-                            </td>
-
-                            <td className="border p-3">
-                                10:00 AM <br />
-                                https://meet.google.com/poi-uytr-ewq
-                            </td>
-
-                            <td className="border p-3">
-                                10:00 AM <br />
-                                https://meet.google.com/poi-uytr-ewq
-                            </td>
-
-                            <td className="border p-3">
-                                10:00 AM <br />
-                                https://meet.google.com/poi-uytr-ewq
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                            </td>
-
-                            <td className="border p-3">
-                                9:30 AM <br />
-                                https://meet.google.com/qwe-rtyu-iop
-                            </td>
-
-                            <td className="border p-3"></td>
-
-                            <td className="border p-3">
-                                3:00 PM <br />
-                                https://meet.google.com/fgh-jklm-qwe
-                            </td>
-
-                            <td className="border p-3">
-                                10:00 AM <br />
-                                https://meet.google.com/poi-uytr-ewq
-                            </td>
-
-                            <td className="border p-3">
-                                10:00 AM <br />
-                                https://meet.google.com/poi-uytr-ewq
-                            </td>
-
-                            <td className="border p-3">
-                                10:00 AM <br />
-                                https://meet.google.com/poi-uytr-ewq
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p className="text-red-500" onClick={handleSignOUt}>Sign Out</p>
-            </div>
-        </section>
+        </section >
     );
 }
