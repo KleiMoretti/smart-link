@@ -1,1 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
 @import "tailwindcss";
+
+@theme {
+    /* Dito natin inilagay ang font-ubuntu */
+    --font-ubuntu: "Ubuntu", sans-serif;
+}
