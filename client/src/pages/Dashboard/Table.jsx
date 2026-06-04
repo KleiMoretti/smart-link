@@ -5,7 +5,7 @@ export default function Table({ profile, name, email }) {
         <>
 
             <div className="w-full flex justify-center mt-20">
-                <div className="w-4/5  flex items-center">
+                <div className="w-1/2  flex items-center">
                     <div >
                         <div className="text-4xl font-medium">
                             <p className="m-0">1B Schedule</p>
