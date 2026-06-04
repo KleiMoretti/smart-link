@@ -19,8 +19,43 @@ export const SaveLink = async (req, res) => {
         const firebaseName = decodedToken.name || decodedToken.email || "Anonymous User";
 
         const { Links } = req.body;
+
         if (!Links || !Array.isArray(Links)) {
-            return res.status(400).json({ success: false, message: "Invalid Data format." });
+            return res.status(400).json({
+                success: false,
+                message: "Invalid Data format."
+            });
+        }
+
+        const validDays = [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+        ];
+
+        const checkLinks = Links.every((item) => {
+            return (
+                item.title &&
+                item.title.length > 1 &&
+                item.title.length < 50 &&
+
+                item.link &&
+                item.link.startsWith("https://") &&
+                item.link.length > 1 &&
+
+                validDays.includes(item.day)
+            );
+        });
+
+        if (!checkLinks) {
+            return res.status(400).json({
+                message: "Invalid Link Data",
+                success: false
+            });
         }
 
         const linksToInsert = Links.map(item => ({
