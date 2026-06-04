@@ -100,7 +100,7 @@ export default function CreateLink() {
                                     <div className="bg-gray-200 rounded-lg p-2 h-10">
                                         <input className="h-full bg-transparent outline-none" type="time" value={items.time} onChange={(e) => handleInput(e.target.value, index, "time")} />
                                     </div>
-                                    <div className="bg-red-500 py-2 px-3 text-white rounded-lg cursor-pointer" onClick={() => removeInput(index)}>
+                                    <div className={`bg-red-500 py-2 px-3 text-white rounded-lg cursor-pointer ${index !== 0 || input.length > 1 ? "" : "hidden"}`} onClick={() => removeInput(index)}>
                                         Delete
                                     </div>
                                 </div>
