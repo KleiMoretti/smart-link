@@ -23,10 +23,13 @@ export default function CreateLink() {
                 }
             });
 
+            if (res.data.success === 400) {
+                alert("Invalid Links")
+            }
+
             if (res.data.success) {
+                setInput([{ title: "", link: "", day: "", time: "" }]);
                 alert("success men");
-            } else {
-                alert("failed to saved");
             }
         } catch (error) {
             console.error(error);
