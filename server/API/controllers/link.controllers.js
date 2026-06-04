@@ -27,17 +27,13 @@ export const SaveLink = async (req, res) => {
             });
         }
 
+        const isValidTime = (time) => /^([01]\d|2[0-3]):([0-5]\d)$/.test(time);
+
         const validDays = [
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday"
+            "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
         ];
 
-        const checkLinks = Links.every((item) => {
+        const isValid = Links.every((item) => {
             return (
                 item.title &&
                 item.title.length > 1 &&
@@ -45,13 +41,15 @@ export const SaveLink = async (req, res) => {
 
                 item.link &&
                 item.link.startsWith("https://") &&
-                item.link.length > 1 &&
 
-                validDays.includes(item.day)
+                validDays.includes(item.day) &&
+
+                item.time &&
+                isValidTime(item.time)
             );
         });
 
-        if (!checkLinks) {
+        if (!isValid) {
             return res.status(400).json({
                 message: "Invalid Link Data",
                 success: false
