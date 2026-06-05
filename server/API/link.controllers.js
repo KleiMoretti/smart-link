@@ -3,7 +3,7 @@ import admin from "firebase-admin";
 
 
 
-export const SaveLink = async (req, res) => {
+export const SaveLinks = async (req, res) => {
     try {
 
         const firebaseUID = req.user.uid
@@ -75,6 +75,32 @@ export const SaveLink = async (req, res) => {
 };
 
 
-export const FetchLinks = async (req, res) => {
+export const GetLinks = async (req, res) => {
+    try {
+        const uid = req.user.uid;
 
-}
+        const { data, error } = await SupabaseConnect
+            .from("Links")
+            .select("title, links, day, time")
+            .eq("uid", uid);
+
+        if (error) {
+            return res.status(500).json({
+                success: false,
+                message: error.message,
+            });
+        }
+
+        return res.status(200).json({
+            message: "nakuha yung links",
+            success: true,
+            link: data,
+        });
+
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: err.message,
+        });
+    }
+};
