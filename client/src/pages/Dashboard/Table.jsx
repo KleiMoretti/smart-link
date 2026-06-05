@@ -86,7 +86,7 @@ export default function Table({ profile, name, email }) {
                                         <p className="font-medium">{item.day}</p>
                                     </div>
 
-                                    <div className="flex gap-30 border-gray-500 hover:bg-gray-300 border p-3 hover:scale-110 transform transition cursor-pointer">
+                                    <div className="flex justify-between gap-30 border-gray-500 hover:bg-gray-300 border p-3 hover:scale-110 transform transition cursor-pointer">
                                         <div>
                                             {item.title}
                                         </div>
