@@ -62,8 +62,7 @@ export default function CreateLink() {
 
     return (
         <>
-            <div className="mt-30">
-
+            <div>
                 <div className="mt-10">
                     {input.map((items, index) => (
                         <div className="justify-center flex gap-3 mt-6" key={index}>
