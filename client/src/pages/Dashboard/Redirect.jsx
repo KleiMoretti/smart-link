@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 
 export default function Redirect() {
     const { id } = useParams();
-    const en = import.meta.env.VITE_REDIRECT_BACKEND_URL
 
     useEffect(() => {
 
@@ -22,5 +21,5 @@ export default function Redirect() {
 
     }, [id]);
 
-    return <div>Redirecting... {en}</div>;
+    return <div>Redirecting...</div>;
 }
