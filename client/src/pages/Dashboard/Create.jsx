@@ -14,13 +14,40 @@ export default function CreateLink() {
                 return;
             }
 
+            //para sa token
+            const token = await user.getIdToken();
 
+            //fetching data
+            const res = await axios.post("http://localhost:5000/api/SaveLinks", {
+                Links: input
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (res.data.success === 400) {
+                alert("Invalid Links")
+            }
+
+            if (res.data.success) {
+                setInput([{ title: "", link: "", day: "", time: "" }]);
+                alert("success men");
+            }
         } catch (error) {
             console.error(error);
             alert("failed to saved");
         }
     };
 
+    const add = () => {
+        const lastInput = input[input.length - 1];
+        if (!lastInput.title || !lastInput.link || !lastInput.day || !lastInput.time) {
+            alert("Please complete all fields first!");
+            return;
+        }
+        setInput([...input, { title: "", link: "", day: "", time: "" }]);
+    };
 
     const handleInput = (value, index, field) => {
         const update = [...input];
