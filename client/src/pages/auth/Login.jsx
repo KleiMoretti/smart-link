@@ -17,14 +17,9 @@ import { onAuthStateChanged } from "firebase/auth";
 
 export default function Login() {
 
-
-
     const MoveYRef = useRef();
     const MoveXRef = useRef();
-
     const navigate = useNavigate();
-
-
 
     useEffect(() => {
         MoveY(MoveYRef.current, -100, 50)
@@ -40,16 +35,11 @@ export default function Login() {
     }, [navigate]);
 
     const handleLogin = async () => {
-
         const result = await signInWithGoogle();
-
         if (result) {
             navigate("/dashboard");
         }
-
     };
-
-
 
 
     return (
