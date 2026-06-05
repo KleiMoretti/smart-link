@@ -1,8 +1,11 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import cors from "cors";
 import admin from "firebase-admin";
 import authRoutes from "./API/auth.routes.js";
 import serviceAccount from "./serviceAccountKey.json" with { type: "json" };
+
 
 
 admin.initializeApp({
