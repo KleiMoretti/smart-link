@@ -55,6 +55,12 @@ export default function Table({ profile, name, email }) {
     const handleSat = () => setDay("Saturday")
     const handleSun = () => setDay("Sunday")
 
+    const cutLength = (text, max) => {
+
+        const textLength = text.length > max ? text.slice(0, max) + "..." : text;
+        return textLength;
+    }
+
     if (loading) return <p>Loading...</p>
     return (
         <>
@@ -62,9 +68,11 @@ export default function Table({ profile, name, email }) {
             <div>
                 <div className=" flex items-center">
                     <div >
-                        <div className="text-4xl font-medium">
+                        <div className="text-4xl font-medium flex justify-between items-center">
                             <p className="m-0">1B Schedule</p>
+                            <a href={`http://localhost:5000/api/${links[0].code}`} className="m-0 text-lg text-sky-blue">{`http://localhost:5000/api/${links[0].code}`}</a>
                         </div>
+
 
                         <div className="flex gap-10 mt-10 items-center">
                             <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "full week" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleFull}>Full Week</p>
@@ -88,11 +96,11 @@ export default function Table({ profile, name, email }) {
 
                                     <div className="flex justify-between gap-30 border-gray-500 hover:bg-gray-300 border p-3 hover:scale-110 transform transition cursor-pointer">
                                         <div>
-                                            {item.title}
+                                            {cutLength(item.title, 9)}
                                         </div>
 
                                         <div>
-                                            {item.links}
+                                            <a href={item.links}>{cutLength(item.links, 20)}</a>
                                         </div>
 
                                         <div>
