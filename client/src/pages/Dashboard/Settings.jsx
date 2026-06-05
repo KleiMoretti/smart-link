@@ -18,7 +18,7 @@ export default function Settings() {
                 </div>
             </div>
 
-            <div className="flex justify-center mt-10">
+            <div className="flex justify-center w-full mt-10">
                 <div className="p-4 border rounded-md border-gray-200 w-1/3">
                     <div>
                         <p className="font-bold">Organization Settings</p>
