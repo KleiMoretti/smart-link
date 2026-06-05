@@ -11,6 +11,7 @@ export default function Redirect() {
             const res = await axios.get(
                 `${import.meta.env.VITE_REDIRECT_BACKEND_URL}/${id}`
             );
+            //redirect
             window.location.replace(res.data.link?.links);
         };
 
