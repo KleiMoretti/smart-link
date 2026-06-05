@@ -5,6 +5,7 @@ import { auth } from "../../firebase/firebase";
 export default function CreateLink() {
     const [input, setInput] = useState([{ title: "", link: "", day: "", time: "" }]);
 
+    //handle submit
     const handleSubmit = async () => {
         try {
             const user = auth.currentUser;
@@ -13,38 +14,13 @@ export default function CreateLink() {
                 return;
             }
 
-            const token = await user.getIdToken();
 
-            const res = await axios.post("http://localhost:5000/api/SaveLinks", {
-                Links: input
-            }, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-
-            if (res.data.success === 400) {
-                alert("Invalid Links")
-            }
-
-            if (res.data.success) {
-                setInput([{ title: "", link: "", day: "", time: "" }]);
-                alert("success men");
-            }
         } catch (error) {
             console.error(error);
             alert("failed to saved");
         }
     };
 
-    const add = () => {
-        const lastInput = input[input.length - 1];
-        if (!lastInput.title || !lastInput.link || !lastInput.day || !lastInput.time) {
-            alert("Please complete all fields first!");
-            return;
-        }
-        setInput([...input, { title: "", link: "", day: "", time: "" }]);
-    };
 
     const handleInput = (value, index, field) => {
         const update = [...input];
@@ -112,7 +88,7 @@ export default function CreateLink() {
                     <div className="bg-gray-200 py-2 px-3 rounded-lg cursor-pointer" onClick={add}>
                         <button>Add</button>
                     </div>
-                    {/* TAMA: Inalis ang arrow function sa onClick para gumana na ang submit */}
+
                     <div className="bg-black py-2 px-3 text-white rounded-lg cursor-pointer" onClick={handleSubmit}>
                         <button>Done</button>
                     </div>
