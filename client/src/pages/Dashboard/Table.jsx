@@ -23,11 +23,13 @@ export default function Table({ profile, name, email }) {
 
                 const token = await user.getIdToken();
 
-                const res = await axios.get("http://localhost:5000/api/GetLinks", {
-                    headers: {
-                        Authorization: `Bearer ${token}`
+                const res = await axios.get(`${import.meta.env.VITE_API_GET_LINK}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
                     }
-                });
+                );
 
                 if (res.data.success) {
                     setLink(res.data.link);
@@ -56,10 +58,11 @@ export default function Table({ profile, name, email }) {
     const handleSun = () => setDay("Sunday")
 
     const cutLength = (text, max) => {
-
         const textLength = text.length > max ? text.slice(0, max) + "..." : text;
         return textLength;
     }
+
+    const BackendRedirect = import.meta.env.VITE_REDIRECT_FRONTEND_URL;
 
     if (loading) return <p>Loading...</p>
     return (
@@ -70,7 +73,7 @@ export default function Table({ profile, name, email }) {
                     <div >
                         <div className="text-4xl font-medium flex justify-between items-center">
                             <p className="m-0">1B Schedule</p>
-                            <a href={`http://localhost:5000/api/${links[0].code}`} className="m-0 text-lg text-sky-blue">{`http://localhost:5000/api/${links[0].code}`}</a>
+                            <a href={`${BackendRedirect}${links[0].code}`} className="m-0 text-lg text-sky-blue">{`${BackendRedirect}${links[0].code}`}</a>
                         </div>
 
 
