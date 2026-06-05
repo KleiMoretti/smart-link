@@ -120,7 +120,9 @@ export const GetLinks = async (req, res) => {
 };
 
 const getCurrentDay = () => new Date().toLocaleDateString('en-US', { weekday: 'long' });
-const getCurrentTime = () => new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+const getCurrentTime = () => {
+    return new Date().toISOString().slice(11, 16);
+};
 
 export const Redirect = async (req, res) => {
     try {
