@@ -1,7 +1,9 @@
 export default function Feedback() {
     return (
         <>
-            <div>Feedback</div>
+            <div className="flex justify-center">
+                Feedback Soon...
+            </div>
         </>
     )
 }
