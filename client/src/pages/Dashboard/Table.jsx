@@ -76,7 +76,7 @@ export default function Table({ profile, name, email }) {
                     <div >
                         <div className="text-4xl font-medium flex justify-between items-center">
                             <p className="m-0">1B Schedule</p>
-                            <a href={`${BackendRedirect}${links[0].code}`} className="m-0 text-lg text-sky-blue">{`${BackendRedirect}${links[0].code}`}</a>
+                            <a href={`${BackendRedirect}${links[0]?.code}`} className="m-0 text-lg text-sky-blue">{`${BackendRedirect}${links[0]?.code}`}</a>
                         </div>
 
 
