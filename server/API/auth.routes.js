@@ -10,5 +10,4 @@ const route = express.Router();
 route.post("/SaveLinks", Middleware, SaveLinks);
 route.get("/GetLinks", Middleware, GetLinks);
 
-
 module.exports = route;
