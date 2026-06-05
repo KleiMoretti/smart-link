@@ -138,7 +138,7 @@ export const Redirect = async (req, res) => {
             .lte("time", currentTime)
             .order("time", { ascending: false })
             .limit(1)
-            .single();
+            .maybeSingle();
 
         if (error || !data) {
             console.error("Error or No Data found:", error);
