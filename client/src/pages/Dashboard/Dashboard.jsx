@@ -25,12 +25,12 @@ export default function Dashboard() {
             if (!user) {
                 navigate("/login");
                 setLoading(true)
-
             } else {
                 setUserDetails(user);
                 setLoading(false)
             }
         });
+        setLoading(false)
 
         return () => unsubscribe();
     }, [navigate]);
@@ -80,12 +80,12 @@ export default function Dashboard() {
                     </div>
                     <div>
                         <div className="flex items-center m-0 cursor-pointer" onClick={ProfileSettings}>
-                            <img className="m-0 w-10 h-10 rounded-full" src={userDetails.photoURL} alt="" />
+                            <img className="m-0 w-10 h-10 rounded-full" src={userDetails?.photoURL} alt="" />
                         </div>
                         <div className={`absolute max-w-[300px] bg-white mt-1 border border-gray-100 p-2 shadow-sm rounded-lg ${profileSettings ? "" : "hidden"}`}>
                             <div className="border-gray-200 border-b p-2 text-gray-500">
-                                <p className="m-0 text-sm font-medium">{userDetails.displayName}</p>
-                                <p className="m-0 text-[10px]">{userDetails.email}</p>
+                                <p className="m-0 text-sm font-medium">{userDetails?.displayName}</p>
+                                <p className="m-0 text-[10px]">{userDetails?.email}</p>
                             </div>
                             <div className="w-full flex justify-center text-[15px] items-center bg-red-500 rounded-md text-white p-1 mt-4 cursor-pointer hover:bg-red-600" onClick={handleSignOUt}>
                                 Log out
