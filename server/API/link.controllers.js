@@ -119,14 +119,25 @@ export const GetLinks = async (req, res) => {
     }
 };
 
-const getCurrentDay = () => new Date().toLocaleDateString('en-US', { weekday: 'long' });
+const getCurrentDay = () =>
+    new Date().toLocaleDateString("en-US", {
+        weekday: "long",
+        timeZone: "Asia/Manila"
+    });
+
 const getCurrentTime = () => {
-    return new Date().toISOString().slice(11, 16);
+    return new Date().toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        timeZone: "Asia/Manila"
+    });
 };
 
 export const Redirect = async (req, res) => {
     try {
         const { code } = req.params;
+
         const currentDay = getCurrentDay();
         const currentTime = getCurrentTime();
 
@@ -143,15 +154,21 @@ export const Redirect = async (req, res) => {
             .maybeSingle();
 
         if (error || !data) {
-            console.error("Error or No Data found:", error);
-            return res.status(404).json({ success: false, message: "Link not found or not active" });
+            return res.status(404).json({
+                success: false,
+                message: "Link not found or not active"
+            });
         }
 
-        //return res.redirect(data.links);
-        return res.status(200).json({ message: "Success men", success: true, link: data })
+        return res.status(200).json({
+            success: true,
+            link: data
+        });
 
     } catch (err) {
-        console.error("Server Error:", err);
-        return res.status(500).json({ success: false, message: err.message });
+        return res.status(500).json({
+            success: false,
+            message: err.message
+        });
     }
 };
