@@ -25,7 +25,7 @@ app.use("/api", authRoutes);
 
 app.get("/:code", Redirect);
 
-// 3. Gamitin ang PORT na ibibigay ng Render, o 5000 kung local
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
