@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
 
-import SupabaseConnect from "../db/supabaseClient.js"; // Gamitin ang import
+import { SupabaseConnect } from "../db/supabaseClient.js";
 
 export const SaveLinks = async (req, res) => {
     try {
