@@ -1,10 +1,23 @@
-import SupabaseConnect from "../db/supabaseClient.js";
 import admin from "firebase-admin";
 
-
+import SupabaseConnect from "../db/supabaseClient.js"; // Gamitin ang import
 
 export const SaveLinks = async (req, res) => {
     try {
+
+        function generateCode() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            let code = "";
+
+            for (let i = 0; i < 6; i++) {
+                const randomIndex = Math.floor(Math.random() * chars.length);
+                code += chars[randomIndex];
+            }
+
+            return code;
+        }
+
+        const codeKey = generateCode();
 
         const firebaseUID = req.user.uid
         const firebaseName = req.user.name || req.user.email || "Anonymous User";
@@ -53,7 +66,8 @@ export const SaveLinks = async (req, res) => {
             day: item.day,
             time: item.time,
             uid: firebaseUID,
-            name: firebaseName
+            name: firebaseName,
+            code: codeKey
         }));
 
         const { data, error } = await SupabaseConnect
@@ -74,14 +88,13 @@ export const SaveLinks = async (req, res) => {
     }
 };
 
-
 export const GetLinks = async (req, res) => {
     try {
         const uid = req.user.uid;
 
         const { data, error } = await SupabaseConnect
             .from("Links")
-            .select("title, links, day, time")
+            .select("title, links, day, time, code")
             .eq("uid", uid);
 
         if (error) {
@@ -102,5 +115,40 @@ export const GetLinks = async (req, res) => {
             success: false,
             message: err.message,
         });
+    }
+};
+
+const getCurrentDay = () => new Date().toLocaleDateString('en-US', { weekday: 'long' });
+const getCurrentTime = () => new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+
+export const Redirect = async (req, res) => {
+    try {
+        const { code } = req.params;
+        const currentDay = getCurrentDay();
+        const currentTime = getCurrentTime();
+
+        console.log(`Checking link for code: ${code} at ${currentDay} ${currentTime}`);
+
+        const { data, error } = await SupabaseConnect
+            .from("Links")
+            .select("links")
+            .eq("code", code)
+            .eq("day", currentDay)
+            .lte("time", currentTime)
+            .order("time", { ascending: false })
+            .limit(1)
+            .single();
+
+        if (error || !data) {
+            console.error("Error or No Data found:", error);
+            return res.status(404).json({ success: false, message: "Link not found or not active" });
+        }
+
+        //return res.redirect(data.links);
+        return res.status(200).json({ message: "Success men", success: true, link: data })
+
+    } catch (err) {
+        console.error("Server Error:", err);
+        return res.status(500).json({ success: false, message: err.message });
     }
 };
