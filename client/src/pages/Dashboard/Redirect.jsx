@@ -12,8 +12,10 @@ export default function Redirect() {
                 `${import.meta.env.VITE_REDIRECT_BACKEND_URL}/${id}`
             );
 
-            if (res.data.success) {
+            if (res.data?.success && res.data.link?.links) {
                 window.location.replace(res.data.link.links);
+            } else {
+                console.error("Hindi mahanap ang URL para i-redirect.");
             }
         };
 
