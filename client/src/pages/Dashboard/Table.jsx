@@ -34,10 +34,8 @@ export default function Table({ profile, name, email }) {
 
                 if (res.data?.success && res.data?.link) {
                     setLink(res.data?.link);
-                    console.log("Data nakuha:", res.data?.link);
-                } else {
-                    console.log("Walang data o nag-error ang API.");
                 }
+
 
             } catch (err) {
                 console.error(err);
