@@ -65,7 +65,7 @@ export default function Table({ profile, name, email }) {
         return textLength;
     }
 
-    const BackendRedirect = import.meta.env.VITE_REDIRECT_FRONTEND_URL;
+    const BackendRedirect = import.meta.env.VITE_REDIRECT_FRONTEND_URL || "";
 
     if (loading) return <p>Loading...</p>
     return (
@@ -76,7 +76,16 @@ export default function Table({ profile, name, email }) {
                     <div >
                         <div className="text-4xl font-medium flex justify-between items-center">
                             <p className="m-0">1B Schedule</p>
-                            <a href={`${BackendRedirect}${links[0]?.code}`} className="m-0 text-lg text-sky-blue">{`${BackendRedirect}${links[0]?.code}`}</a>
+                            {links.length > 0 && links[0]?.code && (
+                                <a
+                                    href={`${BackendRedirect}${links[0].code}`}
+                                    className="m-0 text-lg text-sky-600 hover:underline"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    {`${BackendRedirect}${links[0].code}`}
+                                </a>
+                            )}
                         </div>
 
 
