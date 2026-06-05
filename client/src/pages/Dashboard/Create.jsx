@@ -18,7 +18,7 @@ export default function CreateLink() {
             const token = await user.getIdToken();
 
             //fetching data
-            const res = await axios.post("http://localhost:5000/api/SaveLinks", {
+            const res = await axios.post(`${import.meta.env.VITE_API_GET_LINK}`, {
                 Links: input
             }, {
                 headers: {
