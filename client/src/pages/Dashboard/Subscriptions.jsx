@@ -1,7 +1,7 @@
 export default function Subscriptions() {
     return (
         <>
-            <div>Subscriptions</div>
+            <div>Subscriptions Soon...</div>
         </>
     )
 }
