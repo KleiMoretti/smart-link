@@ -91,6 +91,7 @@ export const SaveLinks = async (req, res) => {
 export const GetLinks = async (req, res) => {
     try {
         const uid = req.user.uid;
+        console.log("Fetching links for UID:", req.user?.uid); // Debugging
 
         const { data, error } = await SupabaseConnect
             .from("Links")
