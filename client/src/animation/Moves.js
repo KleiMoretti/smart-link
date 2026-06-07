@@ -4,12 +4,15 @@ export function MoveY(ref, f, t, d) {
     if (!ref) return;
     gsap.from(ref, {
         y: f,
+        opacity: 0,
         duration: d
+
     })
 
     gsap.to(ref, {
         y: t,
         duration: d,
+        opacity: 1,
         ease: "power3.out"
     })
 }
