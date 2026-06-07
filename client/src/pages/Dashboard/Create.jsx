@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { auth } from "../../firebase/firebase";
+import "../../css/LandingPage.css"
 
 export default function CreateLink() {
     const [input, setInput] = useState([{ title: "", link: "", day: "", time: "" }]);
@@ -68,20 +69,20 @@ export default function CreateLink() {
             <div>
                 <div className="mt-10">
                     {input.map((items, index) => (
-                        <div className="justify-center flex gap-3 mt-6" key={index}>
-                            <div>
+                        <div className="create-area justify-center flex flex-wrap gap-3 mt-6" key={index}>
+                            <div className="create-parent">
                                 <p>Title</p>
                                 <div className="bg-gray-200 rounded-lg p-2 h-10">
                                     <input className="outline-none h-full bg-transparent" type="text" value={items.title} onChange={(e) => handleInput(e.target.value, index, "title")} />
                                 </div>
                             </div>
-                            <div>
+                            <div className="create-parent">
                                 <p>Link {index + 1}</p>
                                 <div className="bg-gray-200 rounded-lg p-2 h-10">
                                     <input className="outline-none h-full bg-transparent" type="text" value={items.link} onChange={(e) => handleInput(e.target.value, index, "link")} />
                                 </div>
                             </div>
-                            <div>
+                            <div className="create-parent">
                                 <p>Day</p>
                                 <div className="bg-gray-200 rounded-lg p-2 h-10">
                                     <select className="outline-none bg-transparent" value={items.day} onChange={(e) => handleInput(e.target.value, index, "day")}>
@@ -96,13 +97,13 @@ export default function CreateLink() {
                                     </select>
                                 </div>
                             </div>
-                            <div>
+                            <div className="create-parent">
                                 <p>Time</p>
-                                <div className="flex gap-2">
-                                    <div className="bg-gray-200 rounded-lg p-2 h-10">
-                                        <input className="h-full bg-transparent outline-none" type="time" value={items.time} onChange={(e) => handleInput(e.target.value, index, "time")} />
+                                <div className="flex w-full gap-2 flex-wrap">
+                                    <div className="w-full bg-gray-200 rounded-lg p-2 h-10">
+                                        <input className="w-full h-full bg-transparent outline-none" type="time" value={items.time} onChange={(e) => handleInput(e.target.value, index, "time")} />
                                     </div>
-                                    <div className={`bg-red-500 py-2 px-3 text-white rounded-lg cursor-pointer ${index !== 0 || input.length > 1 ? "" : "hidden"}`} onClick={() => removeInput(index)}>
+                                    <div className={`w-full flex justify-center bg-red-500 py-2 px-3 text-white rounded-lg cursor-pointer ${index !== 0 || input.length > 1 ? "" : "hidden"}`} onClick={() => removeInput(index)}>
                                         Delete
                                     </div>
                                 </div>
