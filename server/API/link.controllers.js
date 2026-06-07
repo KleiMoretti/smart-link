@@ -22,7 +22,7 @@ export const SaveLinks = async (req, res) => {
         const firebaseUID = req.user.uid
         const firebaseName = req.user.name || req.user.email || "Anonymous User";
 
-        const { Links } = req.body;
+        const { Links, Title } = req.body;
 
         if (!Links || !Array.isArray(Links)) {
             return res.status(400).json({
@@ -37,6 +37,13 @@ export const SaveLinks = async (req, res) => {
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
         ];
 
+        if (!Title || Title.length <= 1) {
+            return res.status(400).json({
+                message: "Invalid Title",
+                success: false
+            });
+        }
+
         const isValid = Links.every((item) => {
             return (
                 item.title &&
@@ -50,6 +57,7 @@ export const SaveLinks = async (req, res) => {
 
                 item.time &&
                 isValidTime(item.time)
+
             );
         });
 
@@ -67,7 +75,8 @@ export const SaveLinks = async (req, res) => {
             time: item.time,
             uid: firebaseUID,
             name: firebaseName,
-            code: codeKey
+            code: codeKey,
+            schedule_name: Title
         }));
 
         const { data, error } = await SupabaseConnect
@@ -90,12 +99,20 @@ export const SaveLinks = async (req, res) => {
 
 export const GetLinks = async (req, res) => {
     try {
-        const uid = req.user.uid;
+        const uid = req.user?.uid;
+
+        if (!uid) {
+            return res.status(401).json({
+                success: false,
+                message: "Unauthorized"
+            });
+        }
+
         console.log("Fetching links for UID:", req.user?.uid); // Debugging
 
         const { data, error } = await SupabaseConnect
             .from("Links")
-            .select("title, links, day, time, code")
+            .select("title, links, day, time, code, schedule_name")
             .eq("uid", uid);
 
         if (error) {
