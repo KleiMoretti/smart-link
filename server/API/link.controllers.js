@@ -62,7 +62,7 @@ export const SaveLinks = async (req, res) => {
 
         const linksToInsert = Links.map(item => ({
             title: item.title,
-            links: item.link,
+            links: item.link?.trim(),
             day: item.day,
             time: item.time,
             uid: firebaseUID,
@@ -152,6 +152,9 @@ export const Redirect = async (req, res) => {
             .order("time", { ascending: false })
             .limit(1)
             .maybeSingle();
+
+
+
 
         if (error || !data) {
             return res.status(404).json({
