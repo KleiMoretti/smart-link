@@ -16,9 +16,9 @@ export default function Test() {
     const MoveY1 = useRef();
 
     useEffect(() => {
-        MoveX(MoveX1.current, -100, 0, 2);
-        MoveX(MoveX2.current, 100, 0, 2);
-        MoveY(MoveY1.current, 100, "", 2);
+        MoveX(MoveX1.current, -100, 0, 0.6);
+        MoveX(MoveX2.current, 100, 0, 0.6);
+        MoveY(MoveY1.current, 100, 0, 0.6);
     }, []);
 
 
