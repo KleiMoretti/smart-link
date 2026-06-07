@@ -11,6 +11,7 @@ export default function Table({ profile, name, email }) {
     const [loading, setLoading] = useState(true);
     const [links, setLink] = useState([]);
 
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (!user) {
@@ -55,6 +56,7 @@ export default function Table({ profile, name, email }) {
     const handleFri = () => setDay("Friday")
     const handleSat = () => setDay("Saturday")
     const handleSun = () => setDay("Sunday")
+    const handleSelect = (value) => setDay(value)
 
     const cutLength = (text, max) => {
         const textLength = text.length > max ? text.slice(0, max) + "..." : text;
@@ -68,14 +70,17 @@ export default function Table({ profile, name, email }) {
         <>
 
             <div>
-                <div className=" flex items-center">
+                <div className="flex items-center">
                     <div >
-                        <div className="text-4xl font-medium flex justify-between items-center">
-                            <p className="m-0">1B Schedule</p>
+                        <div className="title-link-main w-full font-medium lg:flex lg:flex-wrap justify-between items-center gap-2">
+                            <p className="link-title m-0 lg:text-4xl md:text-3xl text-2xl">
+                                1B Schedule
+                            </p>
+
                             {links.length > 0 && links[0]?.code && (
                                 <a
                                     href={`${BackendRedirect}${links[0].code}`}
-                                    className="m-0 text-lg text-sky-600 hover:underline"
+                                    className="m-0 lg:text-lg text-sky-600 hover:underline break-all"
                                     target="_blank"
                                     rel="noreferrer"
                                 >
@@ -84,58 +89,58 @@ export default function Table({ profile, name, email }) {
                             )}
                         </div>
 
+                        <div className="flex mt-10 items-center">
+                            <div className="lg:flex hidden gap-10">
+                                <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "full week" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleFull}>Full Week</p>
+                                <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Monday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleMon}>Mon</p>
+                                <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Tuesday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleTue}>Tue</p>
+                                <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Wednesday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleWed}>Wed</p>
+                                <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Thursday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleThu}>Thu</p>
+                                <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Friday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleFri}>Fri</p>
+                                <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Saturday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleSat}>Sat</p>
+                                <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Sunday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleSun}>Sun</p>
+                            </div>
 
-                        <div className="flex gap-10 mt-10 items-center">
-                            <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "full week" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleFull}>Full Week</p>
-                            <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Monday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleMon}>Mon</p>
-                            <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Tuesday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleTue}>Tue</p>
-                            <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Wednesday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleWed}>Wed</p>
-                            <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Thursday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleThu}>Thu</p>
-                            <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Friday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleFri}>Fri</p>
-                            <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Saturday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleSat}>Sat</p>
-                            <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Sunday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleSun}>Sun</p>
+                            <div className="flex flex-col lg:hidden">
+                                <select value="full week" className="border-gray-500 border p-2 outline-none" value={showDay} onChange={(e) => handleSelect(e.target.value)}>
+                                    <option value="full week">Full Week</option>
+                                    <option value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday">Friday</option>
+                                    <option value="Saturday">Saturday</option>
+                                    <option value="Sunday">Sunday</option>
+                                </select>
+                            </div>
                         </div>
-
 
                         {links.map((item, index) => (
                             (showDay === "full week" || item.day.toLowerCase() === showDay.toLowerCase()) && (
                                 <div key={index} className="mt-10">
-
                                     <div>
                                         <p className="font-medium">{item.day}</p>
                                     </div>
-
-                                    <div className="flex justify-between gap-30 border-gray-500 hover:bg-gray-300 border p-3 hover:scale-110 transform transition cursor-pointer">
+                                    <div className="flex justify-between border-1 border-gray-200 hover:border-sky-500 rounded-md hover:bg-sky-100 p-3 hover:scale-110 transform transition cursor-pointer">
                                         <div>
                                             {cutLength(item.title, 9)}
                                         </div>
-
                                         <div>
                                             <a href={item.links}>{cutLength(item.links, 20)}</a>
                                         </div>
-
                                         <div>
                                             {item.day}
                                         </div>
-
                                         <div>
                                             {item.time}
                                         </div>
                                     </div>
-
                                 </div>
                             )
                         ))}
-
                     </div>
-
-
                 </div>
-
-
             </div>
-
-
         </>
     )
 }
