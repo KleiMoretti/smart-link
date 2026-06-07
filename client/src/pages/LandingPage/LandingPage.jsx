@@ -91,7 +91,7 @@ export default function Test() {
 
             <div className="img w-full flex justify-center mt-15 p-2 min-w-[200px]" ref={MoveY1}>
                 <div className="img-parent w-[60%] justify-center">
-                    <img className="img-pic rounded-2xl" src={LandingImage} loading="eager" fetchpriority="high" alt="" />
+                    <img className="img-pic rounded-2xl" src={LandingImage} loading="eager" fetchPriority="high" alt="" />
                 </div>
             </div>
 
