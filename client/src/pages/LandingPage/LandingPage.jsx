@@ -18,7 +18,7 @@ export default function Test() {
     useEffect(() => {
         MoveX(MoveX1.current, -100, 0, 2);
         MoveX(MoveX2.current, 100, 0, 2);
-        MoveY(MoveY1.current, 100, 0, 2);
+        MoveY(MoveY1.current, 100, "", 2);
     }, []);
 
 
