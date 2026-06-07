@@ -1,27 +1,29 @@
 import gsap from "gsap";
 
-export function MoveY(ref, f, t) {
+export function MoveY(ref, f, t, d) {
     if (!ref) return;
     gsap.from(ref, {
         y: f,
-        duration: 1
+        duration: d
     })
 
     gsap.to(ref, {
         y: t,
-        duration: 1
+        duration: d,
+        ease: "power3.out"
     })
 }
 
-export function MoveX(ref) {
+export function MoveX(ref, f, t, d) {
     if (!ref) return;
     gsap.from(ref, {
-        x: -100,
-        duration: 1
+        x: f,
+        duration: d
     })
     gsap.to(ref, {
-        x: 0,
-        duration: 1
+        x: t,
+        duration: d,
+        ease: "power3.out"
     })
 
 }
