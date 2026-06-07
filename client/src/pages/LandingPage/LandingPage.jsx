@@ -19,9 +19,9 @@ export default function Test() {
     useLayoutEffect(() => {
         if (!MoveX1.current || !MoveX2.current || !MoveY1.current) return;
 
-        MoveX(MoveX1.current, -100, 0, 1);
-        MoveX(MoveX2.current, 100, 0, 1);
-        MoveY(MoveY1.current, 100, 0, 1);
+        MoveX(MoveX1.current, -100, 0, 2);
+        MoveX(MoveX2.current, 100, 0, 2);
+        MoveY(MoveY1.current, 100, 0, 2);
     }, []);
 
 
