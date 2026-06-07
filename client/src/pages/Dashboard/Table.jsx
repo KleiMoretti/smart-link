@@ -31,11 +31,9 @@ export default function Table({ profile, name, email }) {
                     }
                 );
 
-
                 if (res.data?.success && res.data?.link) {
                     setLink(res.data?.link);
                 }
-
 
             } catch (err) {
                 console.error(err);
