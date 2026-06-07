@@ -18,12 +18,7 @@ export default function Test() {
 
     useLayoutEffect(() => {
         if (!MoveX1.current || !MoveX2.current || !MoveY1.current) return;
-        const img = document.querySelector("img");
-        if (img && !img.complete) {
-            img.onload = () => startAnim();
-        } else {
-            startAnim();
-        }
+
 
         MoveX(MoveX1.current, -100, 0, 2);
         MoveX(MoveX2.current, 100, 0, 2);
@@ -96,7 +91,7 @@ export default function Test() {
 
             <div className="img w-full flex justify-center mt-15 p-2 min-w-[200px]" ref={MoveY1}>
                 <div className="img-parent w-[60%] justify-center">
-                    <img className="img-pic rounded-2xl" src={LandingImage} alt="" />
+                    <img className="img-pic rounded-2xl" src={LandingImage} loading="eager" fetchpriority="high" alt="" />
                 </div>
             </div>
 
