@@ -85,9 +85,9 @@ export default function Test() {
                 </div>
             </div >
 
-            <div className="img w-full flex justify-center mt-15 p-2 min-w-[200px]">
+            <div className="img w-full flex justify-center mt-15 p-2 min-w-[200px]" ref={MoveY1}>
                 <div className="img-parent w-[60%] justify-center">
-                    <img className="img-pic rounded-2xl" ref={MoveY1} src={LandingImage} alt="" />
+                    <img className="img-pic rounded-2xl" src={LandingImage} alt="" />
                 </div>
             </div>
 
