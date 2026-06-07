@@ -10,6 +10,7 @@ export default function Table({ profile, name, email }) {
     const [showDay, setDay] = useState("full week");
     const [loading, setLoading] = useState(true);
     const [links, setLink] = useState([]);
+    const [title, setTitle] = useState("");
 
 
     useEffect(() => {
@@ -34,6 +35,10 @@ export default function Table({ profile, name, email }) {
 
                 if (res.data?.success && res.data?.link) {
                     setLink(res.data?.link);
+                    console.log(res.data?.link)
+                    res.data.link.map(item => {
+                        setTitle(item.schedule_name)
+                    });
                 }
 
             } catch (err) {
@@ -74,7 +79,7 @@ export default function Table({ profile, name, email }) {
                     <div >
                         <div className="title-link-main w-full font-medium lg:flex lg:flex-wrap justify-between items-center gap-2">
                             <p className="link-title m-0 lg:text-4xl md:text-3xl text-2xl">
-                                1B Schedule
+                                {title}
                             </p>
 
                             {links.length > 0 && links[0]?.code && (
@@ -115,29 +120,32 @@ export default function Table({ profile, name, email }) {
                             </div>
                         </div>
 
-                        {links.map((item, index) => (
-                            (showDay === "full week" || item.day.toLowerCase() === showDay.toLowerCase()) && (
+                        {links.length > 0 ? (
+                            links.map((item, index) => (
                                 <div key={index} className="mt-10">
                                     <div>
                                         <p className="font-medium">{item.day}</p>
                                     </div>
-                                    <div className="flex justify-between border-1 border-gray-200 hover:border-sky-500 rounded-md hover:bg-sky-100 p-3 hover:scale-110 transform transition cursor-pointer">
+
+                                    <div className="flex justify-between border border-gray-200 hover:border-sky-500 rounded-md hover:bg-sky-100 p-3 hover:scale-110 transform transition cursor-pointer">
+                                        <div>{cutLength(item.title, 9)}</div>
+
                                         <div>
-                                            {cutLength(item.title, 9)}
+                                            <a href={item.links}>
+                                                {cutLength(item.links, 20)}
+                                            </a>
                                         </div>
-                                        <div>
-                                            <a href={item.links}>{cutLength(item.links, 20)}</a>
-                                        </div>
-                                        <div>
-                                            {item.day}
-                                        </div>
-                                        <div>
-                                            {item.time}
-                                        </div>
+
+                                        <div>{item.day}</div>
+                                        <div>{item.time}</div>
                                     </div>
                                 </div>
-                            )
-                        ))}
+                            ))
+                        ) : (
+                            <div className="text-center text-gray-400 mt-10">
+                                No links found
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
