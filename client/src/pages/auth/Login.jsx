@@ -22,8 +22,8 @@ export default function Login() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        MoveY(MoveYRef.current, -100, 50)
-        MoveX(MoveXRef.current, -100, 0)
+        MoveY(MoveYRef.current, -100, 50, 1)
+        MoveX(MoveXRef.current, -100, 0, 1)
 
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
