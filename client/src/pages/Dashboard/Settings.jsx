@@ -1,20 +1,65 @@
 
 
-import { useState } from "react"
-
-
+import { useState, useEffect } from "react"
+import { auth } from "../../firebase/firebase";
+import { useNavigate } from "react-router-dom";
+import { reauthenticateWithPopup, onAuthStateChanged, GoogleAuthProvider, deleteUser } from "firebase/auth";
 
 export default function Settings() {
     const [showWarn, setShowWarn] = useState(false)
+    const [user, setUser] = useState(null)
+    const navigate = useNavigate();
 
     const handleDelete = () => setShowWarn(true)
     const handleQuit = () => setShowWarn(false)
 
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setUser(user);
+            } else {
+                navigate("/login");
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+    const reauth = async () => {
+        const user = auth.currentUser;
+
+        if (!user) return;
+
+        const provider = new GoogleAuthProvider();
+
+        await reauthenticateWithPopup(user, provider);
+    };
+
+    const DeleteAccount = async () => {
+        const user = auth.currentUser;
+
+        if (!user) return;
+
+        try {
+            await reauth(); // 🔑 FIRST re-login
+            await deleteUser(user); // THEN delete
+
+            navigate("/login");
+        } catch (error) {
+            console.log(error.code, error.message);
+        }
+    };
+
     return (
         <>
             <div className={`absolute flex justify-center w-full h-full items-center -mt-40 backdrop-blur-sm bg-gray/10 ${showWarn ? "" : "hidden"}`} onClick={handleQuit}>
-                <div className="p-4 border rounded-md border-gray-200 ">
-                    This action will permanently remove your account.
+                <div className="p-4 border rounded-md border-gray-200 " onClick={(e) => e.stopPropagation()}>
+                    <p>This action will permanently remove your account.</p>
+
+                    <div className="w-full flex justify-center bg-red-500 text-white p-2 rounded-md hover:bg-red-700 cursor-pointer" onClick={DeleteAccount}>
+                        <button>Continue</button>
+                    </div>
                 </div>
             </div>
 
