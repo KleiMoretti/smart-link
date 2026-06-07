@@ -5,8 +5,9 @@ import Logo from "../../assets/logo.png"
 import "../../css/LandingPage.css"
 import LandingImage from "../../assets/ImageHome.jpg";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { MoveY, MoveX } from "../../animation/Moves"
+import { useLayoutEffect } from "react";
 
 export default function Test() {
     const navigate = useNavigate();
@@ -15,10 +16,12 @@ export default function Test() {
     const MoveX2 = useRef();
     const MoveY1 = useRef();
 
-    useEffect(() => {
-        MoveX(MoveX1.current, -100, 0, 0.6);
-        MoveX(MoveX2.current, 100, 0, 0.6);
-        MoveY(MoveY1.current, 100, 0, 0.6);
+    useLayoutEffect(() => {
+        if (!MoveX1.current || !MoveX2.current || !MoveY1.current) return;
+
+        MoveX(MoveX1.current, -100, 0, 1);
+        MoveX(MoveX2.current, 100, 0, 1);
+        MoveY(MoveY1.current, 100, 0, 1);
     }, []);
 
 
