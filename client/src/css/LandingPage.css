@@ -73,6 +73,10 @@
         display: flex;
     }
 
+    .delete-area {
+        flex-wrap: wrap;
+    }
+
 
 
 }
