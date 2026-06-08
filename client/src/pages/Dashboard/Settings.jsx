@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import { auth } from "../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
-import "../../css/LandingPage.css"
 import { reauthenticateWithPopup, onAuthStateChanged, GoogleAuthProvider, deleteUser } from "firebase/auth";
 
 
