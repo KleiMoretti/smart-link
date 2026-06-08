@@ -112,7 +112,7 @@ export const GetLinks = async (req, res) => {
 
         const { data, error } = await SupabaseConnect
             .from("Links")
-            .select("title, links, day, time, code, schedule_name")
+            .select("title, links, day, time, code, schedule_name, id")
             .eq("uid", uid);
 
         if (error) {
@@ -192,3 +192,8 @@ export const Redirect = async (req, res) => {
         });
     }
 };
+
+
+export const EditTable = async (req, res) => {
+
+}
