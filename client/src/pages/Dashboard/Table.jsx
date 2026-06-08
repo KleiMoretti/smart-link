@@ -3,6 +3,7 @@ import { auth } from "../../firebase/firebase"
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { CutLength } from "../../utils/CutLength";
 
 export default function Table({ profile, name, email }) {
     const navigate = useNavigate()
@@ -11,6 +12,17 @@ export default function Table({ profile, name, email }) {
     const [loading, setLoading] = useState(true);
     const [links, setLink] = useState([]);
     const [title, setTitle] = useState("");
+
+
+    const handleFull = () => setDay("full week")
+    const handleMon = () => setDay("Monday")
+    const handleTue = () => setDay("Tuesday")
+    const handleWed = () => setDay("Wednesday")
+    const handleThu = () => setDay("Thursday")
+    const handleFri = () => setDay("Friday")
+    const handleSat = () => setDay("Saturday")
+    const handleSun = () => setDay("Sunday")
+    const handleSelect = (value) => setDay(value)
 
 
     useEffect(() => {
@@ -52,21 +64,6 @@ export default function Table({ profile, name, email }) {
     }, []);
 
 
-
-    const handleFull = () => setDay("full week")
-    const handleMon = () => setDay("Monday")
-    const handleTue = () => setDay("Tuesday")
-    const handleWed = () => setDay("Wednesday")
-    const handleThu = () => setDay("Thursday")
-    const handleFri = () => setDay("Friday")
-    const handleSat = () => setDay("Saturday")
-    const handleSun = () => setDay("Sunday")
-    const handleSelect = (value) => setDay(value)
-
-    const cutLength = (text, max) => {
-        const textLength = text.length > max ? text.slice(0, max) + "..." : text;
-        return textLength;
-    }
 
     const BackendRedirect = import.meta.env.VITE_REDIRECT_FRONTEND_URL || "";
 
@@ -140,10 +137,10 @@ export default function Table({ profile, name, email }) {
                                         <p className="font-medium text-lg mb-2">{day}</p>
                                         {dayItems.map((item, index) => (
                                             <div key={index} className="flex justify-between border border-gray-200 hover:border-sky-500 rounded-md hover:bg-sky-100 p-3 hover:scale-110 transform transition cursor-pointer mb-2">
-                                                <div>{cutLength(item.title, 9)}</div>
+                                                <div>{CutLength(item.title, 9)}</div>
                                                 <div>
                                                     <a href={item.links} target="_blank" rel="noreferrer">
-                                                        {cutLength(item.links, 20)}
+                                                        {CutLength(item.links, 20)}
                                                     </a>
                                                 </div>
                                                 <div>{item.day}</div>
