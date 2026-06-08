@@ -64,7 +64,6 @@ export default function Table({ profile, name, email }) {
     }, []);
 
 
-
     const BackendRedirect = import.meta.env.VITE_REDIRECT_FRONTEND_URL || "";
 
     if (loading) return <p>Loading...</p>
