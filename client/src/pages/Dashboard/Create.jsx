@@ -1,7 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
 import { auth } from "../../firebase/firebase";
-import "../../css/LandingPage.css"
 
 export default function CreateLink() {
     const [input, setInput] = useState([{ title: "", link: "", day: "", time: "" }]);
