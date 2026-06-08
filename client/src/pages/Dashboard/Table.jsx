@@ -148,6 +148,7 @@ export default function Table({ profile, name, email }) {
                                                 </div>
                                                 <div>{item.day}</div>
                                                 <div>{item.time}</div>
+
                                             </div>
                                         ))}
                                     </div>
