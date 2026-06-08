@@ -10,7 +10,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import Create from "../Dashboard/Create"
 import Settings from "../Dashboard/Settings"
 import Feedback from "../Dashboard/Feedback"
-import Subscriptions from "../Dashboard/Subscriptions"
+import EditTable from "./EditTable"
 import "../../css/LandingPage.css"
 
 
@@ -45,7 +45,7 @@ export default function Dashboard() {
     }
 
     const handleTable = () => setTab("Table")
-    const handleSubscription = () => setTab("Subscriptions")
+    const handleSubscription = () => setTab("EditTable")
     const handleFeedback = () => setTab("Feedback")
     const handleSettings = () => setTab("Settings")
     const handleCreate = () => setTab("Create")
@@ -64,7 +64,7 @@ export default function Dashboard() {
                         </div>
                         <div className="nav  flex flex-nowrap gap-10 items-center">
                             <p className={`m-0 cursor-pointer whitespace-nowrap ${tab === "Table" ? "font-bold text-blue-500" : ""}`} onClick={handleTable}>Schedules</p>
-                            <p className={`m-0 cursor-pointer whitespace-nowrap ${tab === "Subscriptions" ? "font-bold text-blue-500" : ""}`} onClick={handleSubscription}>Subscription</p>
+                            <p className={`m-0 cursor-pointer whitespace-nowrap ${tab === "EditTable" ? "font-bold text-blue-500" : ""}`} onClick={handleSubscription}>Edit Schedule</p>
                             <p className={`m-0 cursor-pointer whitespace-nowrap ${tab === "Feedback" ? "font-bold text-blue-500" : ""}`} onClick={handleFeedback}>Feedback</p>
                             <p className={`m-0 cursor-pointer whitespace-nowrap ${tab === "Settings" ? "font-bold text-blue-500" : ""}`} onClick={handleSettings}>Settings</p>
                         </div>
@@ -76,7 +76,7 @@ export default function Dashboard() {
                                 <i className="burger bi bi-list hidden text-2xl cursor-pointer" onClick={() => setShowNav(prev => !prev)}></i>
                                 <div className={`absolute bg-white border border-gray-100 flex justify-center flex-col w-[100px] -ml-[80px] ${ShowNav ? "hidden" : ""}`}>
                                     <p className={`m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 ${tab === "Table" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleTable(); setShowNav(prev => !prev); }}>Schedules</p>
-                                    <p className={`m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 ${tab === "Subscriptions" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleSubscription(); setShowNav(prev => !prev); }}>Subscription</p>
+                                    <p className={`m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 ${tab === "EditTable" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleSubscription(); setShowNav(prev => !prev); }}>Edit Schedule</p>
                                     <p className={`m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 ${tab === "Feedback" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleFeedback(); setShowNav(prev => !prev); }}>Feedback</p>
                                     <p className={`m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 ${tab === "Settings" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleSettings(); setShowNav(prev => !prev); }}>Settings</p>
                                     <p className={`m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 ${tab === "Create" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleCreate(); setShowNav(prev => !prev); }}>Create Link</p>
@@ -104,7 +104,7 @@ export default function Dashboard() {
 
                 <div className="content-holder w-full flex justify-center mt-20 h-auto mb-10 min-w-[200px]">
                     {tab === "Table" && <Table />}
-                    {tab === "Subscriptions" && <Subscriptions />}
+                    {tab === "EditTable" && <EditTable />}
                     {tab === "Feedback" && <Feedback />}
                     {tab === "Settings" && <Settings />}
                     {tab === "Create" && <Create />}
