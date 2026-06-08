@@ -71,6 +71,7 @@ export default function Table({ profile, name, email }) {
     const BackendRedirect = import.meta.env.VITE_REDIRECT_FRONTEND_URL || "";
 
     if (loading) return <p>Loading...</p>
+
     return (
         <>
 
@@ -120,32 +121,41 @@ export default function Table({ profile, name, email }) {
                             </div>
                         </div>
 
-                        {links.length > 0 ? (
-                            links.map((item, index) => (
-                                <div key={index} className="mt-10">
-                                    <div>
-                                        <p className="font-medium">{item.day}</p>
+                        {(() => {
+                            // 1. Filter ang links base sa napiling day
+                            const filtered = showDay === "full week"
+                                ? links
+                                : links.filter(item => item.day === showDay);
+
+                            // 2. I-group sila by day
+                            const groups = filtered.reduce((acc, item) => {
+                                (acc[item.day] = acc[item.day] || []).push(item);
+                                return acc;
+                            }, {});
+
+                            // 3. I-render ang mga grupo
+                            return Object.keys(groups).length > 0 ? (
+                                Object.entries(groups).map(([day, dayItems]) => (
+                                    <div key={day} className="mt-4">
+                                        <p className="font-medium text-lg mb-2">{day}</p>
+                                        {dayItems.map((item, index) => (
+                                            <div key={index} className="flex justify-between border border-gray-200 hover:border-sky-500 rounded-md hover:bg-sky-100 p-3 hover:scale-110 transform transition cursor-pointer mb-2">
+                                                <div>{cutLength(item.title, 9)}</div>
+                                                <div>
+                                                    <a href={item.links} target="_blank" rel="noreferrer">
+                                                        {cutLength(item.links, 20)}
+                                                    </a>
+                                                </div>
+                                                <div>{item.day}</div>
+                                                <div>{item.time}</div>
+                                            </div>
+                                        ))}
                                     </div>
-
-                                    <div className="flex justify-between border border-gray-200 hover:border-sky-500 rounded-md hover:bg-sky-100 p-3 hover:scale-110 transform transition cursor-pointer">
-                                        <div>{cutLength(item.title, 9)}</div>
-
-                                        <div>
-                                            <a href={item.links}>
-                                                {cutLength(item.links, 20)}
-                                            </a>
-                                        </div>
-
-                                        <div>{item.day}</div>
-                                        <div>{item.time}</div>
-                                    </div>
-                                </div>
-                            ))
-                        ) : (
-                            <div className="text-center text-gray-400 mt-10">
-                                No links found
-                            </div>
-                        )}
+                                ))
+                            ) : (
+                                <div className="text-center text-gray-400 mt-10">No links found</div>
+                            );
+                        })()}
                     </div>
                 </div>
             </div>
