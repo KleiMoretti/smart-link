@@ -3,7 +3,9 @@
 import { useState, useEffect } from "react"
 import { auth } from "../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
+import "../../css/LandingPage.css"
 import { reauthenticateWithPopup, onAuthStateChanged, GoogleAuthProvider, deleteUser } from "firebase/auth";
+
 
 export default function Settings() {
     const [showWarn, setShowWarn] = useState(false)
@@ -64,14 +66,14 @@ export default function Settings() {
             </div>
 
             <div className="flex justify-center w-full mt-10">
-                <div className="p-4 border rounded-md border-gray-200 w-1/3">
+                <div className="setting-main p-4 lg:border rounded-md lg:border-gray-200 w-1/3 min-w-[200px]">
                     <div>
-                        <p className="font-bold">Organization Settings</p>
-                        <p>General configuration, privacy, and lifecycle controls</p>
+                        <p className="setting-header font-bold whitespace-nowrap">Organization Settings</p>
+                        <p className="setting-text">General configuration, privacy, and lifecycle controls</p>
                     </div>
                     <div>
-                        <p>Are you sure you want to <span className="text-red-400">delete your account?</span></p>
-                        <div className="bg-red-400 hover:bg-red-500 w-full p-2 text-md text-white font-bold rounded-md flex justify-center cursor-pointer" onClick={handleDelete}>
+                        <p className="setting-text">Are you sure you want to <span className="text-red-400">delete your account?</span></p>
+                        <div className="setting-btn bg-red-400 hover:bg-red-500 w-full p-2 text-md text-white font-bold rounded-md flex justify-center cursor-pointer" onClick={handleDelete}>
                             Delete Account
                         </div>
                     </div>
