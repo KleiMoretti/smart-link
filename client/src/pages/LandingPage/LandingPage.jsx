@@ -49,11 +49,11 @@ export default function Test() {
                         <div className="relative">
                             <i className="bi bi-list lg:hidden text-2xl flex cursor-pointer" onClick={() => setShowNav(prev => !prev)}></i>
                             <div className={`absolute bg-white border border-gray-100 flex justify-center flex-col w-[100px] -ml-[80px] ${ShowNav ? "hidden" : "true"}`}>
-                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300">Home</p>
-                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300">About</p>
-                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300">Service</p>
-                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300">Contact</p>
-                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300">Login</p>
+                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer">Home</p>
+                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer">About</p>
+                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer">Service</p>
+                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer">Contact</p>
+                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer" onClick={() => navigate("/login")}>Login</p>
                             </div>
                         </div>
 
