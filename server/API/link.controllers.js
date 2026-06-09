@@ -90,6 +90,11 @@ export const SaveLinks = async (req, res) => {
             return res.status(500).json({ success: false, message: error.message });
         }
 
+        const firebaseEmail = req.user?.email;
+
+        console.log(firebaseUID, firebaseName, firebaseEmail, " Created Links ", Links.map((item => item.link)))
+
+
         return res.status(200).json({ success: true, data: data });
 
     } catch (error) {
@@ -115,7 +120,7 @@ export const GetLinks = async (req, res) => {
             .from("Links")
             .select("title, links, day, time, code, schedule_name, id")
             .eq("uid", uid);
-            
+
 
         if (error) {
             return res.status(500).json({
