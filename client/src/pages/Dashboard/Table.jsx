@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { auth } from "../../firebase/firebase"
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import "../../css/LandingPage.css"
 import axios from "axios";
 import { CutLength } from "../../utils/CutLength";
 
@@ -13,16 +14,19 @@ export default function Table({ profile, name, email }) {
     const [links, setLink] = useState([]);
     const [title, setTitle] = useState("");
 
+    const BackendRedirect = import.meta.env.VITE_REDIRECT_FRONTEND_URL || "";
 
-    const handleFull = () => setDay("full week")
-    const handleMon = () => setDay("Monday")
-    const handleTue = () => setDay("Tuesday")
-    const handleWed = () => setDay("Wednesday")
-    const handleThu = () => setDay("Thursday")
-    const handleFri = () => setDay("Friday")
-    const handleSat = () => setDay("Saturday")
-    const handleSun = () => setDay("Sunday")
-    const handleSelect = (value) => setDay(value)
+    const handleNav = (value) => setDay(value)
+
+    const dayOrder = {
+        "Monday": 1,
+        "Tuesday": 2,
+        "Wednesday": 3,
+        "Thursday": 4,
+        "Friday": 5,
+        "Saturday": 6,
+        "Sunday": 7
+    }
 
 
     useEffect(() => {
@@ -47,7 +51,6 @@ export default function Table({ profile, name, email }) {
 
                 if (res.data?.success && res.data?.link) {
                     setLink(res.data?.link);
-                    console.log(res.data?.link)
                     res.data.link.map(item => {
                         setTitle(item.schedule_name)
                     });
@@ -64,7 +67,6 @@ export default function Table({ profile, name, email }) {
     }, []);
 
 
-    const BackendRedirect = import.meta.env.VITE_REDIRECT_FRONTEND_URL || "";
 
     if (loading) return <p>Loading...</p>
 
@@ -91,20 +93,21 @@ export default function Table({ profile, name, email }) {
                             )}
                         </div>
 
+
                         <div className="flex mt-10 items-center">
                             <div className="lg:flex hidden gap-10">
-                                <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "full week" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleFull}>Full Week</p>
-                                <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Monday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleMon}>Mon</p>
-                                <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Tuesday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleTue}>Tue</p>
-                                <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Wednesday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleWed}>Wed</p>
-                                <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Thursday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleThu}>Thu</p>
-                                <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Friday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleFri}>Fri</p>
-                                <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Saturday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleSat}>Sat</p>
-                                <p className={`p-2 cursor-pointer rounded-full transition ${showDay === "Sunday" ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={handleSun}>Sun</p>
+                                {["full week", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day, index) => (
+
+                                    <p key={index} className={`p-2 cursor-pointer rounded-full transition ${showDay === day ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={() => handleNav(day)}>
+                                        {day === "full week" ? "Full Week" : day.substring(0, 3)}
+                                    </p>
+
+                                ))}
                             </div>
 
+                            {/* PARA MOBILE UI */}
                             <div className="flex flex-col lg:hidden">
-                                <select value="full week" className="border-gray-500 border p-2 outline-none" value={showDay} onChange={(e) => handleSelect(e.target.value)}>
+                                <select value="full week" className="border-gray-500 border p-2 outline-none " value={showDay} onChange={(e) => handleNav(e.target.value)}>
                                     <option value="full week">Full Week</option>
                                     <option value="Monday">Monday</option>
                                     <option value="Tuesday">Tuesday</option>
@@ -118,40 +121,43 @@ export default function Table({ profile, name, email }) {
                         </div>
 
                         {(() => {
-                            // 1. Filter ang links base sa napiling day
-                            const filtered = showDay === "full week"
-                                ? links
-                                : links.filter(item => item.day === showDay);
+                            const filtered = showDay === "full week" ? links : links.filter(item => item.day === showDay)
 
-                            // 2. I-group sila by day
                             const groups = filtered.reduce((acc, item) => {
-                                (acc[item.day] = acc[item.day] || []).push(item);
-                                return acc;
-                            }, {});
+                                (acc[item.day] = acc[item.day] || []).push(item)
+                                return acc
+                            }, {})
 
-                            // 3. I-render ang mga grupo
-                            return Object.keys(groups).length > 0 ? (
-                                Object.entries(groups).map(([day, dayItems]) => (
-                                    <div key={day} className="mt-4">
+                            const sortedDay = Object.keys(groups).sort((a, b) => (dayOrder[a] || 0) - (dayOrder[b] || 0));
+
+                            return links.length > 0 ? (
+                                sortedDay.map((day) => (
+
+                                    <div key={day} className="mt-10">
                                         <p className="font-medium text-lg mb-2">{day}</p>
-                                        {dayItems.map((item, index) => (
-                                            <div key={index} className="flex justify-between border border-gray-200 hover:border-sky-500 rounded-md hover:bg-sky-100 p-3 hover:scale-110 transform transition cursor-pointer mb-2">
-                                                <div>{CutLength(item.title, 9)}</div>
-                                                <div>
-                                                    <a href={item.links} target="_blank" rel="noreferrer">
-                                                        {CutLength(item.links, 20)}
-                                                    </a>
-                                                </div>
-                                                <div>{item.day}</div>
-                                                <div>{item.time}</div>
+
+                                        {groups[day].map((item, index) => (
+
+                                            <div key={index} className="flex flex-wrap gap-4 items-center justify-between border border-gray-200 hover:border-sky-500 rounded-md hover:bg-sky-100 p-3 transition cursor-pointer mb-2">
+                                                <p className="m-0 flex-1 min-w-[100px]">{CutLength(item.title, 9)}</p>
+                                                <a className="m-0 flex-1 min-w-[150px] text-sky-600 truncate" href={item.links} target="_blank" rel="noreferrer">
+                                                    {CutLength(item.links, 20)}
+                                                </a>
+                                                <p className="m-0 text-sm text-gray-500">{item.day}</p>
+                                                <p className="m-0 font-bold">{item.time}</p>
 
                                             </div>
+
                                         ))}
                                     </div>
+
                                 ))
                             ) : (
                                 <div className="text-center text-gray-400 mt-10">No links found</div>
                             );
+
+
+
                         })()}
                     </div>
                 </div>
