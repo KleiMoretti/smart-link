@@ -70,41 +70,61 @@ export default function CreateLink() {
         <>
             <div>
                 <div className={`mt-10 ${show ? "hidden" : ""}`}>
-                    <div className="create-parent">
-                        <p>Schedule Name</p>
-                        <div className="w-full bg-gray-200 rounded-lg p-2 h-10">
-                            <input className="outline-none h-full bg-transparent" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+                    <div className="create-parent max-w-md mx-auto">
+                        <p className="text-sm font-medium text-slate-600 mb-1">Schedule Name</p>
+
+                        {/* Input Container */}
+                        <div className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 focus-within:ring-2 focus-within:ring-sky-500/20 transition-all duration-200">
+                            <input
+                                className="w-full outline-none h-full bg-transparent text-slate-800"
+                                type="text"
+                                placeholder="e.g. Weekly Study Plan"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
                         </div>
-                        <div className="flex gap-3 w-full justify-center mt-4">
-                            <div className={`w-full flex justify-center bg-black py-2 px-3 text-white rounded-lg cursor-pointer ${title.length > 2 ? "" : "hidden"}`} onClick={() => setShow(true)}>
-                                <button>Continue</button>
+
+                        {/* Button */}
+                        <div className="flex w-full justify-center mt-6">
+                            <div
+                                className={`w-full flex justify-center bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg cursor-pointer transition-all duration-200 shadow-sm ${title.length > 2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"}`}
+                                onClick={() => setShow(true)}
+                            >
+                                <button className="font-medium">Continue</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {show && (
-                    <div>
+                    <div className="space-y-6">
                         <div>
                             {input.map((items, index) => (
-                                <div className="create-area justify-center flex flex-wrap gap-3 mt-6" key={index}>
-                                    <div className="create-parent">
-                                        <p>Title</p>
-                                        <div className="bg-gray-200 rounded-lg p-2 h-10">
-                                            <input className="outline-none h-full bg-transparent" type="text" value={items.title} onChange={(e) => handleInput(e.target.value, index, "title")} />
+                                // Inayos ang layout para maging flex-wrap at responsive
+                                <div className="create-area justify-center flex flex-wrap gap-4 mt-6 p-4 border border-slate-100 rounded-xl bg-white shadow-sm" key={index}>
+
+                                    {/* Title */}
+                                    <div className="create-parent flex-1 min-w-[200px]">
+                                        <p className="text-sm font-medium text-slate-600 mb-1">Title</p>
+                                        <div className="bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition">
+                                            <input className="w-full outline-none h-full bg-transparent text-slate-800" type="text" value={items.title} onChange={(e) => handleInput(e.target.value, index, "title")} />
                                         </div>
                                     </div>
-                                    <div className="create-parent">
-                                        <p>Link {index + 1}</p>
-                                        <div className="bg-gray-200 rounded-lg p-2 h-10">
-                                            <input className="outline-none h-full bg-transparent" type="text" value={items.link} onChange={(e) => handleInput(e.target.value, index, "link")} />
+
+                                    {/* Link */}
+                                    <div className="create-parent flex-1 min-w-[200px]">
+                                        <p className="text-sm font-medium text-slate-600 mb-1">Link {index + 1}</p>
+                                        <div className="bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition">
+                                            <input className="w-full outline-none h-full bg-transparent text-slate-800" type="text" value={items.link} onChange={(e) => handleInput(e.target.value, index, "link")} />
                                         </div>
                                     </div>
-                                    <div className="create-parent">
-                                        <p>Day</p>
-                                        <div className="bg-gray-200 rounded-lg p-2 h-10">
-                                            <select className="outline-none bg-transparent" value={items.day} onChange={(e) => handleInput(e.target.value, index, "day")}>
-                                                <option value="">Day</option>
+
+                                    {/* Day */}
+                                    <div className="create-parent flex-1 min-w-[150px]">
+                                        <p className="text-sm font-medium text-slate-600 mb-1">Day</p>
+                                        <div className="bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition">
+                                            <select className="w-full outline-none bg-transparent text-slate-800 h-full" value={items.day} onChange={(e) => handleInput(e.target.value, index, "day")}>
+                                                <option value="">Select Day</option>
                                                 <option value="Monday">Monday</option>
                                                 <option value="Tuesday">Tuesday</option>
                                                 <option value="Wednesday">Wednesday</option>
@@ -115,13 +135,15 @@ export default function CreateLink() {
                                             </select>
                                         </div>
                                     </div>
-                                    <div className="create-parent">
-                                        <p>Time</p>
-                                        <div className="delete-area flex gap-2 ">
-                                            <div className="w-full bg-gray-200 rounded-lg p-2 h-10">
-                                                <input className="w-full h-full bg-transparent outline-none" type="time" value={items.time} onChange={(e) => handleInput(e.target.value, index, "time")} />
+
+                                    {/* Time & Delete */}
+                                    <div className="create-parent flex-none">
+                                        <p className="text-sm font-medium text-slate-600 mb-1">Time</p>
+                                        <div className="delete-area flex gap-2">
+                                            <div className="bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition">
+                                                <input className="h-full bg-transparent outline-none text-slate-800" type="time" value={items.time} onChange={(e) => handleInput(e.target.value, index, "time")} />
                                             </div>
-                                            <div className={`w-full flex justify-center bg-red-500 py-2 px-3 text-white rounded-lg cursor-pointer ${index !== 0 || input.length > 1 ? "" : "hidden"}`} onClick={() => removeInput(index)}>
+                                            <div className={`flex justify-center items-center bg-red-50 hover:bg-red-100 text-red-600 py-2 px-3 rounded-lg cursor-pointer transition ${index !== 0 || input.length > 1 ? "" : "hidden"}`} onClick={() => removeInput(index)}>
                                                 Delete
                                             </div>
                                         </div>
@@ -130,12 +152,12 @@ export default function CreateLink() {
                             ))}
                         </div>
 
-                        <div className="flex justify-center mt-10 gap-10">
-                            <div className="bg-gray-200 py-2 px-3 rounded-lg cursor-pointer" onClick={add}>
-                                <button>Add</button>
+                        {/* Action Buttons */}
+                        <div className="flex justify-center mt-10 gap-4">
+                            <div className="bg-slate-100 hover:bg-slate-200 text-slate-700 py-2 px-6 rounded-lg cursor-pointer font-medium transition whitespace-nowrap" onClick={add}>
+                                <button>Add Another</button>
                             </div>
-
-                            <div className="bg-black py-2 px-3 text-white rounded-lg cursor-pointer" onClick={handleSubmit}>
+                            <div className="bg-blue-200 hover:bg-blue-300 text-blue-500 py-2 px-6 rounded-lg cursor-pointer font-medium transition whitespace-nowrap" onClick={handleSubmit}>
                                 <button>Done</button>
                             </div>
                         </div>
