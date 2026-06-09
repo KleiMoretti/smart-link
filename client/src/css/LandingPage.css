@@ -96,6 +96,34 @@
         font-size: 10px;
     }
 
+    .about-main {
+        display: flex;
+        justify-content: start;
+    }
+
+    .about-width {
+        width: 100%;
+    }
+
+    .about-header {
+        font-size: 5vw;
+    }
+
+    .about-sub {
+        font-size: 4vw;
+    }
+
+
+    .about-wrap {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .about-content {
+        font-size: 3vw;
+    }
+
+
 
 
 
