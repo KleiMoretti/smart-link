@@ -7,6 +7,6 @@ const route = express.Router();
 
 route.post("/SaveLinks", Middleware, SaveLinks);
 route.get("/GetLinks", Middleware, GetLinks);
-route.get("/editable", Middleware, EditTable);
+route.post("/editable", Middleware, EditTable);
 
 export default route;
