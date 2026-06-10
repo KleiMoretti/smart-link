@@ -6,6 +6,7 @@ import "../../css/LandingPage.css"
 import LandingImage from "../../assets/ImageHome.jpg";
 import About from "../LandingPage/About"
 import Home from "../LandingPage/Home"
+import Service from "../LandingPage/Service"
 import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 
@@ -44,14 +45,14 @@ export default function Test() {
                                 <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer" onClick={() => navigate("/login")}>Login</p>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </nav>
 
-            <div className="flex flex-col gap-20 h-auto ">
+            <div className="flex flex-col h-auto gap-5">
                 <Home />
                 <About />
+                <Service />
             </div>
 
         </>
