@@ -74,12 +74,12 @@ export default function Dashboard() {
                             </div>
                             <div className="relative">
                                 <i className="burger bi bi-list hidden text-2xl cursor-pointer" onClick={() => setShowNav(prev => !prev)}></i>
-                                <div className={`absolute bg-white border border-gray-100 flex justify-center flex-col w-[100px] -ml-[80px] ${ShowNav ? "hidden" : ""}`}>
-                                    <p className={`m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 ${tab === "Table" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleTable(); setShowNav(prev => !prev); }}>Schedules</p>
-                                    <p className={`m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 ${tab === "EditTable" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleSubscription(); setShowNav(prev => !prev); }}>Edit Schedule</p>
-                                    <p className={`m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 ${tab === "Feedback" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleFeedback(); setShowNav(prev => !prev); }}>Feedback</p>
-                                    <p className={`m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 ${tab === "Settings" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleSettings(); setShowNav(prev => !prev); }}>Settings</p>
-                                    <p className={`m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 ${tab === "Create" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleCreate(); setShowNav(prev => !prev); }}>Create Link</p>
+                                <div className={`absolute bg-white border border-gray-100 flex justify-center flex-col w-auto -ml-[80px]  whitespace-nowrap rounded-sm  ${ShowNav ? "hidden" : ""}`}>
+                                    <p className={`m-0 p-2 hover:bg-blue-100 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Table" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleTable(); setShowNav(prev => !prev); }}>Schedules</p>
+                                    <p className={`m-0 p-2 hover:bg-blue-100 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "EditTable" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleSubscription(); setShowNav(prev => !prev); }}>Edit Schedule</p>
+                                    <p className={`m-0 p-2 hover:bg-blue-100 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Feedback" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleFeedback(); setShowNav(prev => !prev); }}>Feedback</p>
+                                    <p className={`m-0 p-2 hover:bg-blue-100 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Settings" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleSettings(); setShowNav(prev => !prev); }}>Settings</p>
+                                    <p className={`m-0 p-2 hover:bg-blue-100 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Create" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleCreate(); setShowNav(prev => !prev); }}>Create Link</p>
                                 </div>
                             </div>
                             <div className="ml-10">
