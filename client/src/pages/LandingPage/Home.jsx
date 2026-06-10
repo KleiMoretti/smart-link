@@ -18,7 +18,7 @@ export default function Home() {
 
     return (
         <>
-            <section className="min-h-screen">
+            <section className="min-h-auto md:min-h-screen">
                 <div className="content-f1 flex w-full justify-center mt-20 min-w-[200px]">
                     <div className="text-wrapper flex justify-between w-[60%] p-3 gap-3">
                         <div className="w-full flex  items-center text-[1vw]" ref={MoveX1}>
@@ -47,7 +47,7 @@ export default function Home() {
                     </div>
                 </div >
 
-                <div className="img w-full flex justify-center mt-10 p-2 min-w-[200px]" ref={MoveY1}>
+                <div className="img w-full flex justify-center mt-10 p-2 min-w-[200px] " ref={MoveY1}>
                     <div className="img-parent w-[60%] justify-center">
                         <img className="img-pic rounded-2xl" src={CodeImg} loading="eager" fetchPriority="high" alt="" />
                     </div>
