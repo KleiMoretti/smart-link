@@ -1,4 +1,4 @@
-import admin from "firebase-admin";
+import admin, { messaging } from "firebase-admin";
 
 import { SupabaseConnect } from "../db/supabaseClient.js";
 import e from "express";
@@ -243,3 +243,27 @@ export const EditTable = async (req, res) => {
         return res.status(500).json({ message: "Server error" });
     }
 };
+
+export const DeleteLink = async (req, res) => {
+    try {
+        if (!req.user?.uid) return res.status(401).json({ message: "INVALID CREDENTIALS", success: false });
+
+        const { LinksID } = req.body;
+
+        if (LinksID.length < 1) return res.status(404).json({ message: "invalid", success: false })
+        const uid = req.user?.uid;
+
+        const { data, error } = await SupabaseConnect
+            .from("Links")
+            .delete()
+            .eq("id", LinksID)
+            .eq("uid", uid)
+
+        if (error) return res.status(404).json({ message: "not found", success: false })
+
+        else res.status(200).json({ message: "success", success: true })
+
+    } catch (err) {
+        console.log("error sa Delete: ", err);
+    }
+}
