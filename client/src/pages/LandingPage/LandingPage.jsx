@@ -7,12 +7,21 @@ import LandingImage from "../../assets/ImageHome.jpg";
 import About from "../LandingPage/About"
 import Home from "../LandingPage/Home"
 import Service from "../LandingPage/Service"
+import Contact from "../LandingPage/Contact"
 import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 
 export default function Test() {
     const navigate = useNavigate();
     const [ShowNav, setShowNav] = useState(true)
+
+    const scrollToAbout = () => {
+        document.getElementById("about")?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
+    };
+
 
 
 
@@ -29,7 +38,7 @@ export default function Test() {
                         <p className="m-0 cursor-pointer">Home</p>
                         <p className="m-0 cursor-pointer">About</p>
                         <p className="m-0 cursor-pointer">Service</p>
-                        <p className="m-0 cursor-pointer">Contact</p>
+                        <button className="m-0 cursor-pointer" onClick={scrollToAbout}>Contact</button>
                     </div>
                     <div className="flex items-center justify-center">
                         <div className="lg:flex hidden flex items-center justify-center bg-black text-white px-3 py-2 rounded-md cursor-pointer" onClick={() => navigate("/login")}>
@@ -41,7 +50,7 @@ export default function Test() {
                                 <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer">Home</p>
                                 <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer">About</p>
                                 <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer">Service</p>
-                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer">Contact</p>
+                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer" onClick={scrollToAbout}>Contact</p>
                                 <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer" onClick={() => navigate("/login")}>Login</p>
                             </div>
                         </div>
@@ -49,10 +58,11 @@ export default function Test() {
                 </div>
             </nav>
 
-            <div className="flex flex-col h-auto gap-5">
+            <div className="flex flex-col gap-5">
                 <Home />
                 <About />
                 <Service />
+                <Contact />
             </div>
 
         </>
