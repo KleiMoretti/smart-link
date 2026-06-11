@@ -99,7 +99,7 @@ export default function Table({ profile, name, email }) {
                                 {["full week", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day, index) => (
 
                                     <p key={index} className={`p-2 cursor-pointer rounded-full transition ${showDay === day ? "bg-gray-900 text-white" : "hover:bg-gray-200"}`} onClick={() => handleNav(day)}>
-                                        {day === "full week" ? "Full Week" : day.substring(0, 3)}
+                                        {day === "full week" ? "Full Week" : day}
                                     </p>
 
                                 ))}
@@ -119,6 +119,7 @@ export default function Table({ profile, name, email }) {
                                 </select>
                             </div>
                         </div>
+
 
                         {(() => {
                             const filtered = showDay === "full week" ? links : links.filter(item => item.day === showDay)
