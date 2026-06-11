@@ -1,110 +1,177 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Phone from "../../assets/phone.png"
+import phoneImg from "../../assets/phone.png"
 
 gsap.registerPlugin(ScrollTrigger);
 
-// 🔥 global config
-ScrollTrigger.config({
-    limitCallbacks: true,
-});
-
 export default function Contact() {
-    const fb = useRef(null);
-    const mess = useRef(null);
-
+    const sectionRef = useRef(null);
+    const hello = useRef(null);
+    const facebook = useRef(null);
+    const messenger = useRef(null);
     const phone = useRef(null);
+    const github = useRef(null);
+    const tiktok = useRef(null);
+
+    const via1 = useRef(null);
+    const viaSub1 = useRef(null);
+
+    const via2 = useRef(null);
+    const viaSub2 = useRef(null);
 
     useEffect(() => {
-        gsap.fromTo(
-            fb.current,
-            {
-                x: -600,
-                y: 500,
-                duration: 2
-            },
-            {
-                x: "-49vw",  // move to center horizontally
-                y: "120vh",   // move to center vertically
-                ease: "none",
+        const ctx = gsap.context(() => {
+            const tl = gsap.timeline({
                 scrollTrigger: {
-                    trigger: fb.current,
-                    start: "top top",
+                    trigger: sectionRef.current,
+                    start: "triggerPoint viewportPoint",
                     end: "bottom bottom",
-                    scrub: 1,
+                    scrub: 4, // Smooth scrubbing
+                    pin: true,
+                    anticipatePin: 1,
+                    markers: true,
                 },
-                duration: 2
-            }
-        );
-        gsap.fromTo(
-            mess.current,
-            {
-                x: 600,
-                y: 400,
-                duration: 2
-            },
-            {
-                x: "49vw",  // move to center horizontally
-                y: "120vh",   // move to center vertically
-                ease: "none",
-                scrollTrigger: {
-                    trigger: mess.current,
-                    start: "top top",
-                    end: "bottom bottom",
-                    scrub: 1,
-                },
-                duration: 2
-            }
-        );
-        gsap.fromTo(
-            phone.current,
-            {
+            });
 
-                y: 900,
-                duration: 2
-            },
-            {
-                y: "100vh",   // move to center vertically
-                ease: "none",
-                scrollTrigger: {
-                    trigger: mess.current,
-                    start: "top top",
-                    end: "bottom bottom",
-                    scrub: 1,
-                },
-                duration: 2
-            }
-        );
+            // Use standard labels or sequence positions
+            tl.fromTo(phone.current,
+                { opacity: 1, y: 500 },
+                { y: 0, ease: "none" }
+            )
+                .fromTo(hello.current,
+                    { opacity: 1, x: -90, y: -650 },
+                    { opacity: 1, x: -90, y: -200, ease: "none" },
+                    "<0.2"
+                )
+                .fromTo(facebook.current,
+                    { opacity: 1, x: 100, y: -160 },
+                    { opacity: 1, x: 0, y: 0, ease: "none" },
+                    "<0.2"
+                )
+                .fromTo(messenger.current,
+                    { opacity: 1, x: 100, y: -300 },
+                    { opacity: 1, x: 0, y: 0, ease: "none" },
+                    "<0.2"
+                )
+                .fromTo(github.current,
+                    { opacity: 1, x: -150, y: -200 },
+                    { opacity: 1, x: 0, y: 0, ease: "none" },
+                    "<0.2"
+                )
+                .fromTo(tiktok.current,
+                    { opacity: 1, x: -200, y: -100 },
+                    { opacity: 1, x: 0, y: 0, ease: "none" },
+                    "<0.2"
+                )
 
+                .fromTo(via1.current,
+                    { opacity: 0, x: 0, y: -100 },
+                    { opacity: 1, x: 0, y: 0, ease: "none" },
+                    "<0.2"
+                )
+                .fromTo(viaSub1.current,
+                    { opacity: 0, x: 0, y: -100 },
+                    { opacity: 1, x: 0, y: 0, ease: "none" },
+                    "<0.2"
+                )
+                .fromTo(via2.current,
+                    { opacity: 0, x: 0, y: -100 },
+                    { opacity: 1, x: 0, y: 0, ease: "none" },
+                    "<0.2"
+                )
+                .fromTo(viaSub2.current,
+                    { opacity: 0, x: 0, y: -100 },
+                    { opacity: 1, x: 0, y: 0, ease: "none" },
+                    "<0.2"
+                );
+        }, sectionRef);
 
+        return () => ctx.revert();
     }, []);
 
+
+
     return (
-        <div className="min-h-[300vh] relative flex justify-center">
+        <>
+            <section id="contact"
+                ref={sectionRef}
+                className="h-[100vh] relative overflow-hidden flex items-center justify-center overflow-hidden"
+            >
+                <div className="relative flex items-center justify-center">
 
-            {/*
-            */}
+                    <div ref={via1} className="absolute left-full w-80 ml-120 -top-50 bg-white p-3 rounded-lg shadow-lg text-4xl font-bold"
+                    >
+                        Via Social Media
 
-            <div>
+                    </div>
+                    <div ref={viaSub1} className="absolute left-full ml-120 mt-10 w-90">
+                        You can reach out and connect with me through my social media platforms for messages, updates, and collaborations. I’m active on Facebook for direct communication and community updates, GitHub for my projects and code repositories, TikTok for short content and creative posts, and Messenger for quick and easy conversations. Feel free to message me anytime on any of these platforms, whether it’s for questions, project discussions, or just to connect.
+                    </div>
 
-                <i
-                    ref={fb}
-                    className="bi bi-facebook absolute top-4 right-2 text-5xl text-blue-500"
-                ></i>
+                    {/* BOX */}
+                    <div ref={phone} className="absolute w-[700px] h-[700px] bg-white text-black flex items-center justify-center font-bold">
+                        <img src={phoneImg} alt="" />
+                    </div>
 
-                <i
-                    ref={mess}
-                    className="bi bi-messenger absolute top-4 left-5 text-5xl text-blue-500"
-                ></i>
+                    {/* HELLO */}
+                    <div
+                        ref={hello}
+                        className="absolute left-full  bg-white p-3 rounded-lg shadow-lg text-4xl font-bold"
+                    >
+                        CONTACT
+                    </div>
 
-                <div className="abolute">
-                    <img ref={phone} className=" h-fit w-fit" src={Phone} alt="" />
+
+
+
+                    {/* Facebook */}
+                    <div
+                        ref={facebook}
+                        className="absolute left-full ml-5 top-3 font-bold bg-white p-3 rounded-lg shadow-lg text-6xl cursor-pointer hover:scale-110 transition-transform duration-300"
+                    >
+                        <i class="bi bi-facebook text-blue-900"></i>
+                    </div>
+
+                    {/* Messenger */}
+                    <div
+                        ref={messenger}
+                        className="absolute left-full -ml-25 top-3  bg-white p-3 rounded-lg shadow-lg text-6xl font-bold"
+                    >
+                        <i class="bi bi-messenger text-blue-900"></i>
+                    </div>
+
+                    <div
+                        ref={github}
+                        className="absolute left-full -ml-25 -top-30 bg-white p-3 rounded-lg shadow-lg text-6xl font-bold"
+                    >
+                        <i class="bi bi-github"></i>
+                    </div>
+
+                    <div
+                        ref={tiktok}
+                        className="absolute left-full ml-5 -top-30  bg-white p-3 rounded-lg shadow-lg text-6xl font-bold"
+                    >
+                        <i class="bi bi-tiktok"></i>
+                    </div>
+
+
+
+
+
+                    <div ref={via2} className="absolute rigth-full mr-320 w-80  -top-50 bg-white p-3 rounded-lg shadow-lg text-4xl font-bold"
+                    >
+                        Via Social Media
+
+                    </div>
+                    <div ref={viaSub2} className="absolute rigth-full mr-320 mt-10 w-90">
+                        You can reach out and connect with me through my social media platforms for messages, updates, and collaborations. I’m active on Facebook for direct communication and community updates, GitHub for my projects and code repositories, TikTok for short content and creative posts, and Messenger for quick and easy conversations. Feel free to message me anytime on any of these platforms, whether it’s for questions, project discussions, or just to connect.
+                    </div>
+
+
+
                 </div>
-
-            </div>
-
-
-        </div >
+            </section>
+        </>
     );
 }
