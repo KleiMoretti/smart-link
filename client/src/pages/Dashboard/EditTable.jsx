@@ -62,11 +62,18 @@ export default function Table({ profile, name, email }) {
     const handleSave = async (id) => {
         const user = auth.currentUser;
         const token = await user.getIdToken();
+
         const res = await axios.post(
             "http://localhost:5000/api/editable",
             { editTable: edit },
             { headers: { Authorization: `Bearer ${token}` } }
         );
+
+        if (res.data.success) {
+            alert("success")
+        } else {
+            alert("failed man")
+        }
     };
 
     const handleDelete = async (id) => {
@@ -108,7 +115,7 @@ export default function Table({ profile, name, email }) {
                             <i className="m-0 bi bi-pencil-square cursor-pointer"></i>
                         </div>
                         {links.length > 0 && links[0]?.code && (
-                            <a href={`${BackendRedirect}${links[0].code}`} className="m-0 lg:text-lg text-sky-600 hover:underline break-all" target="_blank" rel="noreferrer">
+                            <a href={`${BackendRedirect}${links[0].code}`} className="m-0 lg:text-lg text-gray-900 hover:underline break-all" target="_blank" rel="noreferrer">
                                 {`${BackendRedirect}${links[0].code}`}
                             </a>
                         )}
@@ -118,7 +125,7 @@ export default function Table({ profile, name, email }) {
                     <div className="flex mt-10 items-center">
                         <div className="lg:flex hidden gap-10">
                             {["full week", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day, index) => (
-                                <p key={index} className={`p-2 cursor-pointer rounded-full transition ${showDay === day ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={() => handleSelect(day)}>
+                                <p key={index} className={`p-2 cursor-pointer rounded-full transition ${showDay === day ? "bg-gray-900 text-white" : "hover:bg-gray-200"}`} onClick={() => handleSelect(day)}>
                                     {day === "full week" ? "Full Week" : day.substring(0, 3)}
                                 </p>
                             ))}
@@ -154,13 +161,42 @@ export default function Table({ profile, name, email }) {
                                 <div key={index} className="mt-4">
                                     <p className="font-medium text-lg mb-2">{day}</p>
                                     {groups[day].map((item, index) => (
-                                        <div key={index} className="flex flex-wrap gap-4 items-center justify-between border border-gray-200 hover:border-sky-500 rounded-md hover:bg-sky-100 p-3 transition cursor-pointer mb-2">
-                                            <input className="m-0 flex-1 min-w-[100px] outline-none border border-gray-200 p-1" type="text" value={editId === item.id ? edit?.title || "" : item.title} onChange={(e) => setEdit(prev => ({ ...prev, title: e.target.value }))} onFocus={() => { setEditId(item.id); setEdit(item); }} />
-                                            <input className="m-0 flex-1 min-w-[100px] outline-none border border-gray-200 p-1" type="text" placeholder={CutLength(item.links, 20)} />
-                                            <input className="m-0 flex-1 min-w-[100px] outline-none border border-gray-200 p-1" type="text" placeholder={item.day} />
-                                            <input className="m-0 flex-1 min-w-[100px] outline-none border border-gray-200 p-1" type="text" placeholder={item.time} />
-                                            <div className="bg-blue-500 text-white p-1 rounded-sm" onClick={() => handleSave(item.id)}>Save</div>
-                                            <div className="bg-red-500 text-white p-1 rounded-sm" onClick={() => handleDelete(item.id)}>Delete</div>
+                                        <div key={index} className="flex flex-wrap gap-4 items-center justify-between border border-gray-200 hover:border-gray-500 rounded-md hover:bg-gray-100 p-3 transition cursor-pointer mb-2">
+                                            <input className="m-0 flex-1 min-w-[100px] outline-none border border-gray-200 p-1" type="text" value={editId === item.id ? edit?.title || "" : item.title} onChange={(e) => setEdit(prev => ({ ...prev, title: e.target.value }))} onFocus={() => {
+                                                if (editId !== item.id) {
+                                                    setEditId(item.id);
+                                                    setEdit(item);
+                                                }
+                                            }} />
+                                            <input className="m-0 flex-1 min-w-[100px] outline-none border border-gray-200 p-1" type="text" placeholder={CutLength(item.links, 20)} value={editId === item.id ? edit?.link || item.links : item.links} onChange={(e) => setEdit(prev => ({ ...prev, link: e.target.value }))} onFocus={() => {
+                                                if (editId !== item.id) {
+                                                    setEditId(item.id);
+                                                    setEdit(item);
+                                                }
+                                            }} />
+
+                                            <select className="m-0 flex-1 min-w-[100px] outline-none border border-gray-200 p-1" type="text" placeholder={item.day} value={editId === item.id ? edit?.day || "" : item.day} onChange={(e) => setEdit(prev => ({ ...prev, day: e.target.value }))} onFocus={() => {
+                                                if (editId !== item.id) {
+                                                    setEditId(item.id);
+                                                    setEdit(item);
+                                                }
+                                            }}>
+                                                <option value="Monday">Monday</option>
+                                                <option value="Tuesday">Tuesday</option>
+                                                <option value="Wednesday">Wednesday</option>
+                                                <option value="Thursday">Thursday</option>
+                                                <option value="Friday">Friday</option>
+                                                <option value="Saturday">Saturday</option>
+                                                <option value="Sunday">Sunday</option>
+                                            </select>
+                                            <input className="m-0 flex-1 min-w-[100px] outline-none border border-gray-200 p-1" type="text" placeholder={item.time} value={editId === item.id ? edit?.time || "" : item.time} onChange={(e) => setEdit(prev => ({ ...prev, time: e.target.value }))} onFocus={() => {
+                                                if (editId !== item.id) {
+                                                    setEditId(item.id);
+                                                    setEdit(item);
+                                                }
+                                            }} />
+                                            <div className="p-1 rounded-sm" onClick={() => handleSave(item.id)}><i className="text-blue-600 bi bi-save"></i></div>
+                                            <div className="p-1 rounded-sm" onClick={() => handleDelete(item.id)}><i className="text-red-400 bi bi-trash-fill"></i></div>
                                         </div>
                                     ))}
                                 </div>
