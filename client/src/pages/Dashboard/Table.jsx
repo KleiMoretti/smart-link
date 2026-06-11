@@ -98,7 +98,7 @@ export default function Table({ profile, name, email }) {
                             <div className="lg:flex hidden gap-10">
                                 {["full week", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day, index) => (
 
-                                    <p key={index} className={`p-2 cursor-pointer rounded-full transition ${showDay === day ? "bg-sky-500 text-white" : "hover:bg-gray-200"}`} onClick={() => handleNav(day)}>
+                                    <p key={index} className={`p-2 cursor-pointer rounded-full transition ${showDay === day ? "bg-gray-900 text-white" : "hover:bg-gray-200"}`} onClick={() => handleNav(day)}>
                                         {day === "full week" ? "Full Week" : day.substring(0, 3)}
                                     </p>
 
@@ -139,12 +139,12 @@ export default function Table({ profile, name, email }) {
                                         {groups[day].map((item, index) => (
 
                                             <div key={index} className="flex flex-wrap gap-4 items-center justify-between border border-gray-200 hover:border-sky-500 rounded-md hover:bg-sky-100 p-3 transition cursor-pointer mb-2">
-                                                <p className="m-0 flex-1 min-w-[100px]">{CutLength(item.title, 9)}</p>
+                                                <p className="m-0 flex-1 min-w-[100px] font-medium">{CutLength(item.title, 9)}</p>
                                                 <a className="m-0 flex-1 min-w-[150px] text-sky-600 truncate" href={item.links} target="_blank" rel="noreferrer">
                                                     {CutLength(item.links, 20)}
                                                 </a>
                                                 <p className="m-0 text-sm text-gray-500">{item.day}</p>
-                                                <p className="m-0 font-bold">{item.time}</p>
+                                                <p className="m-0 text-sm text-gray-500">{item.time}</p>
 
                                             </div>
 
