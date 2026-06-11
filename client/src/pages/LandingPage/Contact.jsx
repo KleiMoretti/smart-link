@@ -129,7 +129,7 @@ export default function Contact() {
                         ref={facebook}
                         className="absolute left-full ml-5 top-3 font-bold bg-white p-3 rounded-lg shadow-lg text-6xl cursor-pointer hover:scale-110 transition-transform duration-300"
                     >
-                        <i class="bi bi-facebook text-blue-900"></i>
+                        <i className="bi bi-facebook text-blue-900"></i>
                     </div>
 
                     {/* Messenger */}
@@ -137,21 +137,21 @@ export default function Contact() {
                         ref={messenger}
                         className="absolute left-full -ml-25 top-3  bg-white p-3 rounded-lg shadow-lg text-6xl font-bold"
                     >
-                        <i class="bi bi-messenger text-blue-900"></i>
+                        <i className="bi bi-messenger text-blue-900"></i>
                     </div>
 
                     <div
                         ref={github}
                         className="absolute left-full -ml-25 -top-30 bg-white p-3 rounded-lg shadow-lg text-6xl font-bold"
                     >
-                        <i class="bi bi-github"></i>
+                        <i className="bi bi-github"></i>
                     </div>
 
                     <div
                         ref={tiktok}
                         className="absolute left-full ml-5 -top-30  bg-white p-3 rounded-lg shadow-lg text-6xl font-bold"
                     >
-                        <i class="bi bi-tiktok"></i>
+                        <i className="bi bi-tiktok"></i>
                     </div>
 
 
