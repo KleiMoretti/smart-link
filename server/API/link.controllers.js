@@ -214,6 +214,32 @@ export const EditTable = async (req, res) => {
             return res.status(400).json({ message: "No data" });
         }
 
+        const isValidTime = (time) =>
+            /^([01]\d|2[0-3]):([0-5]\d)$/.test(time);
+
+        const orderDay = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+        const dayCheck = (day) => orderDay.includes(day);
+
+
+        const title = editTable.title?.trim();
+        const link = editTable.link?.trim();
+        const time = editTable.time?.trim();
+        const day = editTable.day;
+
+        // 🔥 OPTIONAL FIELD LOGIC
+        if (
+            (title && !title) ||
+            (link && !link.startsWith("https://")) ||
+            (time && !isValidTime(time)) ||
+            (day && !dayCheck(day))
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "failed boss"
+            });
+        }
+
         const { data, error } = await SupabaseConnect
             .from("Links")
             .update({
