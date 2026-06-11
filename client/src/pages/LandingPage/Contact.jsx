@@ -29,8 +29,7 @@ export default function Contact() {
                     end: "bottom bottom",
                     scrub: 4, // Smooth scrubbing
                     pin: true,
-                    anticipatePin: 1,
-                    markers: true,
+                    anticipatePin: 1
                 },
             });
 
