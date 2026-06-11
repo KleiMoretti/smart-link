@@ -15,8 +15,11 @@ export default function Table({ profile, name, email }) {
     const [title, setTitle] = useState("");
     const [editId, setEditId] = useState(null);
     const [edit, setEdit] = useState({ title: "", link: "", day: "", time: "", id: "" });
+    const [addRow, setAddRow] = useState([{ title: "", link: "", day: "", time: "", id: "" }]);
 
     const BackendRedirect = import.meta.env.VITE_REDIRECT_FRONTEND_URL || "";
+
+    const handleSelect = (value) => setDay(value)
 
     // Custom sort order para sa mga araw
     const dayOrder = {
@@ -29,7 +32,7 @@ export default function Table({ profile, name, email }) {
         "Sunday": 7
     };
 
-    const handleSelect = (value) => setDay(value)
+
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -103,6 +106,21 @@ export default function Table({ profile, name, email }) {
 
     }
 
+    const handleInput = (value, index, field) => {
+        const update = [...addRow]
+        update[index][field] = value;
+        return setAddRow(update)
+    }
+
+    const handleAddRow = () => {
+        const prev = addRow[addRow.length - 1];
+        if (!prev.title || !prev.link || !prev.day || !prev.time) {
+            alert("Please complete all fields first!");
+            return
+        }
+        setAddRow([...addRow, { title: "", link: "", day: "", time: "", id: "" }])
+    }
+
     if (loading) return <p>Loading...</p>
 
     return (
@@ -126,7 +144,7 @@ export default function Table({ profile, name, email }) {
                         <div className="lg:flex hidden gap-10">
                             {["full week", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day, index) => (
                                 <p key={index} className={`p-2 cursor-pointer rounded-full transition ${showDay === day ? "bg-gray-900 text-white" : "hover:bg-gray-200"}`} onClick={() => handleSelect(day)}>
-                                    {day === "full week" ? "Full Week" : day.substring(0, 3)}
+                                    {day === "full week" ? "Full Week" : day}
                                 </p>
                             ))}
                         </div>
@@ -143,6 +161,19 @@ export default function Table({ profile, name, email }) {
                                 <option value="Sunday">Sunday</option>
                             </select>
                         </div>
+                    </div>
+
+                    <div className="flex justify-between">
+                        <div className="flex gap-2 bg-gray-200 w-35 p-2 rounded-full hover:bg-gray-100 cursor-pointer items-center justify-center" onClick={handleAddRow}>
+                            <i class="bi bi-plus-circle"></i>
+                            <p className="m-0 whitespace-nowrap">Add Row</p>
+                        </div>
+
+                        <div className="flex gap-2 bg-gray-900 text-white w-35 p-2 rounded-full hover:bg-gray-700 cursor-pointer items-center justify-center transition">
+                            <p className="m-0">Save</p>
+                        </div>
+
+
                     </div>
 
                     {(() => {
@@ -205,6 +236,30 @@ export default function Table({ profile, name, email }) {
                             <div className="text-center text-gray-400 mt-10">No links found</div>
                         );
                     })()}
+
+                    <div className="mt-10">
+                        <p className="font-medium ">Add Column</p>
+                    </div>
+
+                    {addRow.map((item, index) => (
+                        <div key={index} className="flex justify-between bg-gray-100 p-2 mt-2">
+                            <p>{index}</p>
+                            <input type="text" placeholder="title" value={item.title} onChange={(e) => handleInput(e.target.value, index, "title")} />
+                            <input type="text" placeholder="link" value={item.link} onChange={(e) => handleInput(e.target.value, index, "link")} />
+                            <select value={item.day} onChange={(e) => handleInput(e.target.value, index, "day")}>
+                                <option value="full week">Full Week</option>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                                <option value="Saturday">Saturday</option>
+                                <option value="Sunday">Sunday</option>
+                            </select>
+                            <input type="time" placeholder="time" value={item.time} onChange={(e) => handleInput(e.target.value, index, "time")} />
+                        </div>
+                    ))}
+
                 </div>
             </div>
         </div>
