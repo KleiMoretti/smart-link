@@ -69,6 +69,33 @@ export default function Table({ profile, name, email }) {
         );
     };
 
+    const handleDelete = async (id) => {
+        const user = await auth.currentUser;
+        const token = await user.getIdToken();
+
+        if (!user || !token) return alert("you're not logged");
+
+        if (!Number.isInteger(id) || id <= 0) {
+            return alert("Invalid");
+        }
+
+        const res = await axios.post(`${import.meta.env.VITE_API_DELETE_LINK}`,
+            { LinksID: id },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        )
+        if (res.data?.success) {
+            alert("success men")
+        } else {
+            alert("Invalid men")
+        }
+
+
+    }
+
     if (loading) return <p>Loading...</p>
 
     return (
@@ -113,24 +140,14 @@ export default function Table({ profile, name, email }) {
 
                     {(() => {
                         const filtered = showDay === "full week" ? links : links.filter(item => item.day === showDay);
-                        //console.log("filter: ", filtered)
 
-                        //pag groups para maging object
                         const groups = filtered.reduce((acc, item) => {
-                            //console.log("items day: ", item.day);
-                            //console.log("acc day: ", acc);
-                            //console.log("ITEM: ", item);
 
                             (acc[item.day] = acc[item.day] || []).push(item);
-
-                            //console.log("groups: ", acc);
                             return acc;
                         }, {});
-                        //console.log("GR: ", groups)
 
-                        // Dito ang sorting logic:
                         const sortedDays = Object.keys(groups).sort((a, b) => (dayOrder[a] || 0) - (dayOrder[b] || 0));
-                        //console.log("sorted: ", sortedDays)
 
                         return sortedDays.length > 0 ? (
                             sortedDays.map((day, index) => (
@@ -143,6 +160,7 @@ export default function Table({ profile, name, email }) {
                                             <input className="m-0 flex-1 min-w-[100px] outline-none border border-gray-200 p-1" type="text" placeholder={item.day} />
                                             <input className="m-0 flex-1 min-w-[100px] outline-none border border-gray-200 p-1" type="text" placeholder={item.time} />
                                             <div className="bg-blue-500 text-white p-1 rounded-sm" onClick={() => handleSave(item.id)}>Save</div>
+                                            <div className="bg-red-500 text-white p-1 rounded-sm" onClick={() => handleDelete(item.id)}>Delete</div>
                                         </div>
                                     ))}
                                 </div>
