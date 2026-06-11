@@ -69,7 +69,7 @@ export default function Dashboard() {
                             <p className={`m-0 cursor-pointer whitespace-nowrap ${tab === "Settings" ? "font-bold text-gray-900" : ""}`} onClick={handleSettings}>Settings</p>
                         </div>
                         <div className="flex items-center justify-center">
-                            <div className="lg:flex hidden flex items-center justify-center bg-gray-900 hover:bg-blue-600 text-white px-3 py-2 rounded-md cursor-pointer" onClick={handleCreate}>
+                            <div className="lg:flex hidden flex items-center justify-center bg-gray-900 hover:bg-gray-700 text-white px-3 py-2 rounded-md cursor-pointer" onClick={handleCreate}>
                                 <p className="m-0 whitespace-nowrap">Create Link</p>
                             </div>
                             <div className="relative">
