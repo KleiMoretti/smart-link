@@ -63,23 +63,23 @@ export default function Dashboard() {
                             <p className="m-0 whitespace-nowrap font-ubuntu">Flux Link</p>
                         </div>
                         <div className="nav  flex flex-nowrap gap-10 items-center">
-                            <p className={`m-0 cursor-pointer whitespace-nowrap ${tab === "Table" ? "font-bold text-blue-500" : ""}`} onClick={handleTable}>Schedules</p>
-                            <p className={`m-0 cursor-pointer whitespace-nowrap ${tab === "EditTable" ? "font-bold text-blue-500" : ""}`} onClick={handleSubscription}>Edit Schedule</p>
-                            <p className={`m-0 cursor-pointer whitespace-nowrap ${tab === "Feedback" ? "font-bold text-blue-500" : ""}`} onClick={handleFeedback}>Feedback</p>
-                            <p className={`m-0 cursor-pointer whitespace-nowrap ${tab === "Settings" ? "font-bold text-blue-500" : ""}`} onClick={handleSettings}>Settings</p>
+                            <p className={`m-0 cursor-pointer whitespace-nowrap ${tab === "Table" ? "font-bold text-gray-900" : ""}`} onClick={handleTable}>Schedules</p>
+                            <p className={`m-0 cursor-pointer whitespace-nowrap ${tab === "EditTable" ? "font-bold text-gray-900" : ""}`} onClick={handleSubscription}>Edit Schedule</p>
+                            <p className={`m-0 cursor-pointer whitespace-nowrap ${tab === "Feedback" ? "font-bold text-gray-900" : ""}`} onClick={handleFeedback}>Feedback</p>
+                            <p className={`m-0 cursor-pointer whitespace-nowrap ${tab === "Settings" ? "font-bold text-gray-900" : ""}`} onClick={handleSettings}>Settings</p>
                         </div>
                         <div className="flex items-center justify-center">
-                            <div className="lg:flex hidden flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-md cursor-pointer" onClick={handleCreate}>
+                            <div className="lg:flex hidden flex items-center justify-center bg-gray-900 hover:bg-blue-600 text-white px-3 py-2 rounded-md cursor-pointer" onClick={handleCreate}>
                                 <p className="m-0 whitespace-nowrap">Create Link</p>
                             </div>
                             <div className="relative">
                                 <i className="burger bi bi-list hidden text-2xl cursor-pointer" onClick={() => setShowNav(prev => !prev)}></i>
                                 <div className={`absolute bg-white border border-gray-100 flex justify-center flex-col w-auto -ml-[80px]  whitespace-nowrap rounded-sm  ${ShowNav ? "hidden" : ""}`}>
-                                    <p className={`m-0 p-2 hover:bg-blue-100 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Table" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleTable(); setShowNav(prev => !prev); }}>Schedules</p>
-                                    <p className={`m-0 p-2 hover:bg-blue-100 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "EditTable" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleSubscription(); setShowNav(prev => !prev); }}>Edit Schedule</p>
-                                    <p className={`m-0 p-2 hover:bg-blue-100 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Feedback" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleFeedback(); setShowNav(prev => !prev); }}>Feedback</p>
-                                    <p className={`m-0 p-2 hover:bg-blue-100 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Settings" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleSettings(); setShowNav(prev => !prev); }}>Settings</p>
-                                    <p className={`m-0 p-2 hover:bg-blue-100 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Create" ? "font-bold text-blue-500" : ""}`} onClick={() => { handleCreate(); setShowNav(prev => !prev); }}>Create Link</p>
+                                    <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Table" ? "font-bold text-gray-900" : ""}`} onClick={() => { handleTable(); setShowNav(prev => !prev); }}>Schedules</p>
+                                    <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "EditTable" ? "font-bold text-gray-900" : ""}`} onClick={() => { handleSubscription(); setShowNav(prev => !prev); }}>Edit Schedule</p>
+                                    <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Feedback" ? "font-bold text-gray-900" : ""}`} onClick={() => { handleFeedback(); setShowNav(prev => !prev); }}>Feedback</p>
+                                    <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Settings" ? "font-bold text-gray-900" : ""}`} onClick={() => { handleSettings(); setShowNav(prev => !prev); }}>Settings</p>
+                                    <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Create" ? "font-bold text-gray-900" : ""}`} onClick={() => { handleCreate(); setShowNav(prev => !prev); }}>Create Link</p>
                                 </div>
                             </div>
                             <div className="ml-10">
