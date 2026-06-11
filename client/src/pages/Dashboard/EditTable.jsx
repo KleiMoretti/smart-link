@@ -243,7 +243,6 @@ export default function Table({ profile, name, email }) {
 
                     {addRow.map((item, index) => (
                         <div key={index} className="flex justify-between bg-gray-100 p-2 mt-2">
-                            <p>{index}</p>
                             <input type="text" placeholder="title" value={item.title} onChange={(e) => handleInput(e.target.value, index, "title")} />
                             <input type="text" placeholder="link" value={item.link} onChange={(e) => handleInput(e.target.value, index, "link")} />
                             <select value={item.day} onChange={(e) => handleInput(e.target.value, index, "day")}>
