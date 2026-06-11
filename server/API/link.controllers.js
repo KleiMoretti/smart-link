@@ -1,4 +1,4 @@
-import admin, { messaging } from "firebase-admin";
+import admin from "firebase-admin";
 
 import { SupabaseConnect } from "../db/supabaseClient.js";
 import e from "express";
@@ -250,7 +250,13 @@ export const DeleteLink = async (req, res) => {
 
         const { LinksID } = req.body;
 
-        if (LinksID.length < 1) return res.status(404).json({ message: "invalid", success: false })
+        if (!Number.isInteger(LinksID) || LinksID <= 0) {
+            return res.status(400).json({
+                message: "invalid id",
+                success: false
+            });
+        }
+
         const uid = req.user?.uid;
 
         const { data, error } = await SupabaseConnect
