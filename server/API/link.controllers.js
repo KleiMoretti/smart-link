@@ -422,6 +422,5 @@ export const FeedBack = async (req, res) => {
         return res.status(500).json({ success: false, error: error.message });
     }
 
-    // Success response
     return res.status(200).json({ success: true, data });
 };
