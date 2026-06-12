@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from "react"
 import Logo from "../../assets/logo.png"
-import "../../css/Dashboard.css"
 import "../../css/LandingPage.css"
 import Table from "./Table"
 import { useNavigate } from "react-router-dom"
