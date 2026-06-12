@@ -51,7 +51,6 @@ export default function Table({ profile, name, email }) {
 
                 if (res.data?.success && res.data?.link) {
                     setLink(res.data?.link);
-                    console.log(res.data?.link)
                     setTitle(res.data?.link[0].schedule_name)
 
                 }
