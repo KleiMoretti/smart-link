@@ -29,8 +29,6 @@ export default function Feedback() {
     }
 
 
-
-
     return (
         <>
             <div className="flex justify-center w-1/2">
