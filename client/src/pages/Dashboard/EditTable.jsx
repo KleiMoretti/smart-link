@@ -222,7 +222,7 @@ export default function Table({ profile, name, email }) {
                         <p className="font-medium ">Add Schedule</p>
                     </div>
 
-                    <div className="flex justify-between">
+                    <div className="flex justify-between flex-wrap gap-2">
                         <div className="flex gap-2 bg-gray-200 w-35 p-2 rounded-full hover:bg-gray-100 cursor-pointer items-center justify-center" onClick={handleAddRow}>
                             <i className="bi bi-plus-circle"></i>
                             <p className="m-0 whitespace-nowrap">Add Schedule</p>
