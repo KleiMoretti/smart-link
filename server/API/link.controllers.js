@@ -114,7 +114,7 @@ export const GetLinks = async (req, res) => {
             });
         }
 
-        console.log("Fetching links for UID:", req.user?.uid); // Debugging
+
 
         const { data, error } = await SupabaseConnect
             .from("Links")
@@ -199,7 +199,6 @@ export const Redirect = async (req, res) => {
         });
     }
 };
-
 
 export const EditTable = async (req, res) => {
     try {
@@ -299,3 +298,130 @@ export const DeleteLink = async (req, res) => {
         console.log("error sa Delete: ", err);
     }
 }
+
+export const SaveLinkRow = async (req, res) => {
+    try {
+
+        const firebaseUID = req.user.uid;
+        if (!firebaseUID) return res.status(401).json({ message: "you are not logged", success: false })
+
+        const firebaseName = req.user.name || req.user.email || "Anonymous User";
+
+        const { saveRow, saveCode, saveTitle } = req.body;
+
+        if (!saveRow || !Array.isArray(saveRow)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid Data format."
+            });
+        }
+
+        const isValidTime = (time) => /^([01]\d|2[0-3]):([0-5]\d)$/.test(time);
+
+        const validDays = [
+            "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+        ];
+
+
+        const isValid = saveRow.every((item) => {
+            return (
+                item.title &&
+                item.title.length > 1 &&
+                item.title.length < 50 &&
+
+                item.link &&
+                item.link.startsWith("https://") &&
+
+                validDays.includes(item.day) &&
+
+                item.time &&
+
+                isValidTime(item.time)
+            );
+        });
+
+        if (!isValid) {
+            return res.status(400).json({
+                message: "Invalid Link Data",
+                success: false
+            });
+        }
+
+        const linksToInsert = saveRow.map(item => ({
+            title: item.title,
+            links: item.link?.trim(),
+            day: item.day,
+            time: item.time,
+            uid: firebaseUID,
+            name: firebaseName,
+            code: saveCode,
+            schedule_name: saveTitle,
+        }));
+
+        const { data, error: insertError } = await SupabaseConnect
+            .from("Links")
+            .insert(linksToInsert)
+            .select();
+
+        if (insertError) {
+            console.log("SUPABASE ERROR:", insertError);
+            return res.status(500).json({
+                success: false,
+                message: insertError.message
+            });
+        }
+
+        const firebaseEmail = req.user?.email;
+
+        console.log(firebaseUID, firebaseName, firebaseEmail, " Created Links ", saveRow.map((item => item.link)))
+
+
+        return res.status(200).json({ success: true, data: data });
+
+    } catch (error) {
+        console.error("❌ Controller Error man:", error);
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+export const SaveTitle = async (req, res) => {
+    if (!req.user.uid) return res.status(401).json({ success: false })
+
+    const { saveTitle } = req.body;
+    const firebaseUID = req.user.uid;
+
+    if (saveTitle === "") return res.status(401).json({ success: false })
+
+    const { data, error } = await SupabaseConnect
+        .from("Links")
+        .update({ schedule_name: saveTitle })
+        .eq("uid", firebaseUID);
+}
+
+export const FeedBack = async (req, res) => {
+    const firebaseUID = req.user?.uid;
+    const firebaseName = req.user?.name;
+    const { emoji, message } = req.body;
+
+
+    if (!emoji) {
+        return res.status(400).json({ success: false, message: "Emoji is required" });
+    }
+
+    const { data, error } = await SupabaseConnect
+        .from("feedback")
+        .insert([{
+            "uid": firebaseUID,
+            "name": firebaseName,
+            "emotion": emoji,
+            "message": message,
+        }]);
+
+    if (error) {
+        console.error("Supabase Error:", error);
+        return res.status(500).json({ success: false, error: error.message });
+    }
+
+    // Success response
+    return res.status(200).json({ success: true, data });
+};
