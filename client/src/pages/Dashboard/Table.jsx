@@ -51,9 +51,9 @@ export default function Table({ profile, name, email }) {
 
                 if (res.data?.success && res.data?.link) {
                     setLink(res.data?.link);
-                    res.data.link.map(item => {
-                        setTitle(item.schedule_name)
-                    });
+                    console.log(res.data?.link)
+                    setTitle(res.data?.link[0].schedule_name)
+
                 }
 
             } catch (err) {
@@ -156,8 +156,6 @@ export default function Table({ profile, name, email }) {
                             ) : (
                                 <div className="text-center text-gray-400 mt-10">No links found</div>
                             );
-
-
 
                         })()}
                     </div>
