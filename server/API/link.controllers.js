@@ -21,7 +21,6 @@ const getCurrentTime = () => {
     });
 };
 
-
 export const SaveLinks = async (req, res) => {
     try {
 
@@ -137,8 +136,6 @@ export const SaveLinks = async (req, res) => {
                 hour12: false,
                 timeZone: "Asia/Manila"
             }))
-
-
 
         return res.status(200).json({ success: true, data: data });
 
@@ -535,6 +532,12 @@ export const AskGemini = async (req, res) => {
         - Maging helpful at precise.
         - Gawing Uppercase ang first letter ng Day
         - Sa time gawin mong military time
+        - do NOT change meaning
+        - do NOT extract single time
+        - sa time Output ONLY  HH:MM format
+        - No text, no explanation, no symbols
+        - If schedule is example "13:00-16:00", return only "13:00"
+        - If no time found, return null
         `;
 
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -564,6 +567,7 @@ export const AskGemini = async (req, res) => {
         if (!Array.isArray(parsed)) {
             parsed = [parsed];
         }
+
         function generateCode() {
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             let code = "";
