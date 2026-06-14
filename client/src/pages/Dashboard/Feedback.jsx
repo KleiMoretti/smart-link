@@ -6,8 +6,9 @@ import { auth } from '../../firebase/firebase'
 export default function Feedback() {
     const [emoji, setEmoji] = useState("");
     const [message, setMessage] = useState("");
+    const [showFeedBack, setFeedBack] = useState(null);
 
-    const handleEmoji = (emotion) => { setEmoji(emotion); console.log("emoji: ", emoji) }
+    const handleEmoji = (emotion) => { setEmoji(emotion) }
 
 
     const handleSubmit = async () => {
@@ -28,10 +29,39 @@ export default function Feedback() {
         }
     }
 
+    useEffect(() => {
+        const handleCheckFeedBack = async () => {
+            const user = auth.currentUser;
+            if (!user) return;
+
+            try {
+                const token = await user.getIdToken();
+
+                const res = await axios.get(
+                    "http://localhost:5000/api/checkfeedback",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }
+                );
+
+
+
+            } catch (err) {
+                console.error("Check feedback error:", err);
+
+
+                setFeedBack(false);
+            }
+        };
+
+        handleCheckFeedBack();
+    }, []);
 
     return (
         <>
-            <div className="flex justify-center w-1/5  min-w-[250px]">
+            {showFeedBack ? (<div className="flex justify-center w-1/5  min-w-[250px]">
                 <div className="w-full border-1  border-gray-200  shadow-md rounded-lg  bg-white p-3">
                     <div className="flex justify-between gap-2">
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADEUlEQVR4nO1ZzU8TQRTfRC9aPHCsHuQgnelC8KpeimcrB8WT+h9Y+4Ggd/0vCJIoB0uiBz1gkeiFhM5QLErxoiFeSVsMEmmBwzNvtq24QLuzO7vbw77kJc3Ozu7v9772zaumBRJIIIGgQL7/MjCaAU5ngdMvwMkWMLIvFH9zuirWlmka79W6QWCRnANGxoDTb8ApyClZF4RLeo/3wD/FTgtLclKVB36ESAU4TeEzvQFfiFDgpOgcuEkZ+QycEHfBczICjOwoB89b+hs4uekS+Oh94OTARfDQCKkD4JF7isGTEW/A038kGI2rAb8U7Tdc6xV42syJHcw359XGjYS1TmLFUXUySqVP4HkrnJL2wK8OhYDRchcQqOAHU56A8YX1GTxthBLNyBOw1R645oV1+cbMd9DUrINKw2drQYep8avw6Naw0Mmxa7A5Nwhu7QOZZG60xG1BfHwzA3u1GuSyM5CIXxf6eHRYrKneByIPyCsJD9Cv7R6GFqzXdgGlvvunBQT1+cQV5fvA8EBRwgOixT3xYeh6tCCCyWVf/gdk/HZM+T4QHqBlCQ+QvU4EDr/8sE6MxpTvA4NAXRkBTLyTgLQLBbv7QJpAhxDCqoGJZwbx5E4Mfi0MKN8H8iHUPombFQWthrGLir87gnCwD+SSuH0Z9UWZXBnNdCGBh9YJLEWGuo9AdMAyAcMLZM130NxmM+c0jKpv+4A964X5VEgoe9oLm68v2iewTNOeHWh+TIXhfeIMzD04qt8nw3asX7E9vRMTM0nLI/hc8ixsTJ+H/cWI0J8vLohruFZ91ycZ+yRhC3zrUC8mZtZehqGClkbw5rWN6bBYw3skCBRgVjtlm4AgsaJfAk63rbxwPh0SINHq5jW8hmsfUiHvxipNwXGf54OtPL2hqRQc93k2WmTkrlLwLRKMxl2e0m0rt/wxJCJiYqYefAHHmK6CN40ck53abmvJSstYKh1XG1tESnqP8cUmJXngZE2MLv34i+k4wWbL8ArNGgNhUhUnO3G6Q0+RIrbE4p68rvuNN5BAAtG6Q/4CvAsbPliJ4lwAAAAASUVORK5CYII=" alt="sad--v2"
@@ -65,7 +95,12 @@ export default function Feedback() {
                         <button>Send</button>
                     </div>
                 </div>
-            </div>
+            </div>) : (
+                <div className="text-center p-4 text-gray-600 font-medium">
+                    Already submitted
+                </div>
+            )}
+
         </>
     )
 }
