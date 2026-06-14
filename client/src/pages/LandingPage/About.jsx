@@ -1,4 +1,4 @@
-import CodeImg from "../../assets/codeImg.png";
+import CodeImg from "../../assets/about.png";
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
@@ -34,12 +34,12 @@ export default function About() {
                 <div className="about-main flex justify-center w-full">
 
                     <div className="about-width w-[60%]">
-                        <div className="about-wrap flex gap-10 about-wrap">
-                            <div className="w-full whitespace-nowrap">
+                        <div className="about-wrap flex ">
+                            <div className=" w-full lg:whitespace-nowrap">
                                 <p className="about-about font-bold text-gray-400 ">About</p>
                                 <p className="about-header font-ubuntu font-bold text-[3vw]">Beginnings</p>
-                                <p className="about-sub m-0 font-medium text-[1.3vw] text-gray-700">AI-powered time-based redirection and scheduling</p>
-                                <p className="about-sub m-0 font-medium text-[1.3vw] text-gray-700">It automates link routing scheduling needs with ease.</p>
+                                <p className="about-sub m-0 font-medium text-[1vw] text-gray-700">AI-powered time-based redirection and scheduling</p>
+                                <p className="about-sub m-0 font-medium text-[1vw] text-gray-700">It automates link routing scheduling needs with ease.</p>
                             </div>
 
                             <div className="about-content  text-gray-600 flex w-full">
