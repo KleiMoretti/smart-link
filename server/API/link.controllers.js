@@ -3,6 +3,24 @@ import admin from "firebase-admin";
 import { SupabaseConnect } from "../db/supabaseClient.js";
 import e from "express";
 
+
+const getCurrentDay = () =>
+    new Date().toLocaleDateString("en-US", {
+        weekday: "long",
+        timeZone: "Asia/Manila"
+    });
+
+const getCurrentTime = () => {
+    return new Date().toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        timeZone: "Asia/Manila"
+    });
+};
+
+
+
 export const SaveLinks = async (req, res) => {
     try {
 
@@ -102,7 +120,23 @@ export const SaveLinks = async (req, res) => {
 
         const firebaseEmail = req.user?.email;
 
-        console.log(firebaseUID, firebaseName, firebaseEmail, " Created Links ", Links.map((item => item.link)))
+        console.log("Firebase UID: ", firebaseUID)
+        console.log("Firebase Name: ", firebaseName)
+        console.log("Firebase Email: ", firebaseEmail)
+        console.log("Created Links: ", Links.map((item => item.link)))
+        console.log("Date Created: ", new Date().toLocaleDateString("en-US",
+            {
+                weekday: "long",
+                timeZone: "Asia/Manila"
+            }))
+        console.log("Time Created: ", new Date().toLocaleTimeString("en-US",
+            {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false,
+                timeZone: "Asia/Manila"
+            }))
+
 
 
         return res.status(200).json({ success: true, data: data });
@@ -153,20 +187,6 @@ export const GetLinks = async (req, res) => {
     }
 };
 
-const getCurrentDay = () =>
-    new Date().toLocaleDateString("en-US", {
-        weekday: "long",
-        timeZone: "Asia/Manila"
-    });
-
-const getCurrentTime = () => {
-    return new Date().toLocaleTimeString("en-GB", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-        timeZone: "Asia/Manila"
-    });
-};
 
 export const Redirect = async (req, res) => {
     try {
