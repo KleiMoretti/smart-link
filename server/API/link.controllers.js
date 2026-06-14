@@ -438,7 +438,21 @@ export const FeedBack = async (req, res) => {
         return res.status(400).json({ success: false, message: "Emoji is required" });
     }
 
-    const { data, error } = await SupabaseConnect
+    const { data: checkExist, error: errorExist } = await SupabaseConnect
+        .from("feedback")
+        .select("uid")
+        .eq("uid", firebaseUID)
+
+    if (errorExist) {
+        console.error("Supabase Error:", ErrorSend);
+        return res.status(500).json({ success: false, error: ErrorSend.message });
+    }
+
+    if (checkExist && checkExist.length > 0) {
+        return res.status(400).json({ success: false, message: "Feedback already submitted." });
+    }
+
+    const { data: sendFeedBack, error: ErrorSend } = await SupabaseConnect
         .from("feedback")
         .insert([{
             "uid": firebaseUID,
@@ -447,12 +461,12 @@ export const FeedBack = async (req, res) => {
             "message": message,
         }]);
 
-    if (error) {
-        console.error("Supabase Error:", error);
-        return res.status(500).json({ success: false, error: error.message });
+    if (ErrorSend) {
+        console.error("Supabase Error:", ErrorSend);
+        return res.status(500).json({ success: false, error: ErrorSend.message });
     }
 
-    return res.status(200).json({ success: true, data });
+    return res.status(200).json({ success: true });
 };
 
 export const CheckFeedBack = async (req, res) => {
@@ -471,15 +485,14 @@ export const CheckFeedBack = async (req, res) => {
         return res.status(500).json({ success: false, error });
     }
 
-    if (data) {
+    if (data && data.length > 0) {
         return res.json({
+
             success: false,
-            status: "already_submitted"
         });
     }
 
     return res.status(200).json({
         success: true,
-        status: "not_submitted"
     });
 };
