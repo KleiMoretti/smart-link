@@ -207,9 +207,6 @@ export const Redirect = async (req, res) => {
             .limit(1)
             .maybeSingle();
 
-
-
-
         if (error || !data) {
             return res.status(404).json({
                 success: false,
@@ -496,8 +493,6 @@ export const CheckFeedBack = async (req, res) => {
         success: true,
     });
 };
-
-
 
 export const AskGemini = async (req, res) => {
     try {
