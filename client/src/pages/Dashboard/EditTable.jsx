@@ -176,89 +176,97 @@ export default function Table({ profile, name, email }) {
         <div>
             <div className="flex items-center">
                 <div className="w-full">
-                    <div className="title-link-main w-full font-medium lg:flex lg:flex-wrap justify-between items-center gap-2">
-                        <div className="flex items-center gap-1 border-1 border-gray-300 w-fit">
-                            <input
-                                className=" m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition"
-                                type="text"
-                                placeholder="Enter schedule name"
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
-                                onBlur={() => handleAutoSave(title)}
-                            />
-                        </div>
-                        {links.length > 0 && links[0]?.code && (
-                            <a href={`${BackendRedirect}${links[0].code}`} className="m-0 lg:text-lg text-gray-900 hover:underline break-all" target="_blank" rel="noreferrer">
-                                {`${BackendRedirect}${links[0].code}`}
-                            </a>
-                        )}
-                    </div>
 
-                    {/* Day Selection UI */}
-                    <div className="flex mt-10 items-center">
-                        <div className="lg:flex hidden gap-10">
-                            {["full week", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day, index) => (
-                                <p key={index} className={`p-2 cursor-pointer rounded-full transition ${showDay === day ? "bg-gray-900 text-white" : "hover:bg-gray-200"}`} onClick={() => handleSelect(day)}>
-                                    {day === "full week" ? "Full Week" : day}
-                                </p>
-                            ))}
-                        </div>
-
-                        <div className="flex flex-col lg:hidden">
-                            <select value={showDay} className="border-gray-500 border p-2 outline-none" onChange={(e) => handleSelect(e.target.value)}>
-                                <option value="full week">Full Week</option>
-                                <option value="Monday">Monday</option>
-                                <option value="Tuesday">Tuesday</option>
-                                <option value="Wednesday">Wednesday</option>
-                                <option value="Thursday">Thursday</option>
-                                <option value="Friday">Friday</option>
-                                <option value="Saturday">Saturday</option>
-                                <option value="Sunday">Sunday</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className="mt-10">
-                        <p className="font-medium ">Add Schedule</p>
-                    </div>
-
-                    <div className="flex justify-between flex-wrap gap-2">
-                        <div className="flex gap-2 bg-gray-200 w-35 p-2 rounded-full hover:bg-gray-100 cursor-pointer items-center justify-center" onClick={handleAddRow}>
-                            <i className="bi bi-plus-circle"></i>
-                            <p className="m-0 whitespace-nowrap">Add Schedule</p>
-                        </div>
-
-                        <div className="flex gap-2 bg-gray-900 text-white w-35 p-2 rounded-full hover:bg-gray-700 cursor-pointer items-center justify-center transition" onClick={handleSaveRow}>
-                            <p className="m-0">Save</p>
-                        </div>
-                    </div>
-
-                    {addRow.map((item, index) => (
-                        <div key={index} className="create-area justify-between flex flex-wrap gap-4 mt-6 p-4 border border-slate-100 rounded-xl bg-white shadow-sm">
-                            <input className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" type="text" placeholder="title"
-                                value={item.title} onChange={(e) => handleInput(e.target.value, index, "title")} />
-                            <input className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" type="text" placeholder="title" type="text" placeholder="link"
-                                value={item.link} onChange={(e) => handleInput(e.target.value, index, "link")} />
-                            <select className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" type="text" placeholder="title"
-                                value={item.day} onChange={(e) => handleInput(e.target.value, index, "day")}>
-                                <option value="">Day</option>
-                                <option value="Monday">Monday</option>
-                                <option value="Tuesday">Tuesday</option>
-                                <option value="Wednesday">Wednesday</option>
-                                <option value="Thursday">Thursday</option>
-                                <option value="Friday">Friday</option>
-                                <option value="Saturday">Saturday</option>
-                                <option value="Sunday">Sunday</option>
-                            </select>
-                            <input className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" type="text" placeholder="title" type="time" placeholder="time"
-                                value={item.time} onChange={(e) => handleInput(e.target.value, index, "time")} />
-                            <div className={`flex justify-center items-center bg-red-50 hover:bg-red-100 text-red-600 py-2 px-3 rounded-lg cursor-pointer transition 
-                            ${index !== 0 || addRow.length > 1 ? "" : "hidden"}`}
-                                onClick={() => handleDeleteRow(index)}>
-                                Delete
+                    {links.length > 0 && (
+                        <>
+                            <div className="title-link-main w-full font-medium lg:flex lg:flex-wrap justify-between items-center gap-2">
+                                <div className="flex items-center gap-1 border-1 border-gray-300 w-fit">
+                                    <input
+                                        className=" m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition"
+                                        type="text"
+                                        placeholder="Enter schedule name"
+                                        value={title}
+                                        onChange={(e) => setTitle(e.target.value)}
+                                        onBlur={() => handleAutoSave(title)}
+                                    />
+                                </div>
+                                {links.length > 0 && links[0]?.code && (
+                                    <a href={`${BackendRedirect}${links[0].code}`} className="m-0 lg:text-lg text-gray-900 hover:underline break-all" target="_blank" rel="noreferrer">
+                                        {`${BackendRedirect}${links[0].code}`}
+                                    </a>
+                                )}
                             </div>
-                        </div>
-                    ))}
+
+                            {/* Day Selection UI */}
+                            <div className="flex mt-10 items-center">
+                                <div className="lg:flex hidden gap-10">
+                                    {["full week", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day, index) => (
+                                        <p key={index} className={`p-2 cursor-pointer rounded-full transition ${showDay === day ? "bg-gray-900 text-white" : "hover:bg-gray-200"}`} onClick={() => handleSelect(day)}>
+                                            {day === "full week" ? "Full Week" : day}
+                                        </p>
+                                    ))}
+                                </div>
+
+                                <div className="flex flex-col lg:hidden">
+                                    <select value={showDay} className="border-gray-500 border p-2 outline-none" onChange={(e) => handleSelect(e.target.value)}>
+                                        <option value="full week">Full Week</option>
+                                        <option value="Monday">Monday</option>
+                                        <option value="Tuesday">Tuesday</option>
+                                        <option value="Wednesday">Wednesday</option>
+                                        <option value="Thursday">Thursday</option>
+                                        <option value="Friday">Friday</option>
+                                        <option value="Saturday">Saturday</option>
+                                        <option value="Sunday">Sunday</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div className="mt-10">
+                                <p className="font-medium ">Add Schedule</p>
+                            </div>
+
+                            <div className="flex justify-between flex-wrap gap-2">
+                                <div className="flex gap-2 bg-gray-200 w-35 p-2 rounded-full hover:bg-gray-100 cursor-pointer items-center justify-center" onClick={handleAddRow}>
+                                    <i className="bi bi-plus-circle"></i>
+                                    <p className="m-0 whitespace-nowrap">Add Schedule</p>
+                                </div>
+
+                                <div className="flex gap-2 bg-gray-900 text-white w-35 p-2 rounded-full hover:bg-gray-700 cursor-pointer items-center justify-center transition" onClick={handleSaveRow}>
+                                    <p className="m-0">Save</p>
+                                </div>
+                            </div>
+
+                            {addRow.map((item, index) => (
+                                <div key={index} className="create-area justify-between flex flex-wrap gap-4 mt-6 p-4 border border-slate-100 rounded-xl bg-white shadow-sm">
+                                    <input className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" type="text" placeholder="title"
+                                        value={item?.title} onChange={(e) => handleInput(e.target.value, index, "title")} />
+                                    <input className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" type="text" placeholder="title" type="text" placeholder="link"
+                                        value={item?.link} onChange={(e) => handleInput(e.target.value, index, "link")} />
+                                    <select className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" type="text" placeholder="title"
+                                        value={item?.day} onChange={(e) => handleInput(e.target.value, index, "day")}>
+                                        <option value="">Day</option>
+                                        <option value="Monday">Monday</option>
+                                        <option value="Tuesday">Tuesday</option>
+                                        <option value="Wednesday">Wednesday</option>
+                                        <option value="Thursday">Thursday</option>
+                                        <option value="Friday">Friday</option>
+                                        <option value="Saturday">Saturday</option>
+                                        <option value="Sunday">Sunday</option>
+                                    </select>
+                                    <input className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" type="text" placeholder="title" type="time" placeholder="time"
+                                        value={item.time} onChange={(e) => handleInput(e.target.value, index, "time")} />
+                                    <div className={`flex justify-center items-center bg-red-50 hover:bg-red-100 text-red-600 py-2 px-3 rounded-lg cursor-pointer transition 
+                            ${index !== 0 || addRow.length > 1 ? "" : "hidden"}`}
+                                        onClick={() => handleDeleteRow(index)}>
+                                        Delete
+                                    </div>
+                                </div>
+                            ))}
+                        </>
+                    )}
+
+
+
 
                     {(() => {
                         const filtered = showDay === "full week" ? links : links.filter(item => item.day === showDay);
@@ -278,22 +286,22 @@ export default function Table({ profile, name, email }) {
                                     {groups[day].map((item, index) => (
                                         <div key={index} className="create-area justify-center flex flex-wrap gap-4 mt-6 p-4 border border-slate-100 rounded-xl bg-white shadow-sm">
                                             <input className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" value={editId === item.id ? edit?.title || "" : item.title} onChange={(e) => setEdit(prev => ({ ...prev, title: e.target.value }))} onFocus={() => {
-                                                if (editId !== item.id) {
-                                                    setEditId(item.id);
+                                                if (editId !== item?.id) {
+                                                    setEditId(item?.id);
                                                     setEdit(item);
                                                 }
                                             }} />
 
                                             <input className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" placeholder={CutLength(item.links, 20)} value={editId === item.id ? edit?.link || item.links : item.links} onChange={(e) => setEdit(prev => ({ ...prev, link: e.target.value }))} onFocus={() => {
-                                                if (editId !== item.id) {
-                                                    setEditId(item.id);
+                                                if (editId !== item?.id) {
+                                                    setEditId(item?.id);
                                                     setEdit(item);
                                                 }
                                             }} />
 
                                             <select className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" placeholder={item.day} value={editId === item.id ? edit?.day || "" : item.day} onChange={(e) => setEdit(prev => ({ ...prev, day: e.target.value }))} onFocus={() => {
-                                                if (editId !== item.id) {
-                                                    setEditId(item.id);
+                                                if (editId !== item?.id) {
+                                                    setEditId(item?.id);
                                                     setEdit(item);
                                                 }
                                             }}>
