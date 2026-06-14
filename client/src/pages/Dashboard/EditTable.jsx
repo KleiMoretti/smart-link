@@ -53,8 +53,8 @@ export default function Table({ profile, name, email }) {
                 if (res.data?.success && res.data?.link) {
                     setLink(res.data?.link);
 
-                    if (res.data.link.length > 0) setTitle(res.data.link[0].schedule_name);
-                    setCode(res.data.link[0].code)
+                    if (res.data.link.length > 0) setTitle(res.data.link[0]?.schedule_name);
+                    setCode(res.data.link[0]?.code)
 
                 }
             } catch (err) {
