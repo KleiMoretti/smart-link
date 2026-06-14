@@ -1,6 +1,12 @@
 // API/auth.routes.js
 import express from "express";
-import { SaveLinks, GetLinks, EditTable, DeleteLink, SaveLinkRow, SaveTitle, FeedBack, CheckFeedBack } from "./link.controllers.js";
+import {
+    SaveLinks, GetLinks,
+    EditTable, DeleteLink,
+    SaveLinkRow, SaveTitle,
+    FeedBack, CheckFeedBack,
+    AskGemini
+} from "./link.controllers.js";
 import { Middleware } from "./auth.middleware.js";
 
 const route = express.Router();
@@ -13,5 +19,7 @@ route.post("/savelinkrow", Middleware, SaveLinkRow);
 route.post("/saveTitle", Middleware, SaveTitle);
 route.post("/sendFeedBack", Middleware, FeedBack);
 route.get("/checkfeedback", Middleware, CheckFeedBack);
+route.post("/ask-gemini", Middleware, AskGemini);
+
 
 export default route;
