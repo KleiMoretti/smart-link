@@ -74,53 +74,60 @@ export default function Table({ profile, name, email }) {
 
             <div>
                 <div className="flex items-center">
-                    <div >
-                        <div className="title-link-main w-full font-medium lg:flex lg:flex-wrap justify-between items-center gap-2">
-                            <p className="link-title m-0 lg:text-4xl md:text-3xl text-2xl">
-                                {title}
-                            </p>
+                    <div>
 
-                            {links.length > 0 && links[0]?.code && (
-                                <a
-                                    href={`${BackendRedirect}${links[0].code}`}
-                                    className="m-0 lg:text-lg text-sky-600 hover:underline break-all"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    {`${BackendRedirect}${links[0].code}`}
-                                </a>
-                            )}
-                        </div>
-
-
-                        <div className="flex mt-10 items-center">
-                            <div className="lg:flex hidden gap-10">
-                                {["full week", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day, index) => (
-
-                                    <p key={index} className={`p-2 cursor-pointer rounded-full transition ${showDay === day ? "bg-gray-900 text-white" : "hover:bg-gray-200"}`} onClick={() => handleNav(day)}>
-                                        {day === "full week" ? "Full Week" : day}
+                        {links.length > 0 && (
+                            <>
+                                <div className="title-link-main w-full font-medium lg:flex lg:flex-wrap justify-between items-center gap-2">
+                                    <p className="link-title m-0 lg:text-4xl md:text-3xl text-2xl">
+                                        {title}
                                     </p>
 
-                                ))}
-                            </div>
+                                    {links.length > 0 && links[0]?.code && (
+                                        <a
+                                            href={`${BackendRedirect}${links[0].code}`}
+                                            className="m-0 lg:text-lg text-sky-600 hover:underline break-all"
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            {`${BackendRedirect}${links[0].code}`}
+                                        </a>
+                                    )}
+                                </div>
 
-                            {/* PARA MOBILE UI */}
-                            <div className="flex flex-col lg:hidden">
-                                <select value="full week" className="border-gray-500 border p-2 outline-none " value={showDay} onChange={(e) => handleNav(e.target.value)}>
-                                    <option value="full week">Full Week</option>
-                                    <option value="Monday">Monday</option>
-                                    <option value="Tuesday">Tuesday</option>
-                                    <option value="Wednesday">Wednesday</option>
-                                    <option value="Thursday">Thursday</option>
-                                    <option value="Friday">Friday</option>
-                                    <option value="Saturday">Saturday</option>
-                                    <option value="Sunday">Sunday</option>
-                                </select>
-                            </div>
-                        </div>
+
+                                <div className="flex mt-10 items-center">
+                                    <div className="lg:flex hidden gap-10">
+                                        {["full week", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day, index) => (
+
+                                            <p key={index} className={`p-2 cursor-pointer rounded-full transition ${showDay === day ? "bg-gray-900 text-white" : "hover:bg-gray-200"}`} onClick={() => handleNav(day)}>
+                                                {day === "full week" ? "Full Week" : day}
+                                            </p>
+
+                                        ))}
+                                    </div>
+
+                                    {/* PARA MOBILE UI */}
+                                    <div className="flex flex-col lg:hidden">
+                                        <select value="full week" className="border-gray-500 border p-2 outline-none " value={showDay} onChange={(e) => handleNav(e.target.value)}>
+                                            <option value="full week">Full Week</option>
+                                            <option value="Monday">Monday</option>
+                                            <option value="Tuesday">Tuesday</option>
+                                            <option value="Wednesday">Wednesday</option>
+                                            <option value="Thursday">Thursday</option>
+                                            <option value="Friday">Friday</option>
+                                            <option value="Saturday">Saturday</option>
+                                            <option value="Sunday">Sunday</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+
 
 
                         {(() => {
+
                             const filtered = showDay === "full week" ? links : links.filter(item => item.day === showDay)
 
                             const groups = filtered.reduce((acc, item) => {
@@ -132,6 +139,7 @@ export default function Table({ profile, name, email }) {
 
                             return links.length > 0 ? (
                                 sortedDay.map((day) => (
+
 
                                     <div key={day} className="mt-10">
                                         <p className="font-medium text-lg mb-2">{day}</p>
