@@ -3,6 +3,8 @@ import admin from "firebase-admin";
 import { SupabaseConnect } from "../db/supabaseClient.js";
 import e from "express";
 
+import { GoogleGenerativeAI } from '@google/generative-ai';
+
 
 const getCurrentDay = () =>
     new Date().toLocaleDateString("en-US", {
@@ -18,7 +20,6 @@ const getCurrentTime = () => {
         timeZone: "Asia/Manila"
     });
 };
-
 
 
 export const SaveLinks = async (req, res) => {
@@ -186,7 +187,6 @@ export const GetLinks = async (req, res) => {
         });
     }
 };
-
 
 export const Redirect = async (req, res) => {
     try {
@@ -430,7 +430,7 @@ export const SaveTitle = async (req, res) => {
 
 export const FeedBack = async (req, res) => {
     const firebaseUID = req.user?.uid;
-    const firebaseName = req.user?.name;
+    const firebaseName = req.user?.displayName;
     const { emoji, message } = req.body;
 
 
@@ -495,4 +495,126 @@ export const CheckFeedBack = async (req, res) => {
     return res.status(200).json({
         success: true,
     });
+};
+
+
+
+export const AskGemini = async (req, res) => {
+    try {
+        const { prompt, titleSched } = req.body;
+
+
+
+        const firebaseUID = req.user?.uid;
+        const firebaseName = req.user?.displayName;
+
+        if (!prompt) {
+            return res.status(400).json({
+                success: false,
+                message: "Walang prompt na pinadala!"
+            });
+        }
+
+
+
+        const systemPrompt = `
+        Ikaw si Klei Moretti, AI assistant ng SmartLink.
+
+        Task:
+        Kapag ang user ay nagbigay ng schedule, i-extract mo ang data at i-return mo LANG sa JSON format.
+        kapag hindi about sa schdule ang tanong huwag sumagot.
+
+        Format:
+        {
+        "title": "",
+        "link": "",
+        "day": "",
+        "time": ""
+            }
+
+        Rules:
+        - JSON ONLY ang output.
+        - Huwag mag explain.
+        - Kung kulang ang data, ilagay "null".
+        - Ayusin mo ang formatting ng schedule.
+        - Maging helpful at precise.
+        - Gawing Uppercase ang first letter ng Day
+        `;
+
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+        const model = genAI.getGenerativeModel({
+            model: "gemini-2.5-flash"
+        });
+
+        const result = await model.generateContent(`${systemPrompt}User input:${prompt}`);
+
+        const response = await result.response;
+
+        let text = response.text();
+        text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+
+        let parsed = null;
+        try {
+            parsed = JSON.parse(text);
+        } catch (err) {
+            console.warn("Hindi JSON ang response:", text);
+        }
+
+        console.log(text);
+        console.log(titleSched)
+
+
+        if (!Array.isArray(parsed)) {
+            parsed = [parsed];
+        }
+        function generateCode() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            let code = "";
+
+            for (let i = 0; i < 6; i++) {
+                const randomIndex = Math.floor(Math.random() * chars.length);
+                code += chars[randomIndex];
+            }
+
+            return code;
+        }
+
+        const codeKey = generateCode();
+
+        const formattedSchedule = parsed.map((item) => ({
+            uid: firebaseUID,
+            name: firebaseName,
+            schedule_name: titleSched ?? "Untitled Schedule",
+            code: codeKey,
+            title: item.title || null,
+            links: item.link || null,
+            day: item.day || null,
+            time: item.time || null
+        }));
+
+        const { data, error } = await SupabaseConnect
+            .from("Links")
+            .insert(formattedSchedule);
+
+        if (error) {
+            console.log("Supabase insert error:", error);
+        }
+
+
+
+        return res.status(200).json({
+            success: true,
+            raw: text,
+            data: parsed
+        });
+
+    } catch (error) {
+        console.error("Gemini Error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Gemini API error"
+        });
+    }
 };
