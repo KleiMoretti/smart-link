@@ -38,7 +38,7 @@ export default function Feedback() {
                 const token = await user.getIdToken();
 
                 const res = await axios.get(
-                    "http://localhost:5000/api/checkfeedback",
+                    `${import.meta.env.VITE_API_SEND_CHECKFEEDBACK}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`
