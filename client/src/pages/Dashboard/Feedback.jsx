@@ -45,13 +45,16 @@ export default function Feedback() {
                         }
                     }
                 );
+                if (!res.data.success) {
+                    setFeedBack(false);
+                } else {
+                    setFeedBack(true)
+                }
 
 
 
             } catch (err) {
                 console.error("Check feedback error:", err);
-
-
                 setFeedBack(false);
             }
         };
