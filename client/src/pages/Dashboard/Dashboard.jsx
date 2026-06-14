@@ -10,6 +10,7 @@ import Create from "../Dashboard/Create"
 import Settings from "../Dashboard/Settings"
 import Feedback from "../Dashboard/Feedback"
 import EditTable from "./EditTable"
+import { CutLength } from "../../utils/CutLength"
 import "../../css/LandingPage.css"
 
 
@@ -73,7 +74,28 @@ export default function Dashboard() {
                             </div>
                             <div className="relative">
                                 <i className="burger bi bi-list hidden text-2xl cursor-pointer" onClick={() => setShowNav(prev => !prev)}></i>
-                                <div className={`absolute bg-white border border-gray-100 flex justify-center flex-col w-auto -ml-[80px]  whitespace-nowrap rounded-sm  ${ShowNav ? "hidden" : ""}`}>
+
+                                <div className={` absolute bg-white border border-gray-100 flex justify-center flex-col w-fit -ml-[200px]  whitespace-nowrap rounded-sm   ${ShowNav ? "hidden" : ""}`}>
+
+                                    <div className="p-2 w-full">
+                                        <div className={`flex items-center  m-0 cursor-pointer gap-2`}>
+                                            <img className="m-0 w-10 h-10 rounded-full" src={userDetails?.photoURL} alt="" onClick={ProfileSettings} />
+                                            <div className="gap-1 text-sm">
+                                                <p className="m-0 text-sm font-medium">{CutLength(userDetails?.displayName, 10)}</p>
+                                                <p className="m-0 text-[10px]">{userDetails?.email}</p>
+                                            </div>
+
+                                        </div>
+                                        <div className={`absolute max-w-[300px] bg-white mt-3 -ml-50 border border-gray-100 p-2 shadow-sm rounded-lg ${profileSettings ? "" : "hidden"}`}>
+                                            <div className="border-gray-200 border-b p-2 text-gray-500">
+                                                <p className="m-0 text-sm font-medium">{userDetails?.displayName}</p>
+                                                <p className="m-0 text-[10px]">{userDetails?.email}</p>
+                                            </div>
+                                            <div className="w-full flex justify-center text-[15px] items-center bg-red-500 rounded-md text-white p-1 mt-4 cursor-pointer hover:bg-red-600" onClick={handleSignOUt}>
+                                                Log out
+                                            </div>
+                                        </div>
+                                    </div>
                                     <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Table" ? "font-bold text-gray-900" : ""}`} onClick={() => { handleTable(); setShowNav(prev => !prev); }}>Schedules</p>
                                     <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "EditTable" ? "font-bold text-gray-900" : ""}`} onClick={() => { handleSubscription(); setShowNav(prev => !prev); }}>Edit Schedule</p>
                                     <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Feedback" ? "font-bold text-gray-900" : ""}`} onClick={() => { handleFeedback(); setShowNav(prev => !prev); }}>Feedback</p>
@@ -81,11 +103,11 @@ export default function Dashboard() {
                                     <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Create" ? "font-bold text-gray-900" : ""}`} onClick={() => { handleCreate(); setShowNav(prev => !prev); }}>Create Link</p>
                                 </div>
                             </div>
-                            <div className="ml-10">
-                                <div className="flex items-center m-0 cursor-pointer" onClick={ProfileSettings}>
+                            <div className="nav ml-10">
+                                <div className={`flex items-center m-0 cursor-pointer`} onClick={ProfileSettings}>
                                     <img className="m-0 w-10 h-10 rounded-full" src={userDetails?.photoURL} alt="" />
                                 </div>
-                                <div className={`absolute max-w-[300px] bg-white mt-2 -ml-50 border border-gray-100 p-2 shadow-sm rounded-lg ${profileSettings ? "" : "hidden"}`}>
+                                <div className={`absolute max-w-[300px] bg-white mt-5 -ml-50 border border-gray-100 p-2 shadow-sm rounded-lg ${profileSettings ? "" : "hidden"}`}>
                                     <div className="border-gray-200 border-b p-2 text-gray-500">
                                         <p className="m-0 text-sm font-medium">{userDetails?.displayName}</p>
                                         <p className="m-0 text-[10px]">{userDetails?.email}</p>
