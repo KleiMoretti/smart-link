@@ -63,10 +63,10 @@ export default function Dashboard() {
                             <p className="m-0 whitespace-nowrap font-ubuntu">Flux Link</p>
                         </div>
                         <div className="nav  flex flex-nowrap gap-10 items-center">
-                            <p className={`m-0 cursor-pointer whitespace-nowrap ${tab === "Table" ? "font-bold text-gray-900" : ""}`} onClick={handleTable}>Schedules</p>
-                            <p className={`m-0 cursor-pointer whitespace-nowrap ${tab === "EditTable" ? "font-bold text-gray-900" : ""}`} onClick={handleSubscription}>Edit Schedule</p>
-                            <p className={`m-0 cursor-pointer whitespace-nowrap ${tab === "Feedback" ? "font-bold text-gray-900" : ""}`} onClick={handleFeedback}>Feedback</p>
-                            <p className={`m-0 cursor-pointer whitespace-nowrap ${tab === "Settings" ? "font-bold text-gray-900" : ""}`} onClick={handleSettings}>Settings</p>
+                            <p className={`m-0 cursor-pointer whitespace-nowrap transition-transform delay-300 ease-in-out ${tab === "Table" ? "font-bold text-gray-900" : ""}`} onClick={handleTable}>Schedules</p>
+                            <p className={`m-0 cursor-pointer whitespace-nowrap transition-transform delay-300 ease-in-out ${tab === "EditTable" ? "font-bold text-gray-900" : ""}`} onClick={handleSubscription}>Edit Schedule</p>
+                            <p className={`m-0 cursor-pointer whitespace-nowrap transition-transform delay-300 ease-in-out ${tab === "Feedback" ? "font-bold text-gray-900" : ""}`} onClick={handleFeedback}>Feedback</p>
+                            <p className={`m-0 cursor-pointer whitespace-nowrap transition-transform delay-300 ease-in-out ${tab === "Settings" ? "font-bold text-gray-900" : ""}`} onClick={handleSettings}>Settings</p>
                         </div>
                         <div className="flex items-center justify-center">
                             <div className="lg:flex hidden flex items-center justify-center bg-gray-900 hover:bg-gray-700 text-white px-3 py-2 rounded-md cursor-pointer" onClick={handleCreate}>
@@ -96,11 +96,11 @@ export default function Dashboard() {
                                             </div>
                                         </div>
                                     </div>
-                                    <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Table" ? "font-bold text-gray-900" : ""}`} onClick={() => { handleTable(); setShowNav(prev => !prev); }}>Schedules</p>
-                                    <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "EditTable" ? "font-bold text-gray-900" : ""}`} onClick={() => { handleSubscription(); setShowNav(prev => !prev); }}>Edit Schedule</p>
-                                    <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Feedback" ? "font-bold text-gray-900" : ""}`} onClick={() => { handleFeedback(); setShowNav(prev => !prev); }}>Feedback</p>
-                                    <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Settings" ? "font-bold text-gray-900" : ""}`} onClick={() => { handleSettings(); setShowNav(prev => !prev); }}>Settings</p>
-                                    <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 ${tab === "Create" ? "font-bold text-gray-900" : ""}`} onClick={() => { handleCreate(); setShowNav(prev => !prev); }}>Create Link</p>
+                                    <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 transition-transform delay-300 ease-in-out ${tab === "Table" ? "font-bold text-gray-900 " : ""}`} onClick={() => { handleTable(); setShowNav(prev => !prev); }}>Schedules</p>
+                                    <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 transition-transform delay-300 ease-in-out ${tab === "EditTable" ? "font-bold text-gray-900" : ""}`} onClick={() => { handleSubscription(); setShowNav(prev => !prev); }}>Edit Schedule</p>
+                                    <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 transition-transform delay-300 ease-in-out ${tab === "Feedback" ? "font-bold text-gray-900" : ""}`} onClick={() => { handleFeedback(); setShowNav(prev => !prev); }}>Feedback</p>
+                                    <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 transition-transform delay-300 ease-in-out ${tab === "Settings" ? "font-bold text-gray-900" : ""}`} onClick={() => { handleSettings(); setShowNav(prev => !prev); }}>Settings</p>
+                                    <p className={`m-0 p-2 hover:bg-gray-900 hover:text-blue-800 cursor-pointer transition-color duration-300 transition-transform delay-300 ease-in-out ${tab === "Create" ? "font-bold text-gray-900" : ""}`} onClick={() => { handleCreate(); setShowNav(prev => !prev); }}>Create Link</p>
                                 </div>
                             </div>
                             <div className="nav ml-10">
@@ -112,7 +112,7 @@ export default function Dashboard() {
                                         <p className="m-0 text-sm font-medium">{userDetails?.displayName}</p>
                                         <p className="m-0 text-[10px]">{userDetails?.email}</p>
                                     </div>
-                                    <div className="w-full flex justify-center text-[15px] items-center bg-red-500 rounded-md text-white p-1 mt-4 cursor-pointer hover:bg-red-600" onClick={handleSignOUt}>
+                                    <div className="w-full flex justify-center text-[15px] items-center bg-red-500 rounded-md text-white p-1 mt-4 cursor-pointer hover:bg-red-600 transition-transform delay-300 ease-in-out" onClick={handleSignOUt}>
                                         Log out
                                     </div>
                                 </div>
