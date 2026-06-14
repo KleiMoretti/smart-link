@@ -26,9 +26,11 @@ export default function About() {
         );
     }, []);
 
+
+
     return (
         <>
-            <section className="md:min-h-screen  min-h-auto flex items-center p-3 overflow-hidden mb-10">
+            <section id="about" className="md:min-h-screen  min-h-auto flex items-center p-3 overflow-hidden mb-10">
                 <div className="about-main flex justify-center w-full">
 
                     <div className="about-width w-[60%]">
