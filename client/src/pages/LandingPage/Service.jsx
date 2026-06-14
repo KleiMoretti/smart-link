@@ -2,7 +2,7 @@ export default function Service() {
 
     return (
         <>
-            <section className="service-section flex items-center bg-gray-100 py-10">
+            <section id="service" className="service-section flex items-center bg-gray-100 py-10">
                 <div className="w-full flex justify-center">
 
                     {/* container */}
