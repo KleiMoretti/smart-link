@@ -38,15 +38,12 @@ export default function About() {
                             <div className="w-full whitespace-nowrap">
                                 <p className="about-about font-bold text-gray-400 ">About</p>
                                 <p className="about-header font-ubuntu font-bold text-[3vw]">Beginnings</p>
-                                <p className="about-sub m-0 font-medium text-[1.5vw] text-gray-700">We provide a wide range of services to meet</p>
-                                <p className="about-sub m-0 font-medium text-[1.5vw] text-gray-700">even the most daring requirements.</p>
+                                <p className="about-sub m-0 font-medium text-[1.3vw] text-gray-700">AI-powered time-based redirection and scheduling</p>
+                                <p className="about-sub m-0 font-medium text-[1.3vw] text-gray-700">It automates link routing scheduling needs with ease.</p>
                             </div>
 
                             <div className="about-content  text-gray-600 flex w-full">
-                                <p className="m-0">Our business is built on understanding and long-term relations with clients.
-                                    To survive in today's competitive and ever-changing business world, every
-                                    business has to operate efficiently, grow, and succeed. It is very important to
-                                    properly use the information and technology to stay rival within your market.</p>
+                                <p className="m-0">Smartklink is a smart, AI-powered redirection platform that delivers dynamic and context-aware content based on time, user behavior, and predefined logic rules. It enables businesses to automate link management, streamline user journeys, and optimize engagement by ensuring that every user is directed to the most relevant destination at the right moment. Through intelligent routing and adaptive decision-making, Smartklink enhances user experience, improves conversion efficiency, and provides a more personalized and data-driven digital interaction.</p>
                             </div>
                         </div>
 
