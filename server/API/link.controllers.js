@@ -5,8 +5,15 @@ import e from "express";
 
 export const SaveLinks = async (req, res) => {
     try {
-        const clientIp = req.ip;
-        console.log(`User ${req.user.uid} is saving links from IP: ${clientIp}`);
+        const proxyIp = req.ip;
+
+        const forwardedFor = req.headers['x-forwarded-for'];
+
+        const realIp = forwardedFor ? forwardedFor.split(',')[0] : proxyIp;
+
+        console.log("Internal Proxy IP:", proxyIp);
+        console.log("Tunay na Public IP ng user:", realIp);
+
 
         function generateCode() {
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
