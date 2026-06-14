@@ -539,6 +539,7 @@ export const AskGemini = async (req, res) => {
         - Ayusin mo ang formatting ng schedule.
         - Maging helpful at precise.
         - Gawing Uppercase ang first letter ng Day
+        - Sa time gawin mong military time
         `;
 
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
