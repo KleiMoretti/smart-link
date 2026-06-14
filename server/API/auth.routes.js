@@ -1,6 +1,6 @@
 // API/auth.routes.js
 import express from "express";
-import { SaveLinks, GetLinks, EditTable, DeleteLink, SaveLinkRow, SaveTitle, FeedBack } from "./link.controllers.js";
+import { SaveLinks, GetLinks, EditTable, DeleteLink, SaveLinkRow, SaveTitle, FeedBack, CheckFeedBack } from "./link.controllers.js";
 import { Middleware } from "./auth.middleware.js";
 
 const route = express.Router();
@@ -12,5 +12,6 @@ route.post("/deletelink", Middleware, DeleteLink);
 route.post("/savelinkrow", Middleware, SaveLinkRow);
 route.post("/saveTitle", Middleware, SaveTitle);
 route.post("/sendFeedBack", Middleware, FeedBack);
+route.get("/checkfeedback", Middleware, CheckFeedBack);
 
 export default route;
