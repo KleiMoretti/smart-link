@@ -5,6 +5,8 @@ import e from "express";
 
 export const SaveLinks = async (req, res) => {
     try {
+        const clientIp = req.ip;
+        console.log(`User ${req.user.uid} is saving links from IP: ${clientIp}`);
 
         function generateCode() {
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -423,4 +425,33 @@ export const FeedBack = async (req, res) => {
     }
 
     return res.status(200).json({ success: true, data });
+};
+
+export const CheckFeedBack = async (req, res) => {
+    const firebaseID = req.user?.uid;
+
+    if (!firebaseID) {
+        return res.status(401).json({ success: false });
+    }
+
+    const { data, error } = await SupabaseConnect
+        .from("feedback")
+        .select("uid")
+        .eq("uid", firebaseID)
+
+    if (error) {
+        return res.status(500).json({ success: false, error });
+    }
+
+    if (data) {
+        return res.json({
+            success: false,
+            status: "already_submitted"
+        });
+    }
+
+    return res.status(200).json({
+        success: true,
+        status: "not_submitted"
+    });
 };
