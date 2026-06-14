@@ -15,10 +15,9 @@ export default function Test() {
     const navigate = useNavigate();
     const [ShowNav, setShowNav] = useState(true)
 
-    const scrollToAbout = () => {
-        document.getElementById("about")?.scrollIntoView({
+    const scrollToSection = (id) => {
+        document.getElementById(id)?.scrollIntoView({
             behavior: "smooth",
-            block: "start",
         });
     };
 
@@ -35,10 +34,10 @@ export default function Test() {
                         <p className="m-0 whitespace-nowrap font-ubuntu">Flux Link</p>
                     </div>
                     <div className="nav  flex gap-10 items-center">
-                        <p className="m-0 cursor-pointer">Home</p>
-                        <p className="m-0 cursor-pointer">About</p>
-                        <p className="m-0 cursor-pointer">Service</p>
-                        <button className="m-0 cursor-pointer" onClick={scrollToAbout}>Contact</button>
+                        <p className={`m-0 cursor-pointer transition-color duration-300 cursor-pointer`} onClick={() => scrollToSection("home")}>Home</p>
+                        <p className="m-0 cursor-pointer" onClick={() => scrollToSection("about")}>About</p>
+                        <p className="m-0 cursor-pointer" onClick={() => scrollToSection("service")}>Service</p>
+                        <button className="m-0 cursor-pointer" onClick={() => scrollToSection("contact")}>Contact</button>
                     </div>
                     <div className="flex items-center justify-center">
                         <div className="lg:flex hidden flex items-center justify-center bg-black text-white px-3 py-2 rounded-md cursor-pointer" onClick={() => navigate("/login")}>
@@ -47,10 +46,10 @@ export default function Test() {
                         <div className="relative">
                             <i className="bi bi-list lg:hidden text-2xl flex cursor-pointer" onClick={() => setShowNav(prev => !prev)}></i>
                             <div className={`absolute bg-white border border-gray-100 flex justify-center flex-col w-[100px] -ml-[80px] z-10 ${ShowNav ? "hidden" : "true"}`}>
-                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer">Home</p>
-                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer">About</p>
-                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer">Service</p>
-                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer" onClick={scrollToAbout}>Contact</p>
+                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer" onClick={() => scrollToSection("home")}>Home</p>
+                                <p href="#about" className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer" onClick={() => scrollToSection("about")}>About</p>
+                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer" onClick={() => scrollToSection("service")}>Service</p>
+                                <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer" onClick={() => scrollToSection("contact")}>Contact</p>
                                 <p className="m-0 p-2 hover:bg-gray-300 cursor-pointer transition-color duration-300 cursor-pointer" onClick={() => navigate("/login")}>Login</p>
                             </div>
                         </div>
