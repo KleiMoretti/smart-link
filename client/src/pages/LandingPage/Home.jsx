@@ -18,7 +18,7 @@ export default function Home() {
 
     return (
         <>
-            <section className="min-h-auto md:min-h-screen">
+            <section id="home" className="min-h-auto md:min-h-screen">
                 <div className="content-f1 flex w-full justify-center mt-20 min-w-[200px]">
                     <div className="text-wrapper flex justify-between w-[60%] p-3 gap-3">
                         <div className="w-full flex  items-center text-[1vw]" ref={MoveX1}>
