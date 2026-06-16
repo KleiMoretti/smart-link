@@ -28,7 +28,7 @@ export default function Test() {
                 <div className="flex flex-nowrap lg:w-[60%] w-full justify-between items-center py-2 px-3">
                     <div className="flex items-center">
                         <img className="w-14" src={Logo} alt="" />
-                        <p className="m-0 whitespace-nowrap font-ubuntu">lyncks</p>
+                        <p className="m-0 whitespace-nowrap font-ubuntu">Lyncks</p>
                     </div>
                     <div className="nav  flex gap-10 items-center">
                         <p className={`m-0 cursor-pointer transition-color duration-300 cursor-pointer`} onClick={() => scrollToSection("home")}>Home</p>
