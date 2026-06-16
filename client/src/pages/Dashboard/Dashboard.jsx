@@ -60,7 +60,7 @@ export default function Dashboard() {
                     <div className="flex flex-nowrap lg:w-[60%] w-full justify-between items-center py-2 px-3">
                         <div className="flex items-center cursor-pointer" onClick={() => navigate("/")}>
                             <img className="w-14" src={Logo} alt="" />
-                            <p className="m-0 whitespace-nowrap font-ubuntu">Flux Link</p>
+                            <p className="m-0 whitespace-nowrap font-ubuntu">Lyncks</p>
                         </div>
                         <div className="nav  flex flex-nowrap gap-10 items-center">
                             <p className={`m-0 cursor-pointer whitespace-nowrap transition-transform delay-300 ease-in-out ${tab === "Table" ? "font-bold text-gray-900" : ""}`} onClick={handleTable}>Schedules</p>
