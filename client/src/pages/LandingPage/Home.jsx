@@ -1,4 +1,4 @@
-import CodeImg from "../../assets/home-code.png";
+import CodeImg from "../../assets/home-meet.jpg";
 import { MoveY, MoveX } from "../../animation/Moves"
 import { useLayoutEffect, useRef } from "react";
 
