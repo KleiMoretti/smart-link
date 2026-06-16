@@ -10,18 +10,21 @@ import Redirect from "./pages/Dashboard/Redirect";
 import About from "./pages/LandingPage/About"
 import Service from "./pages/LandingPage/Service"
 import Contact from "./pages/LandingPage/Contact"
+import Nav from "./pages/LandingPage/Nav"
+import TestHome from "./pages/LandingPage/Test"
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/r/:id" element={<Redirect />} />
+        <Route path="Nav" element={<Nav />} />
+        <Route path="TestHome" element={<TestHome />} />
       </Routes>
     </BrowserRouter>
   )
