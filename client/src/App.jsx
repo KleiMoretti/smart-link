@@ -8,8 +8,6 @@ import Login from "./pages/auth/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Redirect from "./pages/Dashboard/Redirect";
 import About from "./pages/LandingPage/About"
-import Service from "./pages/LandingPage/Service"
-import Contact from "./pages/LandingPage/Contact"
 
 function App() {
   const [count, setCount] = useState(0)
@@ -21,7 +19,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/r/:id" element={<Redirect />} />
-        <Route path="Nav" element={<Nav />} />
       </Routes>
     </BrowserRouter>
   )
