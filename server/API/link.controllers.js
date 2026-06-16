@@ -1,9 +1,9 @@
 import admin from "firebase-admin";
-
 import { SupabaseConnect } from "../db/supabaseClient.js";
-import e from "express";
-
+import { json } from "express";
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { redisClient } from "../redisClient.js"
+
 
 
 const getCurrentDay = () =>
@@ -27,11 +27,14 @@ export const SaveLinks = async (req, res) => {
         const proxyIp = req.ip;
 
         const forwardedFor = req.headers['x-forwarded-for'];
-
         const realIp = forwardedFor ? forwardedFor.split(',')[0] : proxyIp;
 
+        console.log("Headers: ", req.headers);
+
+        console.log("user-agents: ", req.headers['user-agent']);
+        console.log("forward: ", forwardedFor)
         console.log("Internal Proxy IP:", proxyIp);
-        console.log("Tunay na Public IP ng user:", realIp);
+        console.log("User Public IP:", realIp);
 
 
         function generateCode() {
@@ -156,8 +159,20 @@ export const GetLinks = async (req, res) => {
             });
         }
 
+        const cacheKey = `links:${uid}`
+
+        const cached = await redisClient.get(cacheKey)
 
 
+        if (cached) {
+            console.log("GETLINK: CACHE");
+
+            return res.status(200).json({
+                message: "nakuha yung links (cache)",
+                success: true,
+                link: JSON.parse(cached),
+            });
+        }
         const { data, error } = await SupabaseConnect
             .from("Links")
             .select("title, links, day, time, code, schedule_name, id")
@@ -171,6 +186,9 @@ export const GetLinks = async (req, res) => {
             });
         }
 
+        await redisClient.setEx(cacheKey, 3600, JSON.stringify(data))
+
+        console.log("SOURCE GETLINK: SUPABASE");
         return res.status(200).json({
             message: "nakuha yung links",
             success: true,
@@ -185,44 +203,37 @@ export const GetLinks = async (req, res) => {
     }
 };
 
-export const Redirect = async (req, res) => {
+export const DeleteLink = async (req, res) => {
     try {
-        const { code } = req.params;
+        const uid = req.user?.uid
+        if (!req.user?.uid) return res.status(401).json({ message: "INVALID CREDENTIALS", success: false });
 
-        const currentDay = getCurrentDay();
-        const currentTime = getCurrentTime();
+        const { LinksID } = req.body;
 
-        console.log(`Checking link for code: ${code} at ${currentDay} ${currentTime}`);
-
-        const { data, error } = await SupabaseConnect
-            .from("Links")
-            .select("links")
-            .eq("code", code)
-            .eq("day", currentDay)
-            .lte("time", currentTime)
-            .order("time", { ascending: false })
-            .limit(1)
-            .maybeSingle();
-
-        if (error || !data) {
-            return res.status(404).json({
-                success: false,
-                message: "Link not found or not active"
+        if (!Number.isInteger(LinksID) || LinksID <= 0) {
+            return res.status(400).json({
+                message: "invalid id",
+                success: false
             });
         }
 
-        return res.status(200).json({
-            success: true,
-            link: data
-        });
+        const { data, error } = await SupabaseConnect
+            .from("Links")
+            .delete()
+            .eq("id", LinksID)
+            .eq("uid", uid)
+
+
+        if (error) return res.status(404).json({ message: "not found", success: false })
+        else res.status(200).json({ message: "success", success: true })
+        const cacheKey = `links:${uid}`;
+        await redisClient.del(cacheKey);
+        console.log("CACHE [DELETE]")
 
     } catch (err) {
-        return res.status(500).json({
-            success: false,
-            message: err.message
-        });
+        console.log("error sa Delete: ", err);
     }
-};
+}
 
 export const EditTable = async (req, res) => {
     try {
@@ -281,6 +292,10 @@ export const EditTable = async (req, res) => {
             });
         }
 
+        const cachekey = `links${uid}`
+        await redisClient.del(cachekey)
+        console.log("CACHE EDIT")
+
         return res.status(200).json({
             success: true,
             message: "saved",
@@ -293,35 +308,44 @@ export const EditTable = async (req, res) => {
     }
 };
 
-export const DeleteLink = async (req, res) => {
+export const Redirect = async (req, res) => {
     try {
-        if (!req.user?.uid) return res.status(401).json({ message: "INVALID CREDENTIALS", success: false });
+        const { code } = req.params;
 
-        const { LinksID } = req.body;
+        const currentDay = getCurrentDay();
+        const currentTime = getCurrentTime();
 
-        if (!Number.isInteger(LinksID) || LinksID <= 0) {
-            return res.status(400).json({
-                message: "invalid id",
-                success: false
-            });
-        }
-
-        const uid = req.user?.uid;
+        console.log(`Checking link for code: ${code} at ${currentDay} ${currentTime}`);
 
         const { data, error } = await SupabaseConnect
             .from("Links")
-            .delete()
-            .eq("id", LinksID)
-            .eq("uid", uid)
+            .select("links")
+            .eq("code", code)
+            .eq("day", currentDay)
+            .lte("time", currentTime)
+            .order("time", { ascending: false })
+            .limit(1)
+            .maybeSingle();
 
-        if (error) return res.status(404).json({ message: "not found", success: false })
+        if (error || !data) {
+            return res.status(404).json({
+                success: false,
+                message: "Link not found or not active"
+            });
+        }
 
-        else res.status(200).json({ message: "success", success: true })
+        return res.status(200).json({
+            success: true,
+            link: data
+        });
 
     } catch (err) {
-        console.log("error sa Delete: ", err);
+        return res.status(500).json({
+            success: false,
+            message: err.message
+        });
     }
-}
+};
 
 export const SaveLinkRow = async (req, res) => {
     try {
@@ -470,6 +494,19 @@ export const CheckFeedBack = async (req, res) => {
         return res.status(401).json({ success: false });
     }
 
+    const cachekey = `links:${firebaseID}`
+    const cache = await redisClient.get(cachekey)
+
+    console.log("FEEDBACK CACHE")
+
+    if (cache) {
+        return res.status(200).json({
+            message: "MAY LAMAN",
+            data: JSON.parse(cache),
+            success: true,
+        })
+    }
+
     const { data, error } = await SupabaseConnect
         .from("feedback")
         .select("uid")
@@ -481,7 +518,6 @@ export const CheckFeedBack = async (req, res) => {
 
     if (data && data.length > 0) {
         return res.json({
-
             success: false,
         });
     }
