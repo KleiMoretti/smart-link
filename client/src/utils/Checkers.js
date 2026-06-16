@@ -1,4 +1,4 @@
-// Handle SignUp
+
 export const handleSignUp = (e, setState, setState1) => {
     if (!e || !setState) return;
     const value = e.target.value;
@@ -6,7 +6,6 @@ export const handleSignUp = (e, setState, setState1) => {
     setState1(value.length > 8)
 }
 
-//checker for inputs
 export const checker = (e, checkState, active, show, check) => {
     const value = e.target.value;
     checkState(value)
@@ -19,7 +18,6 @@ export const checker = (e, checkState, active, show, check) => {
     }
 }
 
-//show input fields
 export function showInput(setState, setState1) {
     if (!setState || !setState1) return;
     if (setState) {

@@ -5,7 +5,7 @@ import cors from "cors";
 import admin from "firebase-admin";
 import authRoutes from "./API/auth.routes.js";
 import { Redirect } from "./API/link.controllers.js";
-
+import { redisClient } from "./redisClient.js"
 
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
 
@@ -20,9 +20,9 @@ app.use(cors({
     origin: process.env.FRONTEND_URL || process.env.FRONTEND_URL,
     methods: ["DELETE", "PUT", "GET", "POST", "UPDATE"],
     credentials: true
-
 }));
 
+await redisClient.connect()
 
 app.use(express.json());
 

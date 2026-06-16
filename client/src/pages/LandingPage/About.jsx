@@ -1,4 +1,4 @@
-import CodeImg from "../../assets/about.png";
+import CodeImg from "../../assets/meet-about.png";
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
@@ -27,7 +27,6 @@ export default function About() {
     }, []);
 
 
-
     return (
         <>
             <section id="about" className="md:min-h-screen  min-h-auto flex items-center p-3 overflow-hidden mb-10">
@@ -36,13 +35,13 @@ export default function About() {
                     <div className="about-width w-[60%]">
                         <div className="about-wrap flex ">
                             <div className=" w-full lg:whitespace-nowrap">
-                                <p className="about-about font-bold text-gray-400 ">About</p>
-                                <p className="about-header font-ubuntu font-bold text-[3vw]">Beginnings</p>
+                                <p className="about-about font-bold text-sm text-gray-400 ">About</p>
+                                <p className="about-header font-ubuntu font-bold text-[2vw]">Beginnings</p>
                                 <p className="about-sub m-0 font-medium text-[1vw] text-gray-700">AI-powered time-based redirection and scheduling</p>
                                 <p className="about-sub m-0 font-medium text-[1vw] text-gray-700">It automates link routing scheduling needs with ease.</p>
                             </div>
 
-                            <div className="about-content  text-gray-600 flex w-full">
+                            <div className="about-content text-sm text-gray-600 flex w-full">
                                 <p className="m-0">Smartklink is a smart, AI-powered redirection platform that delivers dynamic and context-aware content based on time, user behavior, and predefined logic rules. It enables businesses to automate link management, streamline user journeys, and optimize engagement by ensuring that every user is directed to the most relevant destination at the right moment. Through intelligent routing and adaptive decision-making, Smartklink enhances user experience, improves conversion efficiency, and provides a more personalized and data-driven digital interaction.</p>
                             </div>
                         </div>

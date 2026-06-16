@@ -24,7 +24,7 @@ export default function Home() {
                         <div className="w-full flex  items-center text-[1vw]" ref={MoveX1}>
                             <div>
                                 <div>
-                                    <p className="main-text m-0 font-ubuntu font-sm whitespace-nowrap text-[2.5vw]">Smart Hyperlink</p>
+                                    <p className="main-text m-0 font-ubuntu font-sm font-medium whitespace-nowrap text-[2.5vw]">Smart Hyperlink</p>
                                 </div>
                                 <div>
                                     <p className=" main-text m-0 font-ubuntu font-medium whitespace-nowrap text-[2.5vw]">Time-based Redirection</p>

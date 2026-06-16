@@ -27,13 +27,13 @@ export default function Contact() {
                     trigger: sectionRef.current,
                     start: "triggerPoint viewportPoint",
                     end: "bottom bottom",
-                    scrub: 4, // Smooth scrubbing
+                    scrub: 4,
                     pin: true,
                     anticipatePin: 1
                 },
             });
 
-            // Use standard labels or sequence positions
+
             tl.fromTo(phone.current,
                 { opacity: 1, y: 500 },
                 { y: 0, ease: "none" }
