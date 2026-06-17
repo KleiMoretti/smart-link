@@ -40,7 +40,6 @@ export default function Login() {
         }
     };
 
-
     return (
         <>
             <section className="px-3 py-3 h-screen relative overflow-hidden min-h-[300px] min-w-[200px]">
