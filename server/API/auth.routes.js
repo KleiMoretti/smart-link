@@ -8,12 +8,13 @@ import {
     AskGemini
 } from "./link.controllers.js";
 import { Middleware } from "./auth.middleware.js";
+import { RateLimit } from "./RateLimit.js";
 
 const route = express.Router();
 
 route.post("/SaveLinks", Middleware, SaveLinks);
 route.get("/GetLinks", Middleware, GetLinks);
-route.post("/editable", Middleware, EditTable);
+route.post("/edittable", Middleware, EditTable);
 route.post("/deletelink", Middleware, DeleteLink);
 route.post("/savelinkrow", Middleware, SaveLinkRow);
 route.post("/saveTitle", Middleware, SaveTitle);
