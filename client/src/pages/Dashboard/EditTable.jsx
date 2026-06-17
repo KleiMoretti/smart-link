@@ -250,8 +250,6 @@ export default function Table({ profile, name, email }) {
                     )}
 
 
-
-
                     {(() => {
                         const filtered = showDay === "full week" ? links : links.filter(item => item.day === showDay);
 
