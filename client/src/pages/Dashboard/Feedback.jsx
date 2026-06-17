@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react"
 import axios from "axios";
 import { auth } from '../../firebase/firebase'
+import { GET_METHOD } from "../../utils/Fetching"
 
 export default function Feedback() {
     const [emoji, setEmoji] = useState("");
@@ -37,21 +38,13 @@ export default function Feedback() {
             try {
                 const token = await user.getIdToken();
 
-                const res = await axios.get(
-                    `${import.meta.env.VITE_API_SEND_CHECKFEEDBACK}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    }
-                );
-                if (!res.data.success) {
+                const res = await GET_METHOD(import.meta.env.VITE_API_SEND_CHECKFEEDBACK, token);
+
+                if (!res?.success) {
                     setFeedBack(false);
                 } else {
                     setFeedBack(true)
                 }
-
-
 
             } catch (err) {
                 console.error("Check feedback error:", err);

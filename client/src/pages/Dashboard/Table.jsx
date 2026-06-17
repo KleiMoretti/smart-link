@@ -3,8 +3,8 @@ import { auth } from "../../firebase/firebase"
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import "../../css/LandingPage.css"
-import axios from "axios";
 import { CutLength } from "../../utils/CutLength";
+import { GET_METHOD } from "../../utils/Fetching"
 
 export default function Table({ profile, name, email }) {
     const navigate = useNavigate()
@@ -28,32 +28,26 @@ export default function Table({ profile, name, email }) {
         "Sunday": 7
     }
 
-
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            if (!user) {
-                navigate("/login");
-                return;
-            }
 
             try {
+
+                if (!user) {
+                    navigate("/login");
+                    return;
+                }
+
                 setLoading(true);
 
                 const token = await user.getIdToken();
+                const res = await GET_METHOD(import.meta.env.VITE_API_GET_LINK, token);
 
-                const res = await axios.get(`${import.meta.env.VITE_API_GET_LINK}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    }
-                );
-
-                if (res.data?.success && res.data?.link) {
-                    setLink(res.data?.link);
-                    setTitle(res.data?.link[0]?.schedule_name)
-
+                if (res?.success && res?.link) {
+                    setLink(res.link);
+                    setTitle(res.link[0]?.schedule_name);
                 }
+                console.log(res?.link)
 
             } catch (err) {
                 console.error(err);
@@ -63,9 +57,7 @@ export default function Table({ profile, name, email }) {
         });
 
         return () => unsubscribe();
-    }, []);
-
-
+    }, [navigate]);
 
     if (loading) return <p>Loading...</p>
 
@@ -146,14 +138,15 @@ export default function Table({ profile, name, email }) {
 
                                         {groups[day].map((item, index) => (
 
-                                            <div key={index} className="flex flex-wrap gap-4 items-center justify-between border border-gray-200 hover:border-sky-500 rounded-md hover:bg-sky-100 p-3 transition cursor-pointer mb-2">
-                                                <p className="m-0 flex-1 min-w-[100px] font-medium">{CutLength(item.title, 9)}</p>
-                                                <a className="m-0 flex-1 min-w-[150px] text-sky-600 truncate" href={item.links} target="_blank" rel="noreferrer">
-                                                    {CutLength(item.links, 20)}
-                                                </a>
-                                                <p className="m-0 text-sm text-gray-500">{item.day}</p>
-                                                <p className="m-0 text-sm text-gray-500">{item.time}</p>
-
+                                            <div key={index} className="border-l-4 border-teal-500 rounded-md overflow-hidden mb-2">
+                                                <div className="flex flex-wrap gap-4 items-center justify-between border border-gray-500 hover:border-sky-500 hover:bg-sky-100 p-3 transition cursor-pointer">
+                                                    <p className="m-0 flex-1 min-w-[100px] font-medium">{CutLength(item.title, 9)}</p>
+                                                    <a className="m-0 flex-1 min-w-[150px] text-sky-600 truncate" href={item.links} target="_blank" rel="noreferrer">
+                                                        {CutLength(item.links, 20)}
+                                                    </a>
+                                                    <p className="m-0 text-sm text-gray-500">{item.day}</p>
+                                                    <p className="m-0 text-sm text-gray-500">{item.time}</p>
+                                                </div>
                                             </div>
 
                                         ))}

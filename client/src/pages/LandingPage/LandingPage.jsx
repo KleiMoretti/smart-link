@@ -1,7 +1,7 @@
 
 import "../../css/LandingPage.css"
 import { Link } from "react-router-dom"
-import Logo from "../../assets/logo.png"
+import Logo from "../../assets/company-logo.png"
 import "../../css/LandingPage.css"
 import About from "../LandingPage/About"
 import Home from "../LandingPage/Home"
@@ -22,7 +22,6 @@ export default function Test() {
 
 
     return (
-
         <>
             <nav className="w-full flex justify-center border boder-b-10 py-2 min-w-[200px]">
                 <div className="flex flex-nowrap lg:w-[60%] w-full justify-between items-center py-2 px-3">
