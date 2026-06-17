@@ -3,6 +3,7 @@ import { auth } from "../../firebase/firebase"
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { GET_METHOD, POST_METHOD } from "../../utils/Fetching"
 import { CutLength } from "../../utils/CutLength";
 import "../../css/LandingPage.css"
 
@@ -45,16 +46,14 @@ export default function Table({ profile, name, email }) {
             try {
                 setLoading(true);
                 const token = await user.getIdToken();
-                const res = await axios.get(`${import.meta.env.VITE_API_GET_LINK}`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
 
+                const res = await GET_METHOD(import.meta.env.VITE_API_GET_LINK, token)
 
-                if (res.data?.success && res.data?.link) {
-                    setLink(res.data?.link);
+                if (res?.success && res?.link) {
+                    setLink(res?.link);
 
-                    if (res.data.link.length > 0) setTitle(res.data.link[0]?.schedule_name);
-                    setCode(res.data.link[0]?.code)
+                    if (res?.link.length > 0) setTitle(res?.link[0]?.schedule_name);
+                    setCode(res?.link[0]?.code)
 
                 }
             } catch (err) {
@@ -71,13 +70,10 @@ export default function Table({ profile, name, email }) {
         const user = auth.currentUser;
         const token = await user.getIdToken();
 
-        const res = await axios.post(
-            `${import.meta.env.VITE_API_EDIT_TABLE}`,
-            { editTable: edit },
-            { headers: { Authorization: `Bearer ${token}` } }
-        );
 
-        if (res.data.success) {
+        const res = await POST_METHOD(import.meta.env.VITE_API_EDIT_TABLE, { editTable: edit }, token)
+
+        if (res?.success) {
             alert("success")
 
         } else {
@@ -90,13 +86,9 @@ export default function Table({ profile, name, email }) {
         const user = auth.currentUser;
         const token = await user.getIdToken();
 
-        const res = await axios.post(
-            `${import.meta.env.VITE_API_SAVE_LINK_ROW}`,
-            { saveRow: addRow, saveCode: code, saveTitle: title },
-            { headers: { Authorization: `Bearer ${token}` } }
-        );
+        const res = await POST_METHOD(import.meta.env.VITE_API_SAVE_LINK_ROW, { saveRow: addRow, saveCode: code, saveTitle: title }, token)
 
-        if (res.data?.success) {
+        if (res?.success) {
             alert("success")
             setAddRow([{ title: "", link: "", day: "", time: "", id: "" }])
 
@@ -115,15 +107,9 @@ export default function Table({ profile, name, email }) {
             return alert("Invalid");
         }
 
-        const res = await axios.post(`${import.meta.env.VITE_API_DELETE_LINK}`,
-            { LinksID: id },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }
-        )
-        if (res.data?.success) {
+        const res = await POST_METHOD(import.meta.env.VITE_API_DELETE_LINK, { LinksID: id }, token)
+
+        if (res?.success) {
             alert("success men")
         } else {
             alert("Invalid men")
@@ -160,10 +146,8 @@ export default function Table({ profile, name, email }) {
             const user = auth.currentUser;
             const token = await user.getIdToken();
 
-            await axios.post(`${import.meta.env.VITE_API_AUTO_SAVE}`,
-                { saveTitle: title },
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
+            await POST_METHOD(import.meta.env.VITE_API_AUTO_SAVE, { saveTitle: title }, token)
+
             console.log("Saved via backend!");
         } catch (err) {
             console.error("Save failed:", err);
@@ -182,7 +166,7 @@ export default function Table({ profile, name, email }) {
                             <div className="title-link-main w-full font-medium lg:flex lg:flex-wrap justify-between items-center gap-2">
                                 <div className="flex items-center gap-1 border-1 border-gray-300 w-fit">
                                     <input
-                                        className=" m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition"
+                                        className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition"
                                         type="text"
                                         placeholder="Enter schedule name"
                                         value={title}
@@ -239,11 +223,11 @@ export default function Table({ profile, name, email }) {
                             {addRow.map((item, index) => (
                                 <div key={index} className="create-area justify-between flex flex-wrap gap-4 mt-6 p-4 border border-slate-100 rounded-xl bg-white shadow-sm">
                                     <input className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" type="text" placeholder="title"
-                                        value={item?.title} onChange={(e) => handleInput(e.target.value, index, "title")} />
+                                        value={item?.title === edit?.title ? edit?.title || "" : item.title} onChange={(e) => handleInput(e.target.value, index, "title")} />
                                     <input className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" type="text" placeholder="title" type="text" placeholder="link"
-                                        value={item?.link} onChange={(e) => handleInput(e.target.value, index, "link")} />
+                                        value={item?.link === edit?.link ? edit?.link || "" : item.link} onChange={(e) => handleInput(e.target.value, index, "link")} />
                                     <select className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" type="text" placeholder="title"
-                                        value={item?.day} onChange={(e) => handleInput(e.target.value, index, "day")}>
+                                        value={item?.day === edit?.day ? edit?.day || "" : item.day} onChange={(e) => handleInput(e.target.value, index, "day")}>
                                         <option value="">Day</option>
                                         <option value="Monday">Monday</option>
                                         <option value="Tuesday">Tuesday</option>
@@ -254,7 +238,7 @@ export default function Table({ profile, name, email }) {
                                         <option value="Sunday">Sunday</option>
                                     </select>
                                     <input className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" type="text" placeholder="title" type="time" placeholder="time"
-                                        value={item.time} onChange={(e) => handleInput(e.target.value, index, "time")} />
+                                        value={item.time === edit?.time ? edit?.time || "" : item.time} onChange={(e) => handleInput(e.target.value, index, "time")} />
                                     <div className={`flex justify-center items-center bg-red-50 hover:bg-red-100 text-red-600 py-2 px-3 rounded-lg cursor-pointer transition 
                             ${index !== 0 || addRow.length > 1 ? "" : "hidden"}`}
                                         onClick={() => handleDeleteRow(index)}>
@@ -292,19 +276,21 @@ export default function Table({ profile, name, email }) {
                                                 }
                                             }} />
 
-                                            <input className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" placeholder={CutLength(item.links, 20)} value={editId === item.id ? edit?.link || item.links : item.links} onChange={(e) => setEdit(prev => ({ ...prev, link: e.target.value }))} onFocus={() => {
-                                                if (editId !== item?.id) {
-                                                    setEditId(item?.id);
-                                                    setEdit(item);
-                                                }
-                                            }} />
+                                            <input className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" placeholder={CutLength(item.links, 20)} value={editId === item.id ? edit?.link || item.links : item.links} onChange={(e) => setEdit(prev => ({ ...prev, link: e.target.value }))}
+                                                onFocus={() => {
+                                                    if (editId !== item?.id) {
+                                                        setEditId(item?.id);
+                                                        setEdit(item);
+                                                    }
+                                                }} />
 
-                                            <select className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" placeholder={item.day} value={editId === item.id ? edit?.day || "" : item.day} onChange={(e) => setEdit(prev => ({ ...prev, day: e.target.value }))} onFocus={() => {
-                                                if (editId !== item?.id) {
-                                                    setEditId(item?.id);
-                                                    setEdit(item);
-                                                }
-                                            }}>
+                                            <select className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" placeholder={item.day} value={editId === item.id ? edit?.day || "" : item.day} onChange={(e) => setEdit(prev => ({ ...prev, day: e.target.value }))}
+                                                onFocus={() => {
+                                                    if (editId !== item?.id) {
+                                                        setEditId(item?.id);
+                                                        setEdit(item);
+                                                    }
+                                                }}>
                                                 <option value="Monday">Monday</option>
                                                 <option value="Tuesday">Tuesday</option>
                                                 <option value="Wednesday">Wednesday</option>
@@ -314,12 +300,13 @@ export default function Table({ profile, name, email }) {
                                                 <option value="Sunday">Sunday</option>
                                             </select>
 
-                                            <input className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" placeholder={item.time} value={editId === item.id ? edit?.time || "" : item.time} onChange={(e) => setEdit(prev => ({ ...prev, time: e.target.value }))} onFocus={() => {
-                                                if (editId !== item.id) {
-                                                    setEditId(item.id);
-                                                    setEdit(item);
-                                                }
-                                            }} />
+                                            <input className="m-width bg-slate-50 border border-slate-200 rounded-lg p-2 h-10 focus-within:border-sky-500 transition" placeholder={item.time} value={editId === item.id ? edit?.time || "" : item.time} onChange={(e) => setEdit(prev => ({ ...prev, time: e.target.value }))}
+                                                onFocus={() => {
+                                                    if (editId !== item.id) {
+                                                        setEditId(item.id);
+                                                        setEdit(item);
+                                                    }
+                                                }} />
                                             <div className="flex justify-center items-center bg-blue-50 hover:bg-blue-100  py-2 px-3 rounded-lg cursor-pointer transition text-blue-600" onClick={() => handleSave(item.id)}>Save</div>
                                             <div className="flex justify-center items-center bg-red-50 hover:bg-red-100 text-red-600 py-2 px-3 rounded-lg cursor-pointer transition" onClick={() => handleDelete(item.id)}>Delete</div>
                                         </div>
