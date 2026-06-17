@@ -162,6 +162,8 @@ export const GetLinks = async (req, res) => {
         const cacheKey = `links:${uid}`
 
         const cached = await redisClient.get(cacheKey)
+        console.log("cahed key GETLINK", cached)
+
 
 
         if (cached) {
@@ -186,7 +188,11 @@ export const GetLinks = async (req, res) => {
             });
         }
 
-        await redisClient.setEx(cacheKey, 3600, JSON.stringify(data))
+
+        if (data && data.length > 0) {
+            await redisClient.setEx(cacheKey, 3600, JSON.stringify(data));
+        }
+
 
         console.log("SOURCE GETLINK: SUPABASE");
         return res.status(200).json({
@@ -205,8 +211,14 @@ export const GetLinks = async (req, res) => {
 
 export const DeleteLink = async (req, res) => {
     try {
-        const uid = req.user?.uid
-        if (!req.user?.uid) return res.status(401).json({ message: "INVALID CREDENTIALS", success: false });
+        const uid = req.user?.uid;
+
+        if (!uid) {
+            return res.status(401).json({
+                message: "INVALID CREDENTIALS",
+                success: false
+            });
+        }
 
         const { LinksID } = req.body;
 
@@ -217,23 +229,38 @@ export const DeleteLink = async (req, res) => {
             });
         }
 
-        const { data, error } = await SupabaseConnect
+        const { error } = await SupabaseConnect
             .from("Links")
             .delete()
             .eq("id", LinksID)
-            .eq("uid", uid)
+            .eq("uid", uid);
 
+        if (error) {
+            return res.status(404).json({
+                message: "not found",
+                success: false
+            });
+        }
 
-        if (error) return res.status(404).json({ message: "not found", success: false })
-        else res.status(200).json({ message: "success", success: true })
         const cacheKey = `links:${uid}`;
         await redisClient.del(cacheKey);
-        console.log("CACHE [DELETE]")
+
+        console.log("CACHE [DELETE]");
+
+        return res.status(200).json({
+            message: "success",
+            success: true
+        });
 
     } catch (err) {
         console.log("error sa Delete: ", err);
+
+        return res.status(500).json({
+            message: "Server error",
+            success: false
+        });
     }
-}
+};
 
 export const EditTable = async (req, res) => {
     try {
@@ -263,7 +290,7 @@ export const EditTable = async (req, res) => {
 
         // 🔥 OPTIONAL FIELD LOGIC
         if (
-            (title && !title) ||
+            (title && title.length < 1) ||
             (link && !link.startsWith("https://")) ||
             (time && !isValidTime(time)) ||
             (day && !dayCheck(day))
@@ -273,6 +300,10 @@ export const EditTable = async (req, res) => {
                 message: "failed boss"
             });
         }
+
+
+
+
 
         const { data, error } = await SupabaseConnect
             .from("Links")
@@ -285,6 +316,8 @@ export const EditTable = async (req, res) => {
             .eq("uid", uid)
             .eq("id", editTable.id);
 
+        await redisClient.del(`links:${uid}`);
+
         if (error) {
             return res.status(500).json({
                 success: false,
@@ -292,15 +325,12 @@ export const EditTable = async (req, res) => {
             });
         }
 
-        const cachekey = `links${uid}`
-        await redisClient.del(cachekey)
-        console.log("CACHE EDIT")
-
         return res.status(200).json({
             success: true,
             message: "saved",
             link: data,
         });
+
 
     } catch (err) {
         console.log(err);
@@ -418,6 +448,7 @@ export const SaveLinkRow = async (req, res) => {
                 message: insertError.message
             });
         }
+        await redisClient.del(`links:${firebaseUID}`);
 
         const firebaseEmail = req.user?.email;
 
@@ -435,15 +466,24 @@ export const SaveLinkRow = async (req, res) => {
 export const SaveTitle = async (req, res) => {
     if (!req.user.uid) return res.status(401).json({ success: false })
 
+
     const { saveTitle } = req.body;
     const firebaseUID = req.user.uid;
 
     if (saveTitle === "") return res.status(401).json({ success: false })
 
+    const cachekey = `links:${firebaseUID}`
+
+    await redisClient.del(cachekey)
+    console.log("Cache Title Save");
+
+
+
     const { data, error } = await SupabaseConnect
         .from("Links")
         .update({ schedule_name: saveTitle })
         .eq("uid", firebaseUID);
+
 }
 
 export const FeedBack = async (req, res) => {
