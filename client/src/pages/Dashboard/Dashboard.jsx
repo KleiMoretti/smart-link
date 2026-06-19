@@ -60,7 +60,7 @@ export default function Dashboard() {
                 <nav className="w-full flex justify-center border boder-b-10 py-2 min-w-[200px]">
                     <div className="flex flex-nowrap lg:w-[60%] w-full justify-between items-center py-2 px-3">
                         <div className="flex items-center cursor-pointer" onClick={() => navigate("/")}>
-                            <img className="w-10" src={Logo} alt="" />
+                            <img className="w-9" src={Logo} alt="" />
                             <p className="m-0 whitespace-nowrap font-ubuntu">Lyncks</p>
                         </div>
                         <div className="nav  flex flex-nowrap gap-10 items-center">
