@@ -22,7 +22,6 @@ app.use(cors({
     credentials: true
 }));
 
-await redisClient.connect()
 
 app.use(express.json());
 
