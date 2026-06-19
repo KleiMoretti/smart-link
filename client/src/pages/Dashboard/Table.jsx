@@ -5,18 +5,28 @@ import { useNavigate } from "react-router-dom";
 import "../../css/LandingPage.css"
 import { CutLength } from "../../utils/CutLength";
 import { GET_METHOD } from "../../utils/Fetching"
+import { useQuery } from "@tanstack/react-query"
 
 export default function Table({ profile, name, email }) {
     const navigate = useNavigate()
 
     const [showDay, setDay] = useState("full week");
-    const [loading, setLoading] = useState(true);
-    const [links, setLink] = useState([]);
-    const [title, setTitle] = useState("");
+    const [authChecked, setAuthChecked] = useState(false);
 
     const BackendRedirect = import.meta.env.VITE_REDIRECT_FRONTEND_URL || "";
 
     const handleNav = (value) => setDay(value)
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                navigate("/login");
+            }
+            setAuthChecked(true);
+        });
+
+        return () => unsubscribe();
+    }, [navigate]);
 
     const dayOrder = {
         "Monday": 1,
@@ -28,42 +38,28 @@ export default function Table({ profile, name, email }) {
         "Sunday": 7
     }
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ['user_schedule'],
+        queryFn: async () => {
+            const user = auth.currentUser;
+            if (!user) return { link: [], title: "" };
+            const token = await user.getIdToken();
+            const res = await GET_METHOD(import.meta.env.VITE_API_GET_LINK, token);
+            return { link: res?.link || [], title: res?.title || "" };
+        },
+        enabled: authChecked,
+        staleTime: Infinity,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+    });
 
-            try {
+    const links = data?.link || [];
 
-                if (!user) {
-                    navigate("/login");
-                    return;
-                }
-
-                setLoading(true);
-
-                const token = await user.getIdToken();
-                const res = await GET_METHOD(import.meta.env.VITE_API_GET_LINK, token);
-
-                if (res?.success && res?.link) {
-                    setLink(res.link);
-                    setTitle(res.link[0]?.schedule_name);
-                }
-                console.log(res?.link)
-
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        });
-
-        return () => unsubscribe();
-    }, [navigate]);
-
-    if (loading) return <p>Loading...</p>
+    if (!authChecked || isLoading) return <p>Loading...</p>;
+    if (isError) return <p>Error loading schedule.</p>;
 
     return (
         <>
-
             <div>
                 <div className="flex items-center">
                     <div>
@@ -72,7 +68,7 @@ export default function Table({ profile, name, email }) {
                             <>
                                 <div className="title-link-main w-full font-medium lg:flex lg:flex-wrap justify-between items-center gap-2">
                                     <p className="link-title m-0 lg:text-4xl md:text-3xl text-2xl">
-                                        {title}
+                                        {links[0]?.schedule_name}
                                     </p>
 
                                     {links.length > 0 && links[0]?.code && (
@@ -87,21 +83,18 @@ export default function Table({ profile, name, email }) {
                                     )}
                                 </div>
 
-
                                 <div className="flex mt-10 items-center">
                                     <div className="lg:flex hidden gap-10">
                                         {["full week", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day, index) => (
-
                                             <p key={index} className={`p-2 cursor-pointer rounded-full transition ${showDay === day ? "bg-gray-900 text-white" : "hover:bg-gray-200"}`} onClick={() => handleNav(day)}>
                                                 {day === "full week" ? "Full Week" : day}
                                             </p>
-
                                         ))}
                                     </div>
 
                                     {/* PARA MOBILE UI */}
                                     <div className="flex flex-col lg:hidden">
-                                        <select value="full week" className="border-gray-500 border p-2 outline-none " value={showDay} onChange={(e) => handleNav(e.target.value)}>
+                                        <select className="border-gray-500 border p-2 outline-none " value={showDay} onChange={(e) => handleNav(e.target.value)}>
                                             <option value="full week">Full Week</option>
                                             <option value="Monday">Monday</option>
                                             <option value="Tuesday">Tuesday</option>
@@ -116,8 +109,6 @@ export default function Table({ profile, name, email }) {
                             </>
                         )}
 
-
-
                         {(() => {
 
                             const filtered = showDay === "full week" ? links : links.filter(item => item.day === showDay)
@@ -131,7 +122,6 @@ export default function Table({ profile, name, email }) {
 
                             return links.length > 0 ? (
                                 sortedDay.map((day) => (
-
 
                                     <div key={day} className="mt-10">
                                         <p className="font-medium text-lg mb-2">{day}</p>
