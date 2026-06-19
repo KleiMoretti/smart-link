@@ -160,14 +160,10 @@ export const GetLinks = async (req, res) => {
         }
 
         const cacheKey = `links:${uid}`
-
         const cached = await redisClient.get(cacheKey)
-        console.log("cahed key GETLINK", cached)
-
-
 
         if (cached) {
-            console.log("GETLINK: CACHE");
+            console.log("SOURCE GETLINK: CACHE");
 
             return res.status(200).json({
                 message: "nakuha yung links (cache)",
@@ -288,7 +284,7 @@ export const EditTable = async (req, res) => {
         const time = editTable.time?.trim();
         const day = editTable.day;
 
-        // 🔥 OPTIONAL FIELD LOGIC
+
         if (
             (title && title.length < 1) ||
             (link && !link.startsWith("https://")) ||
@@ -300,10 +296,6 @@ export const EditTable = async (req, res) => {
                 message: "failed boss"
             });
         }
-
-
-
-
 
         const { data, error } = await SupabaseConnect
             .from("Links")
