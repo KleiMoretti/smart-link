@@ -7,7 +7,8 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import Login from "./pages/auth/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Redirect from "./pages/Dashboard/Redirect";
-import About from "./pages/LandingPage/About"
+
+
 
 function App() {
   const [count, setCount] = useState(0)
