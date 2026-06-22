@@ -1,7 +1,7 @@
-import logoTest from "../assets/logoTest"
+import LogoTest from "../assets/logoTest.png"
 import "../TEST/General.css"
 
-export default function Navigation() {
+export default function NavTest() {
     return (
 
         <>
@@ -9,7 +9,7 @@ export default function Navigation() {
                 <div className="bg-[rgb(var(--bg-white-72))]  max-w-[1120px] m-auto flex justify-between items-center">
                     <div className="flex items-center gap-3">
                         <span className="w-[40px] overflow-hidden rounded-lg" >
-                            <img src={logoTest} alt="" />
+                            <img src={LogoTest} alt="" />
                         </span>
 
                         <span>
