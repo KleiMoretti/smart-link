@@ -22,8 +22,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/r/:id" element={<Redirect />} />
-        <Route path="/landing" element={<Home />} />
-        <Route path="/contact" element={<Contact />} />
       </Routes>
     </BrowserRouter>
   )
