@@ -7,8 +7,6 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import Login from "./pages/auth/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Redirect from "./pages/Dashboard/Redirect";
-import Home from "./pages/TEST/Home";
-import Contact from "./pages/TEST/Contact";
 
 
 
