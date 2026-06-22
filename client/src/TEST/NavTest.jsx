@@ -3,6 +3,7 @@ import "../TEST/General.css"
 
 export default function Navigation() {
     return (
+
         <>
             <header className="fixed top-0 left-0 w-full z-50 border-b border-b-gray-200 py-[12px] px-[16px]">
                 <div className="bg-[rgb(var(--bg-white-72))]  max-w-[1120px] m-auto flex justify-between items-center">
