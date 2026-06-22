@@ -1,4 +1,4 @@
-import LogoTest from "../assets/LogoTest.png"
+import LogoTest from "../assets/logoTest.png"
 import "../TEST/General.css"
 
 export default function Navigation() {
