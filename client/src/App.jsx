@@ -7,6 +7,8 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import Login from "./pages/auth/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Redirect from "./pages/Dashboard/Redirect";
+import Home from "./pages/TEST/Home";
+import Contact from "./pages/TEST/Contact";
 
 
 
@@ -20,6 +22,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/r/:id" element={<Redirect />} />
+        <Route path="/landing" element={<Home />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </BrowserRouter>
   )
