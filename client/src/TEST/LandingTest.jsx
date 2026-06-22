@@ -5,6 +5,7 @@ export default function LandingTest() {
     return (
         <>
             <NavTest />
+
             <main>
                 <HomeTest />
             </main>
