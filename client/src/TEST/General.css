@@ -3,3 +3,30 @@
     font-weight: 700;
     font-family: 'Space Grotesk', sans-serif;
 }
+
+.about-header {
+    font-size: clamp(26px, 3.6vw, 38px);
+}
+
+/*
+
+root {
+    --bg: #0b1120;
+    --bg-elevated: #111a2e;
+    --bg-card: #141d35;
+    --line: #22304f;
+    --indigo: #5b5fef;
+    --indigo-soft: rgba(91, 95, 239, 0.16);
+    --mint: #4ade9b;
+    --mint-soft: rgba(74, 222, 155, 0.14);
+    --amber: #fbbf24;
+    --amber-soft: rgba(251, 191, 36, 0.14);
+    --text: #f8fafc;
+    --text-muted: #94a3b8;
+    --text-faint: #5b6783;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    font-['Space_Grotesk',sans-serif]
+    */
