@@ -20,7 +20,7 @@ export default function HomeTest() {
                             <span>10+ different links.</span>
                             <span className="text-[#5b5fef]">Share one.</span>
                         </h1>
-                        <p className="mt-[22px] text-[16px] leading-[1.65] text-[#94a3b8] max-w-[480px]">
+                        <p className="mt-[22px] text-[18px] leading-[1.65] text-[#94a3b8] max-w-[480px]">
                             Lyncks turns your whole class schedule into a single smart link.
                             Students tap it and land exactly where they're supposed to be — Calc at 8, Chem at 11 — Lyncks redirects by time,
                             automatically.
