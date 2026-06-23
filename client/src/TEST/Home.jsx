@@ -14,12 +14,12 @@ export default function HomeTest() {
                 <div className="grid lg:grid-cols-[1.1fr_1fr] z-[10] item-center relative gap-[50px] max-w-[1120px] my-0 mx-auto py-0 px-[32px]">
                     {/* HERO TITLE */}
                     <div>
-                        <p className="font-['JetBrains_Mono',monospace] text-[12px] tracking-[0.12em] text-[#5b5fef]">ONE LINK · ANY TIME · RIGHT DESTINATION</p>
-                        <h1 className="hero_title leading-[1.08] tracking-[-0.02em] flex flex-col ">
+                        <p className="font-['JetBrains_Mono',monospace] text-[12px] font-bold tracking-[0.12em] text-[#5b5fef]">ONE LINK · ANY TIME · RIGHT DESTINATION</p>
+                        <p className="font-['Space_Grotesk',sans-serif] leading-[1.08] font-bold text-[55px]  tracking-[-0.02em] flex flex-col ">
                             <span >Stop sharing</span>
                             <span>10+ different links.</span>
                             <span className="text-[#5b5fef]">Share one.</span>
-                        </h1>
+                        </p>
                         <p className="mt-[22px] text-[18px] leading-[1.65] text-[#94a3b8] max-w-[480px]">
                             Lyncks turns your whole class schedule into a single smart link.
                             Students tap it and land exactly where they're supposed to be — Calc at 8, Chem at 11 — Lyncks redirects by time,
