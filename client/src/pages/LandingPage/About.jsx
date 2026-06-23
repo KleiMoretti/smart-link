@@ -1,64 +1,50 @@
-import CodeImg from "../../assets/meet-about.png";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
-
-export default function About() {
-    const containerRef = useRef(null);
-    const imgRef = useRef(null);
-
-    useEffect(() => {
-        gsap.fromTo(
-            imgRef.current,
-            { scale: 2 },
-            {
-                scale: 1,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: "top 80%",
-                    toggleActions: "play none none none",
-                },
-            }
-        );
-    }, []);
-
-
+export default function AboutTest() {
     return (
         <>
-            <section id="about" className="md:min-h-screen  min-h-auto flex items-center p-3 overflow-hidden mb-10">
-                <div className="about-main flex justify-center w-full">
-
-                    <div className="about-width w-[60%]">
-                        <div className="about-wrap flex ">
-                            <div className=" w-full lg:whitespace-nowrap">
-                                <p className="about-about font-bold text-sm text-gray-400 ">About</p>
-                                <p className="about-header font-ubuntu font-bold text-[2vw]">Beginnings</p>
-                                <p className="about-sub m-0 font-medium text-[1vw] text-gray-700">AI-powered time-based redirection and scheduling</p>
-                                <p className="about-sub m-0 font-medium text-[1vw] text-gray-700">It automates link routing scheduling needs with ease.</p>
-                            </div>
-
-                            <div className="about-content text-sm text-gray-600 flex w-full">
-                                <p className="m-0">Smartklink is a smart, AI-powered redirection platform that delivers dynamic and context-aware content based on time, user behavior, and predefined logic rules. It enables businesses to automate link management, streamline user journeys, and optimize engagement by ensuring that every user is directed to the most relevant destination at the right moment. Through intelligent routing and adaptive decision-making, Smartklink enhances user experience, improves conversion efficiency, and provides a more personalized and data-driven digital interaction.</p>
-                            </div>
-                        </div>
-
-                        <div
-                            ref={containerRef}
-                            className="mt-10 w-full"
-                        >
-                            <img
-                                ref={imgRef}
-                                className="w-full rounded-2xl"
-                                src={CodeImg}
-                                alt=""
-                            />
-                        </div>
+            <section className="relative py-[120px] px-0">
+                <div className="max-w-[1120px] my-0 mx-auto py-0 px-[32px]">
+                    <p className="font-['JetBrains_Mono',monospace] text-[12px] tracking-[0.12em] text-[#5b5fef] mb-[18px]">ABOUT LYNCKS</p>
+                    <p className="text-[clamp(26px,3.6vw,38px)] font-bold font-['Space_Grotesk',sans-serif] leading-[1.3] tracking-[-0.01em] max-w-[720px]">
+                        Built for the student with five tabs open <br />
+                        and one minute to get to class.
+                    </p>
+                    <div className="h-[1px] bg-[#22304f] mt-[40px] mb-[56px] mx-0">
                     </div>
 
+                    <div className="lg:grid-cols-3 grid gap-[20px]">
+                        <div className="bg-[#141d35] border-[2px] border-[#22304f] py-[28px] px-[24px] transition-colors duration-300 ease-in-out hover:border-teal-500 rounded-lg">
+                            <span className="inline-block mb-[16px] text-[#94a3b8] text-[11px] tracking-[0.08em]">STEP 1</span>
+                            <p className="text-white font-['JetBrains_Mono',monospace]  text-lg font-bold mb-[10px]">Set your schedule</p>
+                            <p className="text-[14px] text-[#94a3b8] font-['Space_Grotesk',sans-serif]">Add each link once — Gmeet, Zoom, Discord, whatever you use — and tell Lyncks what time block it belongs to.</p>
+                        </div>
+
+                        <div className="bg-[#141d35] border-[2px] border-[#22304f] py-[28px] px-[24px] transition-colors duration-300 ease-in-out hover:border-amber-500 rounded-lg">
+                            <span className="inline-block mb-[16px] text-[#94a3b8] text-[11px] tracking-[0.08em]">STEP 1</span>
+                            <p className="text-white font-['JetBrains_Mono',monospace]  text-lg font-bold mb-[10px]">Set your schedule</p>
+                            <p className="text-[14px] text-[#94a3b8] font-['Space_Grotesk',sans-serif]">Add each link once — Gmeet, Zoom, Discord, whatever you use — and tell Lyncks what time block it belongs to.</p>
+                        </div>
+
+                        <div className="bg-[#141d35] border-[2px] border-[#22304f] py-[28px] px-[24px] transition-colors duration-300 ease-in-out hover:border-indigo-500 rounded-lg">
+                            <span className="inline-block mb-[16px] text-[#94a3b8] text-[11px] tracking-[0.08em]">STEP 1</span>
+                            <p className="text-white font-['JetBrains_Mono',monospace]  text-lg font-bold mb-[10px]">Set your schedule</p>
+                            <p className="text-[14px] text-[#94a3b8] font-['Space_Grotesk',sans-serif]">Add each link once — Gmeet, Zoom, Discord, whatever you use — and tell Lyncks what time block it belongs to.</p>
+                        </div>
+                    </div>
+                    <div className="mt-[64px] flex justify-between flex-wrap gap-[32px] rounded-[16px] bg-[#111a2e] border-1 border-[#22304f] p-[32px]">
+                        <div className="flex flex-col items-center gap-[6px] flex-1 min-w-[140px]">
+                            <span className="font-['Space_Grotesk',sans-serif] text-[#4ade9b] font-bold text-[32px]">1</span>
+                            <span className="text-[#94a3b8] text-center text-[12px]">link to remember</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-[6px] flex-1 min-w-[140px]">
+                            <span className="font-['Space_Grotesk',sans-serif] text-[#4ade9b] font-bold text-[32px]">10+</span>
+                            <span className="text-[#94a3b8] text-center text-[12px]">destinations handled</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-[6px] flex-1 min-w-[140px]">
+                            <span className="font-['Space_Grotesk',sans-serif] text-[#4ade9b] font-bold text-[32px]">0</span>
+                            <span className="text-[#94a3b8] text-center text-[12px]">missed classes from wrong links</span>
+                        </div>
+                    </div>
                 </div>
             </section>
         </>
