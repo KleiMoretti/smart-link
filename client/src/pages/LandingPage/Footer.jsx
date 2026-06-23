@@ -1,4 +1,4 @@
-export default function FooterTest() {
+export default function Footer() {
     return (
         <>
             <section className="border-t border-t-gray-200 py-[28px] px-0">
