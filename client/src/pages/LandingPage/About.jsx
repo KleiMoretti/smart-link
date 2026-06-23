@@ -20,15 +20,15 @@ export default function About() {
                         </div>
 
                         <div className="bg-[#141d35] border-[2px] border-[#22304f] py-[28px] px-[24px] transition-colors duration-300 ease-in-out hover:border-amber-500 rounded-lg">
-                            <span className="inline-block mb-[16px] text-[#94a3b8] text-[11px] tracking-[0.08em]">STEP 1</span>
-                            <p className="text-white font-['JetBrains_Mono',monospace]  text-lg font-bold mb-[10px]">Set your schedule</p>
-                            <p className="text-[14px] text-[#94a3b8] font-['Space_Grotesk',sans-serif]">Add each link once — Gmeet, Zoom, Discord, whatever you use — and tell Lyncks what time block it belongs to.</p>
+                            <span className="inline-block mb-[16px] text-[#94a3b8] text-[11px] tracking-[0.08em]">STEP 2</span>
+                            <p className="text-white font-['JetBrains_Mono',monospace]  text-lg font-bold mb-[10px]">Share one link</p>
+                            <p className="text-[14px] text-[#94a3b8] font-['Space_Grotesk',sans-serif]">Put your single lyncks.io link in your bio, group chat, or syllabus. That's the only link anyone ever needs from you.</p>
                         </div>
 
                         <div className="bg-[#141d35] border-[2px] border-[#22304f] py-[28px] px-[24px] transition-colors duration-300 ease-in-out hover:border-indigo-500 rounded-lg">
-                            <span className="inline-block mb-[16px] text-[#94a3b8] text-[11px] tracking-[0.08em]">STEP 1</span>
-                            <p className="text-white font-['JetBrains_Mono',monospace]  text-lg font-bold mb-[10px]">Set your schedule</p>
-                            <p className="text-[14px] text-[#94a3b8] font-['Space_Grotesk',sans-serif]">Add each link once — Gmeet, Zoom, Discord, whatever you use — and tell Lyncks what time block it belongs to.</p>
+                            <span className="inline-block mb-[16px] text-[#94a3b8] text-[11px] tracking-[0.08em]">STEP 3</span>
+                            <p className="text-white font-['JetBrains_Mono',monospace]  text-lg font-bold mb-[10px]">Lyncks reads the clock</p>
+                            <p className="text-[14px] text-[#94a3b8] font-['Space_Grotesk',sans-serif]">When someone taps your link, Lyncks checks the current time and instantly redirects them to the right class, every time.</p>
                         </div>
                     </div>
                     <div className="mt-[64px] flex justify-between flex-wrap gap-[32px] rounded-[16px] bg-[#111a2e] border-1 border-[#22304f] p-[32px]">

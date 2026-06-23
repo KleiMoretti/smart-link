@@ -2,6 +2,7 @@
 import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react";
 
+
 export default function Home() {
     const Navigate = useNavigate();
 
@@ -23,6 +24,8 @@ export default function Home() {
         }, 1000);
         return () => clearInterval(interval);
     }, []);
+
+
 
 
     return (
