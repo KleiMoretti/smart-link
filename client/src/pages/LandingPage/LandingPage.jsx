@@ -1,24 +1,11 @@
-import NavTest from "./NavTest"
-import HomeTest from "./Home"
-import AboutTest from "./About"
-import ContactTest from "./Contact"
-import FooterTest from "./Footer"
+import Nav from "./Nav"
 
 
-export default function LandingTest() {
+
+export default function Landing() {
     return (
         <>
-            <NavTest />
-
-            <main>
-                <HomeTest />
-                <AboutTest />
-                <ContactTest />
-            </main>
-
-            <footer>
-                <FooterTest />
-            </footer>
+            <Nav />
         </>
     )
 }
