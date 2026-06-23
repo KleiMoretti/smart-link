@@ -10,11 +10,11 @@ export default function Home() {
     const sectionScroll = (id) => { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }) }
 
     const example = [
-        { time: "08:00", subject: "Calculus 101", app: "→Google Meet" },
-        { time: "09:30", subject: "World History", app: "→Zoom" },
-        { time: "11:00", subject: "Chemistry Lab", app: "→Google Meet" },
-        { time: "13:00", subject: "Group Project", app: "→Discord" },
-        { time: "15:00", subject: "Study Hall", app: "→Notion Page" },
+        { time: "08:00", subject: "Calculus 101", app: "→ Google Meet" },
+        { time: "09:30", subject: "World History", app: "→ Zoom" },
+        { time: "11:00", subject: "Chemistry Lab", app: "→ Google Meet" },
+        { time: "13:00", subject: "Group Project", app: "→ Discord" },
+        { time: "15:00", subject: "Study Hall", app: "→ Notion Page" },
     ]
 
     useEffect(() => {
@@ -29,7 +29,7 @@ export default function Home() {
         <>
 
             {/* HERO GLOW CIRLCE */}
-            <div id="home" className="relative overflow-hidden pt-[140px] pb-[80px] pl-0 pr-0 flex  align-items-center lg:h-screen">
+            <div id="home" className="relative overflow-hidden pt-[140px]  pb-[80px] pl-0 pr-0 flex  align-items-center lg:h-screen">
                 <div className="absolute  -right-[10%] w-[700px] h-[700px] bg-[radial-gradient(circle,_rgba(91,95,239,0.22),_transparent_70%)] pointer-events-none">
                 </div>
 
