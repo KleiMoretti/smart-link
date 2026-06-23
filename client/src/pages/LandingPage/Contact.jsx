@@ -1,176 +1,48 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import phoneImg from "../../assets/phone.png"
-
-gsap.registerPlugin(ScrollTrigger);
-
-export default function Contact() {
-    const sectionRef = useRef(null);
-    const hello = useRef(null);
-    const facebook = useRef(null);
-    const messenger = useRef(null);
-    const phone = useRef(null);
-    const github = useRef(null);
-    const tiktok = useRef(null);
-
-    const via1 = useRef(null);
-    const viaSub1 = useRef(null);
-
-    const via2 = useRef(null);
-    const viaSub2 = useRef(null);
-
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "triggerPoint viewportPoint",
-                    end: "bottom bottom",
-                    scrub: 4,
-                    pin: true,
-                    anticipatePin: 1
-                },
-            });
 
 
-            tl.fromTo(phone.current,
-                { opacity: 1, y: 500 },
-                { y: 0, ease: "none" }
-            )
-                .fromTo(hello.current,
-                    { opacity: 1, x: -90, y: -650 },
-                    { opacity: 1, x: -90, y: -200, ease: "none" },
-                    "<0.2"
-                )
-                .fromTo(facebook.current,
-                    { opacity: 1, x: 100, y: -160 },
-                    { opacity: 1, x: 0, y: 0, ease: "none" },
-                    "<0.2"
-                )
-                .fromTo(messenger.current,
-                    { opacity: 1, x: 100, y: -300 },
-                    { opacity: 1, x: 0, y: 0, ease: "none" },
-                    "<0.2"
-                )
-                .fromTo(github.current,
-                    { opacity: 1, x: -150, y: -200 },
-                    { opacity: 1, x: 0, y: 0, ease: "none" },
-                    "<0.2"
-                )
-                .fromTo(tiktok.current,
-                    { opacity: 1, x: -200, y: -100 },
-                    { opacity: 1, x: 0, y: 0, ease: "none" },
-                    "<0.2"
-                )
-
-                .fromTo(via1.current,
-                    { opacity: 0, x: 0, y: -100 },
-                    { opacity: 1, x: 0, y: 0, ease: "none" },
-                    "<0.2"
-                )
-                .fromTo(viaSub1.current,
-                    { opacity: 0, x: 0, y: -100 },
-                    { opacity: 1, x: 0, y: 0, ease: "none" },
-                    "<0.2"
-                )
-                .fromTo(via2.current,
-                    { opacity: 0, x: 0, y: -100 },
-                    { opacity: 1, x: 0, y: 0, ease: "none" },
-                    "<0.2"
-                )
-                .fromTo(viaSub2.current,
-                    { opacity: 0, x: 0, y: -100 },
-                    { opacity: 1, x: 0, y: 0, ease: "none" },
-                    "<0.2"
-                );
-        }, sectionRef);
-
-        return () => ctx.revert();
-    }, []);
-
-
-
+export default function ContactTest() {
     return (
         <>
-            <section id="contact"
-                ref={sectionRef}
-                className="h-[100vh] relative overflow-hidden flex items-center justify-center overflow-hidden"
-            >
-                <div className="relative flex items-center justify-center">
+            <section className="relative pt-[120px] pb-[100px] px-0">
+                <div className="max-w-[1120px] my-0 mx-auto py-0 px-[32px] grid lg:grid-cols-[1fr_1fr] gap-[64px]">
+                    <div>
+                        <p className="font-['JetBrains_Mono',monospace] text-[12px] tracking-[0.12em] text-amber-500 mb-[18px]">GET STARTED</p>
+                        <p className="text-[clamp(26px,3.6vw,38px)] font-bold font-['Space_Grotesk',sans-serif] leading-[1.3] tracking-[-0.01em] max-w-[720px]">Ready to carry <br />one link instead of ten?</p>
+                        <div className="mb-[60px]">
+                            <p className="text-[15px] leading-[1.65] text-[#94a3b8] max-w-[420px]">Tell us a bit about your schedule and we'll set up your first time-based Lyncks link — free for students.</p>
+                        </div>
 
-                    <div ref={via1} className="absolute left-full w-80 ml-120 -top-50 bg-white p-3 rounded-lg shadow-lg text-4xl font-bold"
-                    >
-                        Via Social Media
+                        <div className="flex flex-col gap-[4px] py-[16px] px-0 border-t-1 border-t-[#22304f]">
+                            <p className="m-0 text-[12px] text-[#5b6783]">Email</p>
+                            <p className="m-0 font-['JetBrains_Mono',monospace] text-[14px] text-[#5b6783]">hello@lyncks.io</p>
+                        </div>
 
+                        <div className="flex flex-col gap-[4px] py-[16px] px-0 border-t-1 border-t-[#22304f]">
+                            <p className="m-0 text-[12px] text-[#5b6783]">Response time</p>
+                            <p className="m-0 font-['JetBrains_Mono',monospace] text-[14px] text-[#5b6783]">Within 24 hours</p>
+                        </div>
                     </div>
-                    <div ref={viaSub1} className="absolute left-full ml-120 mt-10 w-90">
-                        You can reach out and connect with me through my social media platforms for messages, updates, and collaborations. I’m active on Facebook for direct communication and community updates, GitHub for my projects and code repositories, TikTok for short content and creative posts, and Messenger for quick and easy conversations. Feel free to message me anytime on any of these platforms, whether it’s for questions, project discussions, or just to connect.
+                    <div>
+                        <form className="flex flex-col gap-[18px] bg-[#141d35] border-2 border-[#22304f] p-[28px] rounded-lg">
+                            <label className="flex flex-col gap-[8px] text-[13px] text-[#94a3b8]">
+                                <p>Name</p>
+                                <input className=" w-full font-['Inter',sans-serif] text-[14px] text-[#f8fafc] bg-[#111a2e] border-2 border-[#22304f] rounded-lg py-[12px] px-[14px] resize-none transition-colors duration-200 ease-in-out" type="text" placeholder="Juan Dela Cruz" />
+                            </label>
+
+                            <label className="flex flex-col gap-[8px] text-[13px] text-[#94a3b8]">
+                                <p>Email</p>
+                                <input className=" w-full font-['Inter',sans-serif] text-[14px] text-[#f8fafc] bg-[#111a2e] border-2 border-[#22304f] rounded-lg py-[12px] px-[14px] resize-none transition-colors duration-200 ease-in-out" type="text" placeholder="you@school.edu" />
+                            </label>
+
+                            <label className="flex flex-col gap-[8px] text-[13px] text-[#94a3b8]">
+                                <p>What's your schedule like?</p>
+                                <textarea className=" h-full outline-none w-full font-['Inter',sans-serif] text-[14px] text-[#f8fafc] bg-[#111a2e] border-1 border-[#22304f] rounded-lg py-[12px] px-[14px] resize-none transition-colors duration-200 ease-in-out" type="text" placeholder="3 classes a day, Gmeet + Zoom..." />
+                            </label>
+
+                        </form>
                     </div>
-
-                    {/* BOX */}
-                    <div ref={phone} className="absolute w-[700px] h-[700px] bg-white text-black flex items-center justify-center font-bold">
-                        <img src={phoneImg} alt="" />
-                    </div>
-
-                    {/* HELLO */}
-                    <div
-                        ref={hello}
-                        className="absolute left-full  bg-white p-3 rounded-lg shadow-lg text-4xl font-bold"
-                    >
-                        CONTACT
-                    </div>
-
-
-
-
-                    {/* Facebook */}
-                    <div
-                        ref={facebook}
-                        className="absolute left-full ml-5 top-3 font-bold bg-white p-3 rounded-lg shadow-lg text-6xl cursor-pointer hover:scale-110 transition-transform duration-300"
-                    >
-                        <i className="bi bi-facebook text-blue-900"></i>
-                    </div>
-
-                    {/* Messenger */}
-                    <div
-                        ref={messenger}
-                        className="absolute left-full -ml-25 top-3  bg-white p-3 rounded-lg shadow-lg text-6xl font-bold"
-                    >
-                        <i className="bi bi-messenger text-blue-900"></i>
-                    </div>
-
-                    <div
-                        ref={github}
-                        className="absolute left-full -ml-25 -top-30 bg-white p-3 rounded-lg shadow-lg text-6xl font-bold"
-                    >
-                        <i className="bi bi-github"></i>
-                    </div>
-
-                    <div
-                        ref={tiktok}
-                        className="absolute left-full ml-5 -top-30  bg-white p-3 rounded-lg shadow-lg text-6xl font-bold"
-                    >
-                        <i className="bi bi-tiktok"></i>
-                    </div>
-
-
-
-
-
-                    <div ref={via2} className="absolute rigth-full mr-320 w-80  -top-50 bg-white p-3 rounded-lg shadow-lg text-4xl font-bold"
-                    >
-                        Via Social Media
-
-                    </div>
-                    <div ref={viaSub2} className="absolute rigth-full mr-320 mt-10 w-90">
-                        You can reach out and connect with me through my social media platforms for messages, updates, and collaborations. I’m active on Facebook for direct communication and community updates, GitHub for my projects and code repositories, TikTok for short content and creative posts, and Messenger for quick and easy conversations. Feel free to message me anytime on any of these platforms, whether it’s for questions, project discussions, or just to connect.
-                    </div>
-
-
-
                 </div>
             </section>
         </>
-    );
+    )
 }
