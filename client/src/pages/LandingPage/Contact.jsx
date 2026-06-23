@@ -1,9 +1,9 @@
 
 
-export default function ContactTest() {
+export default function Contact() {
     return (
         <>
-            <section className="relative pt-[120px] pb-[100px] px-0">
+            <section id="contact" className="relative pt-[120px] pb-[100px] px-0">
                 <div className="max-w-[1120px] my-0 mx-auto py-0 px-[32px] grid lg:grid-cols-[1fr_1fr] gap-[64px]">
                     <div>
                         <p className="font-['JetBrains_Mono',monospace] text-[12px] tracking-[0.12em] text-amber-500 mb-[18px]">GET STARTED</p>
