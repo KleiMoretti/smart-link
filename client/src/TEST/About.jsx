@@ -1,10 +1,12 @@
+import "../TEST/General.css"
+
 export default function AboutTest() {
     return (
         <>
             <section className="relative py-[120px] px-0">
                 <div className="max-w-[1120px] my-0 mx-auto py-0 px-[32px]">
                     <p className="font-['JetBrains_Mono',monospace] text-[12px] tracking-[0.12em] text-[#5b5fef] mb-[18px]">ABOUT LYNCKS</p>
-                    <p className="about-header font-['Space_Grotesk',sans-serif] leading-[1.3] tracking-[-0.01em] max-w-[720px]">
+                    <p className="text-[clamp(26px,3.6vw,38px)] font-bold font-['Space_Grotesk',sans-serif] leading-[1.3] tracking-[-0.01em] max-w-[720px]">
                         Built for the student with five tabs open <br />
                         and one minute to get to class.
                     </p>
