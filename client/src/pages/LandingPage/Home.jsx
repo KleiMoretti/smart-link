@@ -84,7 +84,7 @@ export default function Home() {
         <>
 
             {/* HERO GLOW CIRLCE */}
-            <div id="home" className="relative overflow-hidden pt-[140px]  pb-[80px] pl-0 pr-0 flex  align-items-center lg:h-screen">
+            <div id="home" className="relative overflow-hidden pt-[140px]  pb-[80px] pl-0 pr-0 flex  items-center lg:h-screen">
                 <div className="absolute -right-[10%] w-[700px] h-[700px] bg-[radial-gradient(circle,_rgba(91,95,239,0.22),_transparent_70%)] pointer-events-none">
                 </div>
 
