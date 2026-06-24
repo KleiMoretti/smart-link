@@ -44,7 +44,7 @@ export default function Login() {
 
     return (
         <>
-            <section className="relative overflow-hidden flex  items-center  bg-[oklch(96.2%_0.018_272.314)] h-screen">
+            <section className="relative overflow-hidden flex  items-center bg-[oklch(96.2%_0.018_272.314)] h-screen">
                 <div className="max-w-[700px] my-0 mx-auto py-0 px-[32px] w-full">
                     <div className="flex justify-center bg-[oklch(98.5%_0.002_247.839)] px-[35px] py-[40px] rounded-2xl ">
                         <div>
@@ -74,7 +74,7 @@ export default function Login() {
                                 <div className="h-[2px] w-full bg-gray-200" />
                             </div>
 
-                            <div className=" rounded-md mt-10 text-[clamp(12px,2vw,16px)]" >
+                            <div className="rounded-md mt-10 text-[clamp(12px,2vw,16px)]" >
                                 <p className="m-0 font-bold">Why we choose Google login</p>
 
                                 <div className="flex items-center gap-2  mt-2">
