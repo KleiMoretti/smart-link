@@ -68,10 +68,6 @@ export default function About() {
                     duration: 1,
                     transformOrigin: 'left center',
                     ease: 'power3.inOut',
-                    scrollTrigger: {
-                        trigger: '.about__line',
-                        start: 'top 90%',
-                    }
                 }, 0.2
             )
         const cards = gsap.utils.toArray('.about__card')
@@ -125,7 +121,7 @@ export default function About() {
 
                     <div className="mt-[64px] flex justify-between flex-wrap gap-[32px] rounded-[16px] bg-[#111a2e] border-1 border-[#22304f] p-[32px]">
                         {about_strip.map((item, index) => (
-                            <div className="flex flex-col items-center gap-[6px] flex-1 min-w-[140px]">
+                            <div key={index} className="flex flex-col items-center gap-[6px] flex-1 min-w-[140px]">
                                 <span className="font-['Space_Grotesk',sans-serif] text-[#4ade9b] font-bold text-[32px]">{item.number}</span>
                                 <span className="text-[#94a3b8] text-center text-[12px]">{item.description}</span>
                             </div>
