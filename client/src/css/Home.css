@@ -1,0 +1,19 @@
+.border__teal {
+    border-color: oklch(70.4% 0.14 182.503);
+}
+
+.border__orange {
+    border-color: oklch(70.5% 0.213 47.604);
+}
+
+.border__indigo {
+    border-color: oklch(58.5% 0.233 277.117);
+}
+
+.border__fuchsia {
+    border-color: oklch(74% 0.238 322.16);
+}
+
+.border__emerald {
+    border-color: oklch(69.6% 0.17 162.48);
+}
