@@ -14,7 +14,7 @@ export default function Contact() {
 
         tl.fromTo(".contact__info",
             { y: 20, opacity: 0 },
-            { y: 0, opacity: 1 }, 0.3
+            { y: 0, opacity: 1 }, 0.2
         )
             .fromTo(".contact__send",
                 { y: 20, opacity: 0 },
