@@ -10,7 +10,6 @@ import {
 import { Middleware } from "./auth.middleware.js";
 import { RequestRL } from "./RateLimit.js"
 
-
 const route = express.Router();
 
 route.post("/SaveLinks", Middleware, SaveLinks);
