@@ -3,6 +3,7 @@ import { useState } from "react";
 import { auth } from "../../firebase/firebase";
 import Logo from "../../assets/logo.png"
 
+
 export default function CreateAI() {
     const [prompt, setPrompt] = useState("");
     const [response, setResponse] = useState("");
