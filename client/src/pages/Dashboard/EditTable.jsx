@@ -7,6 +7,7 @@ import { GET_METHOD, POST_METHOD } from "../../utils/Fetching"
 import { CutLength } from "../../utils/CutLength";
 import "../../css/LandingPage.css"
 
+
 export default function Table({ profile, name, email }) {
     const navigate = useNavigate()
 

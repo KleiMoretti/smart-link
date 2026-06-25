@@ -5,7 +5,6 @@ import { auth } from "../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
 import { reauthenticateWithPopup, onAuthStateChanged, GoogleAuthProvider, deleteUser } from "firebase/auth";
 
-
 export default function Settings() {
     const [showWarn, setShowWarn] = useState(false)
     const [user, setUser] = useState(null)

@@ -7,6 +7,7 @@ import { CutLength } from "../../utils/CutLength";
 import { GET_METHOD } from "../../utils/Fetching"
 import { useQuery } from "@tanstack/react-query"
 
+
 export default function Table({ profile, name, email }) {
     const navigate = useNavigate()
 
