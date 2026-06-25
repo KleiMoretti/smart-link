@@ -14,7 +14,7 @@ export default function Table({ profile, name, email }) {
     const [showDay, setDay] = useState("full week");
     const [authChecked, setAuthChecked] = useState(false);
 
-    const BackendRedirect = import.meta.env.VITE_REDIRECT_FRONTEND_URL;
+    const BackendRedirect = import.meta.env.VITE_REDIRECT_FRONTEND_URL || "";
 
     const handleNav = (value) => setDay(value)
 
