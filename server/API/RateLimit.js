@@ -4,6 +4,7 @@ import rateLimit, { ipKeyGenerator } from "express-rate-limit";
 import { RedisStore } from "rate-limit-redis";
 import { redisClient } from "../redisClient.js";
 
+
 export const RateLimit = ({ windowMs, max, message, prefix = "Request:" }) => {
     return rateLimit({
         windowMs,
@@ -20,7 +21,6 @@ export const RateLimit = ({ windowMs, max, message, prefix = "Request:" }) => {
         }),
     });
 };
-
 
 export const RequestRL = RateLimit({
     windowMs: 1000 * 60 * 5,
