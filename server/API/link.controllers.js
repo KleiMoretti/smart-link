@@ -669,8 +669,6 @@ export const AskGemini = async (req, res) => {
             console.log("Supabase insert error:", error);
         }
 
-
-
         return res.status(200).json({
             success: true,
             raw: text,
