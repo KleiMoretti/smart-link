@@ -122,12 +122,9 @@ export default function Table({ profile, name, email }) {
 
                             return links.length > 0 ? (
                                 sortedDay.map((day) => (
-
                                     <div key={day} className="mt-10">
                                         <p className="font-medium text-lg mb-2">{day}</p>
-
                                         {groups[day].map((item, index) => (
-
                                             <div key={index} className="border-l-4 border-teal-500 rounded-md overflow-hidden mb-2">
                                                 <div className="flex flex-wrap gap-4 items-center justify-between border border-gray-500 hover:border-sky-500 hover:bg-sky-100 p-3 transition cursor-pointer">
                                                     <p className="m-0 flex-1 min-w-[100px] font-medium">{CutLength(item.title, 9)}</p>
@@ -138,15 +135,12 @@ export default function Table({ profile, name, email }) {
                                                     <p className="m-0 text-sm text-gray-500">{item.time}</p>
                                                 </div>
                                             </div>
-
                                         ))}
                                     </div>
-
                                 ))
                             ) : (
                                 <div className="text-center text-gray-400 mt-10">No links found</div>
                             );
-
                         })()}
                     </div>
                 </div>
