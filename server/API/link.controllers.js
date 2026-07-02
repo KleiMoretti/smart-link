@@ -93,7 +93,7 @@ export const AskGemini = async (req, res) => {
             });
         }
 
-        if (prompt.length > 1000) {
+        if (prompt.length > 10000) {
             return res.status(400).json({ success: false, message: "Number of characters reach the limits" });
         }
 
