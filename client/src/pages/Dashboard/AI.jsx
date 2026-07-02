@@ -21,7 +21,7 @@ export default function AI_TEST() {
     }
 
     return (
-        <section className="p-[140px] flex justify-center items-center bg-indigo-50 min-h-screen">
+        <section className="p-[140px] flex justify-center items-center bg-gray-100 min-h-screen">
             <div className="w-1/2">
                 <p className="font-semibold ">Hello! I'm Moretti AI. What are we organizing today?</p>
                 <div className="bg-white px-4 py-3 rounded-full relative flex">
