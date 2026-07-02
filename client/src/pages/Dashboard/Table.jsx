@@ -283,7 +283,6 @@ export default function Table() {
 
                     </div>
 
-                    {console.log("add row", addRow)}
                     <div className={`${edit_On ? "" : "hidden"} mt-3 shadow-sm border border-gray-100 rounded-lg py-10`}>
                         {addRow.map((item, index) => (
                             <div key={index} className="flex w-full justify-center gap-2 mt-2">
