@@ -5,7 +5,7 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from './pages/LandingPage/LandingPage';
 import Login from "./pages/auth/Login";
-import Dashboard from "./pages/Dashboard/Dashboard";
+import Dashboard from "./pages/Dashboard/Dashboard"
 import Redirect from "./pages/Dashboard/Redirect";
 
 
