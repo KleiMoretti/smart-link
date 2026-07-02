@@ -101,6 +101,8 @@ export const AskGemini = async (req, res) => {
             });
         }
 
+        await redisClient.del(`links:${firebaseUID}`);
+
         const systemPrompt = `
         Ikaw si Klei Moretti, AI assistant ng SmartLink.
 
