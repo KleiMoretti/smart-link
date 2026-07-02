@@ -104,7 +104,7 @@ export const AskGemini = async (req, res) => {
         await redisClient.del(`links:${firebaseUID}`);
 
         const systemPrompt = `
-        Ikaw si Klei Moretti, AI assistant ng SmartLink.
+        Ikaw si Lyncks, AI assistant ng Lyncks.
 
         Task:
         Kapag ang user ay nagbigay ng schedule, i-extract mo ang data at i-return mo LANG sa JSON format.
