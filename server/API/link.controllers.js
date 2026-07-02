@@ -135,6 +135,8 @@ export const AskGemini = async (req, res) => {
         - If schedule is example "13:00-16:00", return only "13:00"
         - If no time found, return null
         - If you notice time typo error auto correct example 10:)0 AM Make it 10:00 AM
+        - Don't make random schdule evem user request it
+        
         `;
 
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -149,6 +151,7 @@ export const AskGemini = async (req, res) => {
         const response = await result.response;
 
         let text = response.text();
+        console.log("text ", text)
         text = text.replace(/```json/g, '').replace(/```/g, '').trim();
 
         let parsed = null;
