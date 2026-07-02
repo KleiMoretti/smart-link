@@ -5,7 +5,6 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { redisClient } from "../redisClient.js"
 
 
-
 const getCurrentDay = () =>
     new Date().toLocaleDateString("en-US", {
         weekday: "long",
@@ -133,6 +132,7 @@ export const AskGemini = async (req, res) => {
         - No text, no explanation, no symbols
         - If schedule is example "13:00-16:00", return only "13:00"
         - If no time found, return null
+        - If you notice time typo error auto correct example 10:)0 AM Make it 10:00 AM
         `;
 
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);

@@ -12,17 +12,11 @@ export default function Table() {
     const [links, setLinks] = useState([])
     const [code, setCode] = useState("")
     const [schedule_name, setSchedule_name] = useState("")
-    const [addRow, setAddRow] = useState([
-        {
-            title: "",
-            links: "",
-            day: "",
-            time: "",
-        },
-    ]);
+    const [addRow, setAddRow] = useState([{}]);
     const [filterDay, setFilterDay] = useState("Full Week")
     const [edit_On, setEditOn] = useState(false)
     const [auths, setAuths] = useState(false)
+
     const navigate = useNavigate()
 
     const dayOrder = {
@@ -99,22 +93,25 @@ export default function Table() {
 
     const SaveRow = async () => {
         if (addRow.length === 0) return;
-
         if (!auths) return;
+
+        const isValid = addRow.every(row =>
+            row.title.trim() && row.links.trim() && row.day.trim() && row.time.trim()
+        );
+
+        if (!isValid) {
+
+            alert("Please complete all rows before saving.");
+            return;
+        }
+
+
         const tkn = token;
-
         const res = await axios.post(import.meta.env.VITE_API_SAVEROW, { AddRow: addRow, code, schedule_name }, {
-            headers: {
-                authorization: `Bearer ${tkn}`
-            }
-        })
+            headers: { authorization: `Bearer ${tkn}` }
+        });
 
-        setAddRow([{
-            title: "",
-            links: "",
-            day: "",
-            time: "",
-        },])
+        setAddRow([{ title: "", links: "", day: "", time: "" }]);
     }
 
     const AddRow = () => {
@@ -166,8 +163,8 @@ export default function Table() {
                             <a className={`${edit_On ? "flex" : "hidden"} px-3 py-2 cursor-pointer`}
                                 onClick={() => {
                                     setEditOn(prev => !prev);
-                                    SaveRow();
                                     SaveEdit();
+                                    SaveRow();
                                 }}>Save</a>
 
                             <a className={`${edit_On ? "hidden" : "flex"} text-black px-3 py-2 cursor-pointer`}
