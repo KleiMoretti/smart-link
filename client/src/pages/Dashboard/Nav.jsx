@@ -6,6 +6,7 @@ import { onAuthStateChanged } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import Table from "../Dashboard/Table"
 import AI from "../Dashboard/AI"
+import { signOut } from "firebase/auth";
 
 export default function Navigation() {
     const navigate = useNavigate();
@@ -23,6 +24,17 @@ export default function Navigation() {
         })
         return () => unsubscribe()
     }, [])
+
+
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+
+            console.log("Logged out successfully");
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
+    };
 
 
     return (
@@ -44,21 +56,18 @@ export default function Navigation() {
                         <div className="relative">
 
                             <img className="w-10 rounded-full cursor-pointer" src={userDetails?.photoURL} alt="" onClick={() => setProfile(prev => !prev)} />
-                            <div className={`${showProfile ? "" : 'hidden'} w-[300px] absolute p-2 right-1 top-14 bg-white rounded-lg shadow-sm border border-gray-100`}>
+                            <div className={`${showProfile ? "" : 'hidden'} w-[270px] absolute p-2 right-1 top-14 bg-white rounded-lg shadow-sm border border-gray-100`}>
                                 <div className="border-b border-gray-200 px-2 py-3">
                                     <p className="m-0 text-sm font-semibold">{userDetails?.displayName}</p>
                                     <p className="m-0 text-xs">{userDetails?.email}</p>
                                 </div>
 
-                                <div className="border-b border-gray-200 px-2 py-3 hover:bg-gray-100 rounded-lg cursor-pointer text-xs">
+                                <div className="border-b border-gray-200 px-2 py-3 hover:bg-gray-100 rounded-md cursor-pointer text-xs">
                                     <button>Settings</button>
                                 </div>
-
-                                <div className="px-2 py-3 hover:bg-gray-100 rounded-lg cursor-pointer text-red-500 text-xs">
+                                <div className="px-2 py-3 hover:bg-gray-100 rounded-md cursor-pointer text-red-500 text-xs" onClick={() => handleLogout()}>
                                     <button>Log Out</button>
                                 </div>
-
-
                             </div>
 
                         </div>
