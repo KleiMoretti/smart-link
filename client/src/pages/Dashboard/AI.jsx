@@ -7,6 +7,7 @@ import { getToken } from "../../utils/Token"
 export default function AI_TEST() {
     const [prompt, setPrompt] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const features = ["Easy to use", "Fast Setup", "Well Organized", "AI powered"];
 
     const SendPrompt = async () => {
         if (!prompt.trim() || isLoading) return;
@@ -47,19 +48,17 @@ export default function AI_TEST() {
                         <i className="bi text-3xl bi-arrow-up-circle-fill"></i>
                     )}</button>
                 </div>
-                <div className=" flex justify-start gap-2 mt-3 font-['Space_Grotesk',sans-serif] flex-wrap">
-                    <div className="bg-white border border-gray-100 rounded-full py-2 px-3  whitespace-nowrap text-[clamp(3px,3vw,15px)]">
-                        Easy to use
-                    </div>
-                    <div className="bg-white border border-gray-100 rounded-full py-2 px-3  whitespace-nowrap text-[clamp(5px,3vw,15px)]">
-                        Fast Setup
-                    </div>
-                    <div className="bg-white border border-gray-100 rounded-full py-2 px-3  whitespace-nowrap text-[clamp(5px,3vw,15px)]">
-                        Well Oraganize
-                    </div>
-                    <div className="bg-white border border-gray-100 rounded-full py-2 px-3  whitespace-nowrap text-[clamp(5px,3vw,15px)]">
-                        AI powered
-                    </div>
+
+
+                <div className="flex justify-start gap-2 mt-3 font-['Space_Grotesk',sans-serif] flex-wrap">
+                    {features.map((feature) => (
+                        <div
+                            key={feature}
+                            className="bg-white border border-gray-100 rounded-full py-2 px-3 whitespace-nowrap text-[clamp(11px,3vw,15px)]"
+                        >
+                            {feature}
+                        </div>
+                    ))}
                 </div>
             </div>
         </section>
