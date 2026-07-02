@@ -84,6 +84,7 @@ export const GetLinks = async (req, res) => {
 //AI ASK
 export const AskGemini = async (req, res) => {
     try {
+
         const { prompt } = req.body;
 
         if (!prompt) {
@@ -99,6 +100,7 @@ export const AskGemini = async (req, res) => {
 
         const firebaseUID = req.user?.uid;
         const firebaseName = req.user?.name;
+        const firebaseEmail = req.user?.email;
 
 
         await redisClient.del(`links:${firebaseUID}`);
@@ -156,6 +158,10 @@ export const AskGemini = async (req, res) => {
             console.warn("Hindi JSON ang response:", text);
         }
 
+        console.log("UID: ", firebaseUID);
+        console.log("firstname: ", firebaseEmail);
+        console.log("firstname: ", firebaseName);
+        console.log("IP: ", req.ip);
         console.log(text);
 
         if (!Array.isArray(parsed)) {
