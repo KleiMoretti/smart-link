@@ -154,7 +154,7 @@ export default function Table() {
 
     return (
         <>
-            <section className="py-50 flex item-center justify-center ">
+            <section className="py-50 flex item-center justify-center min-h-[100dvh]">
                 <div className="max-w-[1000px] w-full">
 
                     {/* HEAD */}
