@@ -9,7 +9,6 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Redirect from "./pages/Dashboard/Redirect";
 
 
-
 function App() {
   const [count, setCount] = useState(0)
 
@@ -20,6 +19,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/r/:id" element={<Redirect />} />
+
       </Routes>
     </BrowserRouter>
   )
