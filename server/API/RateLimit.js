@@ -45,3 +45,13 @@ export const RequestRL = RateLimit({
     },
     prefix: "Request:",
 });
+
+export const AI = RateLimit({
+    windowMs: 1000 * 60 * 20,
+    max: 5,
+    message: {
+        success: false,
+        message: "Too many requests, try again later",
+    },
+    prefix: "AI:",
+});
