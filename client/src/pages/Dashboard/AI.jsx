@@ -28,11 +28,10 @@ export default function AI_TEST() {
             setIsLoading(false);
         }
     }
-    //  w-full flex flex-col justify-end items-end bg-gray-100 min-h-screen 
 
     return (
 
-        <section className="lg:py-[140px] pb-5 px-2 lg:px-0 w-full flex lg:flex-row flex-col lg:justify-center lg:items-center  justify-end items-end bg-gray-100 min-h-screen ">
+        <section className="lg:py-[140px] py-40 pb-5 px-2 lg:px-0 w-full flex lg:flex-row flex-col lg:justify-center lg:items-center overflow-hidden justify-end items-end bg-gray-100 min-h-screen ">
             <div className="lg:w-1/2 w-full">
                 <p className="font-semibold text-center text-[clamp(12px,2vw,18px)] whitespace-nowrap font-['Space_Grotesk',sans-serif]">Hello! I'm Lyncks AI. What are we organizing today?</p>
                 <div className="bg-white px-4 py-3 rounded-full flex w-full">
