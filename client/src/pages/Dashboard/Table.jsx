@@ -158,7 +158,7 @@ export default function Table() {
                 <div className="max-w-[1000px] w-full">
 
                     {/* HEAD */}
-                    <div className={`${links.length > 0 ? "" : "hidden"} border border-gray-100 p-4 rounded-2xl shadow-sm `}>
+                    <div className={`${links.length > 0 ? "" : "hidden"} lg:border border-gray-100 p-5 sm:p-3 md:p-3 rounded-2xl lg:shadow-sm `}>
                         <div className="text-sm flex justify-end">
                             <a className={`${edit_On ? "flex" : "hidden"} px-3 py-2 cursor-pointer`}
                                 onClick={() => { setEditOn(prev => !prev); SaveRow(); SaveEdit(); }}>Save</a>
@@ -176,7 +176,7 @@ export default function Table() {
                                 </a>
                             </div>
 
-                            <div className="flex gap-2 text-xs flex-wrap">
+                            <div className="flex gap-2 text-xs flex-wrap lg:mt-0 mt-5">
                                 {["Full Week", ...Object.keys(dayOrder)].map((item, index) => (
                                     <p key={index} className={`${filterDay === item ? "bg-indigo-500 text-white" : "hover:bg-indigo-100"} m-0 p-2 rounded-full cursor-pointer transition-colors duration-200 ease-in-out`}
                                         onClick={() => setFilterDay(item)}>
@@ -186,15 +186,15 @@ export default function Table() {
                             </div>
                         </div>
 
-                        <div>
-                            <table className="w-full text-md mt-10 table-fixed">
+                        <div className="sm:overflow-x-scroll md:overflow-x-scroll ">
+                            <table className="lg:w-full text-md mt-10 table-fixed">
                                 <thead>
-                                    <tr className="bg-indigo-400 text-white">
-                                        <th className="w-1/6 px-6 py-4 text-left rounded-l-lg">Time</th>
-                                        <th className="w-1/6 px-6 py-4 text-left">Subject</th>
-                                        <th className="w-1/6 px-6 py-4 text-left">Links</th>
-                                        <th className={`w-1/6 px-6 py-4 text-left ${edit_On ? "" : " rounded-r-lg"}`}>Day</th>
-                                        <th className={`px-6 py-4 text-left  ${!edit_On ? "hidden" : "w-1/6"} rounded-r-lg`}>Action</th>
+                                    <tr className="bg-indigo-400 text-white text-[clamp(8px,3vw,14px)]">
+                                        <th className="w-1/4 px-6 py-4 text-left rounded-l-lg ">Time</th>
+                                        <th className="w-1/3 px-6 py-4 text-left ">Subject</th>
+                                        <th className="w-1/3 px-6 py-4 text-left ">Links</th>
+                                        <th className={`w-1/6 px-6 py-4 text-left  ${edit_On ? "" : " rounded-r-lg"}`}>Day</th>
+                                        <th className={`px-6 py-4 text-center  ${!edit_On ? "hidden" : "w-1/6"} rounded-r-lg`}>Action</th>
                                     </tr>
                                 </thead>
 
@@ -213,7 +213,7 @@ export default function Table() {
                                             sortDay.map(day => (
                                                 groups[day].map((items, index) => (
                                                     <tr key={index}>
-                                                        <td className="px-6 py-4 text-left text-sm text-gray-700">
+                                                        <td className="px-6 py-4 text-left text-sm text-gray-700 text-[clamp(12px,3vw,14px)]">
                                                             {edit_On ?
                                                                 <input type="time" className="border border-gray-500 p-3"
                                                                     value={items.time}
@@ -222,7 +222,7 @@ export default function Table() {
                                                             }
 
                                                         </td>
-                                                        <td className="px-6 py-4 text-left text-sm text-gray-700 font-semibold">
+                                                        <td className="px-6 py-4 text-left text-sm text-gray-700 font-semibold text-[clamp(12px,3vw,14px)]">
                                                             {edit_On ?
                                                                 <input type="text" className="border border-gray-500 p-3"
                                                                     value={items.title}
@@ -230,7 +230,7 @@ export default function Table() {
                                                                 : items.title
                                                             }
                                                         </td>
-                                                        <td className="px-6 py-4 text-left text-sm text-blue-500 font-medium">
+                                                        <td className="px-6 py-4 text-left text-sm text-blue-500 font-medium text-[clamp(12px,3vw,14px)]">
                                                             {edit_On ?
                                                                 <input type="text" className="border border-gray-500 p-3"
                                                                     value={items.links}
@@ -238,7 +238,7 @@ export default function Table() {
                                                                 : items.links
                                                             }
                                                         </td>
-                                                        <td className="px-6 py-4 text-left text-sm text-gray-700">
+                                                        <td className="px-6 py-4 text-left text-sm text-gray-700 text-[clamp(12px,3vw,14px)]">
                                                             {edit_On ?
                                                                 <select className="border-gray-500 border p-3 outline-none"
                                                                     value={items.day}
@@ -256,7 +256,7 @@ export default function Table() {
                                                             }
                                                         </td>
 
-                                                        <td className={`w-1/6 px-6 py-4 text-left text-sm text-red-500 cursor-pointer ${!edit_On ? "hidden" : ""}`}
+                                                        <td className={`w-1/6 px-6 py-4 text-left text-sm text-red-500 cursor-pointer text-center ${!edit_On ? "hidden" : ""}`}
                                                             onClick={() => editDelete(items.id)}>
                                                             Delete
                                                         </td>
