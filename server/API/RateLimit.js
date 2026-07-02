@@ -25,9 +25,7 @@ export const RateLimit = ({ windowMs, max, message, prefix, failOpen = true, }) 
                     return await redisClient.sendCommand(args);
                 } catch (err) {
                     if (failOpen) {
-
                         console.error("[RateLimit] Redis error, failing open:", err.message);
-
                         return null;
                     }
                     throw err;

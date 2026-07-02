@@ -98,6 +98,8 @@ export default function Table() {
     }
 
     const SaveRow = async () => {
+        if (addRow.length === 0) return;
+
         if (!auths) return;
         const tkn = token;
 
@@ -162,7 +164,11 @@ export default function Table() {
                     <div className={`${links.length > 0 ? "" : "hidden"} lg:border border-gray-100 p-5 sm:p-3 md:p-3 rounded-2xl lg:shadow-sm `}>
                         <div className="text-sm flex justify-end">
                             <a className={`${edit_On ? "flex" : "hidden"} px-3 py-2 cursor-pointer`}
-                                onClick={() => { setEditOn(prev => !prev); SaveRow(); SaveEdit(); }}>Save</a>
+                                onClick={() => {
+                                    setEditOn(prev => !prev);
+                                    SaveRow();
+                                    SaveEdit();
+                                }}>Save</a>
 
                             <a className={`${edit_On ? "hidden" : "flex"} text-black px-3 py-2 cursor-pointer`}
                                 onClick={() => { setEditOn(prev => !prev) }}>Edit</a>
