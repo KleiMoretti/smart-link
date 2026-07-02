@@ -37,7 +37,7 @@ export default function AI_TEST() {
 
     return (
 
-        <section className="lg:py-[140px] py-40 pb-5 px-2 lg:px-0 w-full flex lg:flex-row flex-col lg:justify-center lg:items-center overflow-hidden justify-end items-end min-h-screen ">
+        <section className="lg:py-[140px] py-50 pb-8 px-2 lg:px-0 w-full flex lg:flex-row flex-col lg:justify-center lg:items-center overflow-hidden justify-end items-end min-h-screen ">
             <div className="lg:w-1/2 w-full">
                 <p className="font-semibold text-center text-[clamp(12px,2vw,18px)] whitespace-nowrap font-['Space_Grotesk',sans-serif]">Hello! I'm <span className="text-indigo-500">Lyncks</span> AI. What are we organizing today?</p>
                 <div className="bg-gray-100 px-4 py-3 rounded-full flex w-full border border-gray-100">
