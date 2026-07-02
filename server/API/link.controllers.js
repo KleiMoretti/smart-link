@@ -210,48 +210,6 @@ export const GetLinks = async (req, res) => {
     }
 };
 
-// SENDING LINK
-export const FeedBack = async (req, res) => {
-    const firebaseUID = req.user?.uid;
-    const firebaseName = req.user?.name;
-    const { emoji, message } = req.body;
-
-
-    if (!emoji) {
-        return res.status(400).json({ success: false, message: "Emoji is required" });
-    }
-
-    const { data: checkExist, error: errorExist } = await SupabaseConnect
-        .from("feedback")
-        .select("uid")
-        .eq("uid", firebaseUID)
-
-    if (errorExist) {
-        console.error("Supabase Error:", ErrorSend);
-        return res.status(500).json({ success: false, error: ErrorSend.message });
-    }
-
-    if (checkExist && checkExist.length > 0) {
-        return res.status(400).json({ success: false, message: "Feedback already submitted." });
-    }
-
-    const { data: sendFeedBack, error: ErrorSend } = await SupabaseConnect
-        .from("feedback")
-        .insert([{
-            "uid": firebaseUID,
-            "name": firebaseName,
-            "emotion": emoji,
-            "message": message,
-        }]);
-
-    if (ErrorSend) {
-        console.error("Supabase Error:", ErrorSend);
-        return res.status(500).json({ success: false, error: ErrorSend.message });
-    }
-
-    return res.status(200).json({ success: true });
-};
-
 //CHECKING FEEDBACK
 export const CheckFeedBack = async (req, res) => {
     const firebaseID = req.user?.uid;
