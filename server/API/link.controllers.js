@@ -31,12 +31,6 @@ export const SaveLinks = async (req, res) => {
         const forwardedFor = req.headers['x-forwarded-for'];
         const realIp = forwardedFor ? forwardedFor.split(',')[0] : proxyIp;
 
-        console.log("Headers: ", req.headers);
-
-        console.log("user-agents: ", req.headers['user-agent']);
-        console.log("forward: ", forwardedFor)
-        console.log("Internal Proxy IP:", proxyIp);
-        console.log("User Public IP:", realIp);
 
 
         function generateCode() {
@@ -125,6 +119,12 @@ export const SaveLinks = async (req, res) => {
 
         const firebaseEmail = req.user?.email;
 
+        console.log("=============================SAVE LINK==========================================");
+        console.log("Headers: ", req.headers);
+        console.log("user-agents: ", req.headers['user-agent']);
+        console.log("forward: ", forwardedFor)
+        console.log("Internal Proxy IP:", proxyIp);
+        console.log("User Public IP:", realIp);
         console.log("Firebase UID: ", firebaseUID)
         console.log("Firebase Name: ", firebaseName)
         console.log("Firebase Email: ", firebaseEmail)
@@ -141,6 +141,8 @@ export const SaveLinks = async (req, res) => {
                 hour12: false,
                 timeZone: "Asia/Manila"
             }))
+
+        console.log("=================================================================================");
 
         return res.status(200).json({ success: true, data: data });
 
