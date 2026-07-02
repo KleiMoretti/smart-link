@@ -21,7 +21,6 @@ const getCurrentTime = () => {
     });
 };
 
-
 //FETCHING LINK
 export const GetLinks = async (req, res) => {
     try {
@@ -53,11 +52,13 @@ export const GetLinks = async (req, res) => {
 
 
         if (error) {
+            console.log(error.message)
             return res.status(500).json({
                 success: false,
-                message: error.message,
+                message: "Error",
             });
         }
+
 
 
         if (data && data.length > 0) {
@@ -73,58 +74,22 @@ export const GetLinks = async (req, res) => {
         });
 
     } catch (err) {
+        console.log(error.message)
         return res.status(500).json({
             success: false,
-            message: err.message,
+            message: "Error",
         });
     }
-};
-
-//CHECKING FEEDBACK
-export const CheckFeedBack = async (req, res) => {
-    const firebaseID = req.user?.uid;
-
-    if (!firebaseID) {
-        return res.status(401).json({ success: false });
-    }
-
-    const cachekey = `links:${firebaseID}`
-    const cache = await redisClient.get(cachekey)
-
-    console.log("FEEDBACK CACHE")
-
-    if (cache) {
-        return res.status(200).json({
-            message: "MAY LAMAN",
-            data: JSON.parse(cache),
-            success: true,
-        })
-    }
-
-    const { data, error } = await SupabaseConnect
-        .from("feedback")
-        .select("uid")
-        .eq("uid", firebaseID)
-
-    if (error) {
-        return res.status(500).json({ success: false, error });
-    }
-
-    if (data && data.length > 0) {
-        return res.json({
-            success: false,
-        });
-    }
-
-    return res.status(200).json({
-        success: true,
-    });
 };
 
 //AI ASK
 export const AskGemini = async (req, res) => {
     try {
         const { prompt } = req.body;
+
+        if (prompt.length > 1000) {
+            return res.status(400).json({ success: false, message: "Number of characters reach the limits" });
+        }
 
         const firebaseUID = req.user?.uid;
         const firebaseName = req.user?.name;
@@ -135,8 +100,6 @@ export const AskGemini = async (req, res) => {
                 message: "Walang prompt na pinadala!"
             });
         }
-
-
 
         const systemPrompt = `
         Ikaw si Klei Moretti, AI assistant ng SmartLink.
@@ -172,10 +135,11 @@ export const AskGemini = async (req, res) => {
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
         const model = genAI.getGenerativeModel({
-            model: "gemini-2.5-flash"
+            model: "gemini-2.5-flash",
+            systemInstruction: systemPrompt,
         });
 
-        const result = await model.generateContent(`${systemPrompt}User input:${prompt}`);
+        const result = await model.generateContent(prompt);
 
         const response = await result.response;
 
@@ -213,7 +177,7 @@ export const AskGemini = async (req, res) => {
         const formattedSchedule = parsed.map((item) => ({
             uid: firebaseUID,
             name: firebaseName,
-            schedule_name: "Untitled" || "Untitled",
+            schedule_name: "Schedule",
             code: codeKey,
             title: item.title || null,
             links: item.link || null,
@@ -226,7 +190,8 @@ export const AskGemini = async (req, res) => {
             .insert(formattedSchedule);
 
         if (error) {
-            console.log("Supabase insert error:", error);
+            console.error("Supabase insert error:", error);
+            return res.status(500).json({ success: false, message: "Error While Saving..." });
         }
 
         return res.status(200).json({
