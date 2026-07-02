@@ -154,8 +154,8 @@ export default function Table() {
 
     return (
         <>
-            <section className="py-50 flex item-center justify-center min-h-[100dvh]">
-                <div className="max-w-[1000px] w-full">
+            <section className=" flex item-center justify-center min-h-[100dvh]">
+                <div className="max-w-[1000px] w-full py-10">
 
                     {/* HEAD */}
                     <div className={`${links.length > 0 ? "" : "hidden"} lg:border border-gray-100 p-5 sm:p-3 md:p-3 rounded-2xl lg:shadow-sm `}>
