@@ -10,10 +10,10 @@ import { RequestRL } from "./RateLimit.js"
 
 const route = express.Router();
 
-route.get("/GetLinks", Middleware, GetLinks);
-route.post("/ask-gemini", Middleware, AskGemini);
-route.post("/saveedit", Middleware, SaveEdit);
-route.post("/SaveRow", Middleware, SaveRow);
+route.get("/GetLinks", Middleware, RequestRL, GetLinks);
+route.post("/ask-gemini", Middleware, RequestRL, AskGemini);
+route.post("/saveedit", Middleware, RequestRL, SaveEdit);
+route.post("/SaveRow", Middleware, RequestRL, SaveRow);
 route.post("/deleteedit", Middleware, DeleteEdit);
 
 
