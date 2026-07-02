@@ -21,190 +21,6 @@ const getCurrentTime = () => {
     });
 };
 
-export const SaveLinks = async (req, res) => {
-    try {
-
-        const proxyIp = req.ip;
-
-        const forwardedFor = req.headers['x-forwarded-for'];
-        const realIp = forwardedFor ? forwardedFor.split(',')[0] : proxyIp;
-
-        console.log("Headers: ", req.headers);
-
-        console.log("user-agents: ", req.headers['user-agent']);
-        console.log("forward: ", forwardedFor)
-        console.log("Internal Proxy IP:", proxyIp);
-        console.log("User Public IP:", realIp);
-
-
-        function generateCode() {
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            let code = "";
-
-            for (let i = 0; i < 6; i++) {
-                const randomIndex = Math.floor(Math.random() * chars.length);
-                code += chars[randomIndex];
-            }
-
-            return code;
-        }
-
-        const codeKey = generateCode();
-
-        const firebaseUID = req.user.uid
-        const firebaseName = req.user.name || req.user.email || "Anonymous User";
-
-        const { Links, Title } = req.body;
-
-        if (!Links || !Array.isArray(Links)) {
-            return res.status(400).json({
-                success: false,
-                message: "Invalid Data format."
-            });
-        }
-
-        const isValidTime = (time) => /^([01]\d|2[0-3]):([0-5]\d)$/.test(time);
-
-        const validDays = [
-            "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-        ];
-
-        if (!Title || Title.length <= 1) {
-            return res.status(400).json({
-                message: "Invalid Title",
-                success: false
-            });
-        }
-
-        const isValid = Links.every((item) => {
-            return (
-                item.title &&
-                item.title.length > 1 &&
-                item.title.length < 50 &&
-
-                item.link &&
-                item.link.startsWith("https://") &&
-
-                validDays.includes(item.day) &&
-
-                item.time &&
-                isValidTime(item.time)
-
-            );
-        });
-
-        if (!isValid) {
-            return res.status(400).json({
-                message: "Invalid Link Data",
-                success: false
-            });
-        }
-
-        const linksToInsert = Links.map(item => ({
-            title: item.title,
-            links: item.link?.trim(),
-            day: item.day,
-            time: item.time,
-            uid: firebaseUID,
-            name: firebaseName,
-            code: codeKey,
-            schedule_name: Title
-        }));
-
-        const { data, error } = await SupabaseConnect
-            .from("Links")
-            .insert(linksToInsert)
-            .select();
-
-        if (error) {
-            console.log("SUPABASE ERROaR:", error);
-            return res.status(500).json({ success: false, message: error.message });
-        }
-
-        const firebaseEmail = req.user?.email;
-
-        console.log("Firebase UID: ", firebaseUID)
-        console.log("Firebase Name: ", firebaseName)
-        console.log("Firebase Email: ", firebaseEmail)
-        console.log("Created Links: ", Links.map((item => item.link)))
-        console.log("Date Created: ", new Date().toLocaleDateString("en-US",
-            {
-                weekday: "long",
-                timeZone: "Asia/Manila"
-            }))
-        console.log("Time Created: ", new Date().toLocaleTimeString("en-US",
-            {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: false,
-                timeZone: "Asia/Manila"
-            }))
-
-        return res.status(200).json({ success: true, data: data });
-
-    } catch (error) {
-        console.error("❌ Controller Error man:", error);
-        return res.status(500).json({ success: false, message: error.message });
-    }
-};
-
-export const GetLinks = async (req, res) => {
-    try {
-        const uid = req.user?.uid;
-
-        if (!uid) {
-            return res.status(401).json({
-                success: false,
-                message: "Unauthorized"
-            });
-        }
-
-        const cacheKey = `links:${uid}`
-        const cached = await redisClient.get(cacheKey)
-
-        if (cached) {
-            console.log("SOURCE GETLINK: CACHE");
-
-            return res.status(200).json({
-                message: "nakuha yung links (cache)",
-                success: true,
-                link: JSON.parse(cached),
-            });
-        }
-        const { data, error } = await SupabaseConnect
-            .from("Links")
-            .select("title, links, day, time, code, schedule_name, id")
-            .eq("uid", uid);
-
-
-        if (error) {
-            return res.status(500).json({
-                success: false,
-                message: error.message,
-            });
-        }
-
-
-        if (data && data.length > 0) {
-            await redisClient.setEx(cacheKey, 3600, JSON.stringify(data));
-        }
-
-
-        console.log("SOURCE GETLINK: SUPABASE");
-        return res.status(200).json({
-            message: "nakuha yung links",
-            success: true,
-            link: data,
-        });
-
-    } catch (err) {
-        return res.status(500).json({
-            success: false,
-            message: err.message,
-        });
-    }
-};
-
 export const DeleteLink = async (req, res) => {
     try {
         const uid = req.user?.uid;
@@ -478,9 +294,198 @@ export const SaveTitle = async (req, res) => {
 
 }
 
+
+
+// SAVE LINK (CREATE)
+export const SaveLinks = async (req, res) => {
+    try {
+
+        const proxyIp = req.ip;
+
+        const forwardedFor = req.headers['x-forwarded-for'];
+        const realIp = forwardedFor ? forwardedFor.split(',')[0] : proxyIp;
+
+        console.log("Headers: ", req.headers);
+
+        console.log("user-agents: ", req.headers['user-agent']);
+        console.log("forward: ", forwardedFor)
+        console.log("Internal Proxy IP:", proxyIp);
+        console.log("User Public IP:", realIp);
+
+
+        function generateCode() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            let code = "";
+
+            for (let i = 0; i < 6; i++) {
+                const randomIndex = Math.floor(Math.random() * chars.length);
+                code += chars[randomIndex];
+            }
+
+            return code;
+        }
+
+        const codeKey = generateCode();
+
+        const firebaseUID = req.user.uid
+        const firebaseName = req.user.name || req.user.email || "Anonymous User";
+
+        const { Links, Title } = req.body;
+
+        if (!Links || !Array.isArray(Links)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid Data format."
+            });
+        }
+
+        const isValidTime = (time) => /^([01]\d|2[0-3]):([0-5]\d)$/.test(time);
+
+        const validDays = [
+            "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+        ];
+
+        if (!Title || Title.length <= 1) {
+            return res.status(400).json({
+                message: "Invalid Title",
+                success: false
+            });
+        }
+
+        const isValid = Links.every((item) => {
+            return (
+                item.title &&
+                item.title.length > 1 &&
+                item.title.length < 50 &&
+
+                item.link &&
+                item.link.startsWith("https://") &&
+
+                validDays.includes(item.day) &&
+
+                item.time &&
+                isValidTime(item.time)
+
+            );
+        });
+
+        if (!isValid) {
+            return res.status(400).json({
+                message: "Invalid Link Data",
+                success: false
+            });
+        }
+
+        const linksToInsert = Links.map(item => ({
+            title: item.title,
+            links: item.link?.trim(),
+            day: item.day,
+            time: item.time,
+            uid: firebaseUID,
+            name: firebaseName,
+            code: codeKey,
+            schedule_name: Title
+        }));
+
+        const { data, error } = await SupabaseConnect
+            .from("Links")
+            .insert(linksToInsert)
+            .select();
+
+        if (error) {
+            console.log("SUPABASE ERROaR:", error);
+            return res.status(500).json({ success: false, message: error.message });
+        }
+
+        const firebaseEmail = req.user?.email;
+
+        console.log("Firebase UID: ", firebaseUID)
+        console.log("Firebase Name: ", firebaseName)
+        console.log("Firebase Email: ", firebaseEmail)
+        console.log("Created Links: ", Links.map((item => item.link)))
+        console.log("Date Created: ", new Date().toLocaleDateString("en-US",
+            {
+                weekday: "long",
+                timeZone: "Asia/Manila"
+            }))
+        console.log("Time Created: ", new Date().toLocaleTimeString("en-US",
+            {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false,
+                timeZone: "Asia/Manila"
+            }))
+
+        return res.status(200).json({ success: true, data: data });
+
+    } catch (error) {
+        console.error("❌ Controller Error man:", error);
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+//FETCHING LINK
+export const GetLinks = async (req, res) => {
+    try {
+        const uid = req.user?.uid;
+
+        if (!uid) {
+            return res.status(401).json({
+                success: false,
+                message: "Unauthorized"
+            });
+        }
+
+        const cacheKey = `links:${uid}`
+        const cached = await redisClient.get(cacheKey)
+
+        if (cached) {
+            console.log("SOURCE GETLINK: CACHE");
+
+            return res.status(200).json({
+                message: "nakuha yung links (cache)",
+                success: true,
+                link: JSON.parse(cached),
+            });
+        }
+        const { data, error } = await SupabaseConnect
+            .from("Links")
+            .select("title, links, day, time, code, schedule_name, id")
+            .eq("uid", uid);
+
+
+        if (error) {
+            return res.status(500).json({
+                success: false,
+                message: error.message,
+            });
+        }
+
+
+        if (data && data.length > 0) {
+            await redisClient.setEx(cacheKey, 3600, JSON.stringify(data));
+        }
+
+
+        console.log("SOURCE GETLINK: SUPABASE");
+        return res.status(200).json({
+            message: "nakuha yung links",
+            success: true,
+            link: data,
+        });
+
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: err.message,
+        });
+    }
+};
+
+// SENDING LINK
 export const FeedBack = async (req, res) => {
     const firebaseUID = req.user?.uid;
-    const firebaseName = req.user?.displayName;
+    const firebaseName = req.user?.name;
     const { emoji, message } = req.body;
 
 
@@ -519,6 +524,7 @@ export const FeedBack = async (req, res) => {
     return res.status(200).json({ success: true });
 };
 
+//CHECKING FEEDBACK
 export const CheckFeedBack = async (req, res) => {
     const firebaseID = req.user?.uid;
 
@@ -559,14 +565,13 @@ export const CheckFeedBack = async (req, res) => {
     });
 };
 
+//AI ASK
 export const AskGemini = async (req, res) => {
     try {
-        const { prompt, titleSched } = req.body;
-
-
+        const { prompt } = req.body;
 
         const firebaseUID = req.user?.uid;
-        const firebaseName = req.user?.displayName;
+        const firebaseName = req.user?.name;
 
         if (!prompt) {
             return res.status(400).json({
@@ -629,7 +634,6 @@ export const AskGemini = async (req, res) => {
         }
 
         console.log(text);
-        console.log(titleSched)
 
 
         if (!Array.isArray(parsed)) {
@@ -653,7 +657,7 @@ export const AskGemini = async (req, res) => {
         const formattedSchedule = parsed.map((item) => ({
             uid: firebaseUID,
             name: firebaseName,
-            schedule_name: titleSched ?? "Untitled Schedule",
+            schedule_name: "Untitled" || "Untitled",
             code: codeKey,
             title: item.title || null,
             links: item.link || null,
@@ -681,6 +685,105 @@ export const AskGemini = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "Gemini API error"
+        });
+    }
+};
+
+//SAVING EDIT
+export const SaveEdit = async (req, res) => {
+    const { editedLinks } = req.body;
+
+    const firebaseUID = req.user.uid;
+
+    if (!Array.isArray(editedLinks) || editedLinks.length === 0) {
+        return res.status(400).json({
+            message: "No data"
+        });
+    }
+
+    for (const item of editedLinks) {
+        if (
+            !item.id ||
+            !item.title ||
+            !item.links ||
+            !item.day ||
+            !item.time
+        ) {
+            return res.status(400).json({
+                message: "Missing required fields",
+                item
+            });
+        }
+    }
+
+    try {
+        const results = await Promise.all(
+            editedLinks.map(async (item) => {
+                const { data, error } = await SupabaseConnect
+                    .from("Links")
+                    .update({
+                        title: item.title,
+                        links: item.links,
+                        day: item.day,
+                        time: item.time
+                    })
+                    .eq("id", item.id)
+                    .eq("uid", firebaseUID);
+
+                if (error) {
+                    throw error;
+                }
+
+                return data;
+            })
+        );
+
+        return res.status(200).json({
+            message: "Updated successfully",
+            results
+        });
+
+    } catch (err) {
+        return res.status(500).json({
+            message: err.message
+        });
+    }
+};
+
+export const SaveRow = async (req, res) => {
+    const { AddRow, code, schedule_name } = req.body;
+    const firebaseUID = req.user?.uid;
+    const firebaseName = req.user?.name;
+    console.log(firebaseName)
+
+    try {
+        await Promise.all(
+            AddRow.map(async (item) => {
+                const { error } = await SupabaseConnect
+                    .from("Links")
+                    .insert({
+                        title: item.title,
+                        links: item.links,
+                        day: item.day,
+                        time: item.time,
+                        code: code,
+                        schedule_name: schedule_name,
+                        uid: firebaseUID,
+                        name: firebaseName,
+                    });
+
+                if (error) throw error;
+            })
+        );
+
+        return res.status(200).json({
+            message: "Rows saved successfully.",
+        });
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            message: error.message,
         });
     }
 };

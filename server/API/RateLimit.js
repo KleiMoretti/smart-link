@@ -23,8 +23,8 @@ export const RateLimit = ({ windowMs, max, message, prefix = "Request:" }) => {
 };
 
 export const RequestRL = RateLimit({
-    windowMs: 1000 * 60 * 5,
-    max: 10,
+    windowMs: 1000 * 60 * 20,
+    max: 50,
     message: {
         success: false,
         message: "Too many requests, try again later"

@@ -17,19 +17,15 @@ export default function Nav() {
 
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-
             gsap.from(nav.current, { y: "-10vh" })
             gsap.to(nav.current, { y: 0 })
 
         })
     })
 
-
-
     return (
-
         <>
-            <header ref={nav} className="w-full fixed top-0 left-0 z-[100] border-b border-b-gray-200 backdrop-blur-[14px] bg-gray/50 ">
+            <header ref={nav} className="fixed w-full top-0 left-0 z-[100] border-b border-b-gray-200 backdrop-blur-[14px] bg-gray/50 ">
                 <div className="bg-[rgb(var(--bg-white-72))]  py-[16px] px-[32px] max-w-[1120px] my-0 mx-auto flex justify-between items-center">
                     <div className="flex items-center gap-3">
                         <span className="w-[40px] overflow-hidden rounded-lg" >

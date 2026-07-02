@@ -5,7 +5,7 @@ import {
     EditTable, DeleteLink,
     SaveLinkRow, SaveTitle,
     FeedBack, CheckFeedBack,
-    AskGemini
+    AskGemini, SaveEdit, SaveRow
 } from "./link.controllers.js";
 import { Middleware } from "./auth.middleware.js";
 import { RequestRL } from "./RateLimit.js"
@@ -21,6 +21,8 @@ route.post("/saveTitle", Middleware, SaveTitle);
 route.post("/sendFeedBack", Middleware, FeedBack);
 route.get("/checkfeedback", Middleware, CheckFeedBack);
 route.post("/ask-gemini", Middleware, AskGemini);
+route.post("/saveedit", Middleware, SaveEdit);
+route.post("/SaveRow", Middleware, SaveRow);
 
 
 export default route;

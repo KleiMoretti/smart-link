@@ -5,3 +5,7 @@
     /* Dito natin inilagay ang font-ubuntu */
     --font-ubuntu: "Ubuntu", sans-serif;
 }
+
+html {
+    scrollbar-gutter: stable;
+}

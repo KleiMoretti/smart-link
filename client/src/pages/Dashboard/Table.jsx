@@ -1,33 +1,31 @@
 import { useEffect, useState } from "react"
-import { auth } from "../../firebase/firebase"
-import { onAuthStateChanged } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import "../../css/LandingPage.css"
-import { CutLength } from "../../utils/CutLength";
 import { GET_METHOD } from "../../utils/Fetching"
-import { useQuery } from "@tanstack/react-query"
+import { onAuthStateChanged } from "firebase/auth"
+import { auth } from "../../firebase/firebase"
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
 
 
-export default function Table({ profile, name, email }) {
+export default function Table() {
+
+    const redirectLink = import.meta.env.VITE_REDIRECT_FRONTEND_URL;
+
+    const [token, setToken] = useState(null)
+    const [links, setLinks] = useState([])
+    const [code, setCode] = useState("")
+    const [schedule_name, setSchedule_name] = useState("")
+    const [addRow, setAddRow] = useState([
+        {
+            title: "",
+            links: "",
+            day: "",
+            time: "",
+        },
+    ]);
+    const [filterDay, setFilterDay] = useState("Full Week")
+    const [edit_On, setEditOn] = useState(false)
+    const [auths, setAuths] = useState(false)
     const navigate = useNavigate()
-
-    const [showDay, setDay] = useState("full week");
-    const [authChecked, setAuthChecked] = useState(false);
-
-    const BackendRedirect = import.meta.env.VITE_REDIRECT_FRONTEND_URL || "";
-
-    const handleNav = (value) => setDay(value)
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (!user) {
-                navigate("/login");
-            }
-            setAuthChecked(true);
-        });
-
-        return () => unsubscribe();
-    }, [navigate]);
 
     const dayOrder = {
         "Monday": 1,
@@ -39,113 +37,288 @@ export default function Table({ profile, name, email }) {
         "Sunday": 7
     }
 
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ['user_schedule'],
-        queryFn: async () => {
-            const user = auth.currentUser;
-            if (!user) return { link: [], title: "" };
-            const token = await user.getIdToken();
-            const res = await GET_METHOD(import.meta.env.VITE_API_GET_LINK, token);
-            return { link: res?.link || [], title: res?.title || "" };
-        },
-        enabled: authChecked,
-        staleTime: Infinity,
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-    });
+    {/* AUTH CHECK */ }
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const getToken = await user.getIdToken();
+                setToken(getToken);
+                setAuths(true);
 
-    const links = data?.link || [];
+            } else {
+                navigate("/login");
+            }
+        });
 
-    if (!authChecked || isLoading) return <p>Loading...</p>;
-    if (isError) return <p>Error loading schedule.</p>;
+        return () => {
+            unsubscribe();
+        };
+    }, []);
+
+    {/* FETCH LINKS */ }
+    useEffect(() => {
+        if (!token) return;
+
+
+        const function_fetch_link = async () => {
+            try {
+                const res = await axios.get(import.meta.env.VITE_API_GET_LINK, {
+                    headers: {
+                        authorization: `Bearer ${token}`,
+                    },
+                });
+                setCode(res?.data?.link?.[0]?.code)
+                setSchedule_name(res?.data?.link?.[0]?.schedule_name)
+                setLinks(res?.data?.link);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        function_fetch_link();
+    }, [token]);
+
+
+    const handleChanges = (id, field, value) => {
+        setLinks((prev) =>
+            prev.map((item) =>
+                item.id === id
+                    ? { ...item, [field]: value }
+                    : item
+            )
+        );
+    };
+    const SaveLinks = async () => {
+        if (!auths) return;
+        const tkn = token;
+
+        const res = await axios.post(import.meta.env.VITE_API_SAVEEDIT, { editedLinks: links }, {
+            headers: {
+                authorization: `Bearer ${tkn}`
+            }
+        })
+    }
+
+
+
+    const SaveRow = async () => {
+        if (!auths) return;
+        const tkn = token;
+
+        const res = await axios.post(import.meta.env.VITE_API_SAVEROW, { AddRow: addRow, code, schedule_name }, {
+            headers: {
+                authorization: `Bearer ${tkn}`
+            }
+        })
+
+        setAddRow([{
+            title: "",
+            links: "",
+            day: "",
+            time: "",
+        },])
+    }
+    const AddRow = () => {
+        const recentRow = addRow[addRow.length - 1];
+
+        if (
+            !recentRow.title.trim() ||
+            !recentRow.links.trim() ||
+            !recentRow.day.trim() ||
+            !recentRow.time.trim()
+        ) {
+            alert("Complete the current row first.");
+            return;
+        }
+
+        setAddRow((prev) => [
+            ...prev,
+            {
+                title: "",
+                time: "",
+                links: "",
+                day: "",
+            },
+        ]);
+    };
+    const handleEditChanges = (index, field, value) => {
+        setAddRow((prev) => prev.map((item, i) =>
+            i === index ? { ...item, [field]: value } : item
+        ))
+    }
+    const handleEditDelete = (index) => {
+        setAddRow(prev => prev.filter((_, i) => i != index))
+    }
+
 
     return (
         <>
-            <div>
-                <div className="flex items-center">
-                    <div>
+            <section className="py-50 flex item-center justify-center ">
+                <div className="max-w-[1000px] w-full">
 
-                        {links.length > 0 && (
-                            <>
-                                <div className="title-link-main w-full font-medium lg:flex lg:flex-wrap justify-between items-center gap-2">
-                                    <p className="link-title m-0 lg:text-4xl md:text-3xl text-2xl">
-                                        {links[0]?.schedule_name}
+                    {/* HEAD */}
+                    <div className={`${links.length > 0 ? "" : "hidden"} border border-gray-100 px-5 py-4 rounded-2xl shadow-sm `}>
+                        <div className="text-sm flex justify-end">
+                            <a className={`${edit_On ? "flex" : "hidden"} px-3 py-2 cursor-pointer`}
+                                onClick={() => { setEditOn(prev => !prev); SaveRow(); SaveLinks(); }}>Save</a>
+
+                            <a className={`${edit_On ? "hidden" : "flex"} text-black px-3 py-2 cursor-pointer`}
+                                onClick={() => { setEditOn(prev => !prev) }}>Edit</a>
+                        </div>
+                        <div className="flex justify-between items-center flex-wrap">
+                            <div>
+                                <p className="m-0 text-[clamp(25px,5vw,40px)] font-semibold font-['JetBrains_Mono',monospace]">
+                                    {/*1B Schedule*/} {links[0]?.schedule_name}
+                                </p>
+                                <a className="m-0 text-blue-500 font-semibold font-['Space_Grotesk',sans-serif]" href={`${redirectLink + links[0]?.code}`}>
+                                    {`${redirectLink + links[0]?.code}`}
+                                </a>
+                            </div>
+
+                            <div className="flex gap-2 text-xs flex-wrap">
+                                {["Full Week", ...Object.keys(dayOrder)].map((item, index) => (
+                                    <p key={index} className={`${filterDay === item ? "bg-indigo-500 text-white" : "hover:bg-indigo-100"} m-0 p-2 rounded-full cursor-pointer transition-colors duration-200 ease-in-out`}
+                                        onClick={() => setFilterDay(item)}>
+                                        {item}
                                     </p>
+                                ))}
+                            </div>
+                        </div>
 
-                                    {links.length > 0 && links[0]?.code && (
-                                        <a
-                                            href={`${BackendRedirect}${links[0].code}`}
-                                            className="m-0 lg:text-lg text-sky-600 hover:underline break-all"
-                                            target="_blank"
-                                            rel="noreferrer"
-                                        >
-                                            {`${BackendRedirect}${links[0].code}`}
-                                        </a>
-                                    )}
+                        <div>
+                            <table className="w-full text-md mt-10">
+                                <thead>
+                                    <tr className="bg-indigo-400 text-white">
+                                        <th className="w-1/4 px-6 py-4 text-left rounded-l-lg">Time</th>
+                                        <th className="w-1/4 px-6 py-4 text-left">Subject</th>
+                                        <th className="w-1/3 px-6 py-4 text-left">Links</th>
+                                        <th className="w-1/4 px-6 py-4 text-left rounded-r-lg">Day</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    {(() => {
+                                        const filtered = filterDay === "Full Week" ? links : links?.filter(item => item.day === filterDay);
+                                        const groups = filtered?.reduce((acc, item) => {
+                                            (acc[item.day] = acc[item.day] || []).push(item)
+                                            return acc
+                                        }, {});
+
+                                        const sortDay = Object.keys(groups).sort((a, b) => (dayOrder[a] || 0) - (dayOrder[b] || 0));
+
+                                        return sortDay && sortDay.length > 0 ? (
+                                            sortDay.map(day => (
+                                                groups[day].map((items, index) => (
+                                                    <tr key={index}>
+                                                        <td className="px-6 py-4 text-left text-sm text-gray-700">
+                                                            {edit_On ?
+                                                                <input type="time" className="border border-gray-500 p-3"
+                                                                    value={items.time}
+                                                                    onChange={(e) => handleChanges(items.id, "time", e.target.value)} />
+                                                                : items.time
+                                                            }
+
+                                                        </td>
+                                                        <td className="px-6 py-4 text-left text-sm text-gray-700 font-semibold">
+                                                            {edit_On ?
+                                                                <input type="text" className="border border-gray-500 p-3"
+                                                                    value={items.title}
+                                                                    onChange={(e) => handleChanges(items.id, "title", e.target.value)} />
+                                                                : items.title
+                                                            }
+                                                        </td>
+                                                        <td className="px-6 py-4 text-left text-sm text-blue-500 font-medium">
+                                                            {edit_On ?
+                                                                <input type="text" className="border border-gray-500 p-3"
+                                                                    value={items.links}
+                                                                    onChange={(e) => handleChanges(items.id, "links", e.target.value)} />
+                                                                : items.links
+                                                            }
+                                                        </td>
+                                                        <td className="px-6 py-4 text-left text-sm text-gray-700">
+                                                            {edit_On ?
+                                                                <select className="border-gray-500 border p-3 outline-none"
+                                                                    value={items.day}
+                                                                    onChange={(e) => handleChanges(items.id, "day", e.target.value)}
+                                                                >
+                                                                    <option value="Monday">Monday</option>
+                                                                    <option value="Tuesday">Tuesday</option>
+                                                                    <option value="Wednesday">Wednesday</option>
+                                                                    <option value="Thursday">Thursday</option>
+                                                                    <option value="Friday">Friday</option>
+                                                                    <option value="Saturday">Saturday</option>
+                                                                    <option value="Sunday">Sunday</option>
+                                                                </select>
+                                                                : items.day
+                                                            }
+                                                        </td>
+                                                    </tr >
+                                                ))
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td colSpan={4} className="px-6 py-4 text-center text-gray-400">
+                                                    No Schedule
+                                                </td>
+                                            </tr>
+                                        );
+                                    })()}
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                        {/*
+                        <pre>{JSON.stringify(links, null, 2)}</pre>
+                        */}
+
+                    </div>
+                    <div className={`${edit_On ? "" : "hidden"} mt-3 shadow-sm border border-gray-100 rounded-lg py-10`}>
+                        {addRow.map((item, index) => (
+                            <div key={index} className="flex w-full justify-center gap-2 mt-2">
+                                <input type="time" className="border border-gray-100 p-2 rounded-md"
+                                    value={item.time}
+                                    onChange={(e) => handleEditChanges(index, "time", e.target.value)} />
+                                <input type="text" className="border border-gray-100 p-2 rounded-md" placeholder="Subject"
+                                    value={item.title}
+                                    onChange={(e) => handleEditChanges(index, "title", e.target.value)} />
+                                <input type="text" className="border border-gray-100 p-2 rounded-md" placeholder="Link"
+                                    value={item.links}
+                                    onChange={(e) => handleEditChanges(index, "links", e.target.value)} />
+                                <select className="border-gray-500 border p-2 outline-none"
+                                    value={item.day}
+                                    onChange={(e) => handleEditChanges(index, "day", e.target.value)}>
+                                    <option value="day">Day</option>
+                                    <option value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday">Friday</option>
+                                    <option value="Saturday">Saturday</option>
+                                    <option value="Sunday">Sunday</option>
+                                </select>
+                                <div className={`${addRow.length === 1 ? "hidden" : ""} bg-red-100 text-red-500 px-3 py-2 rounded-md border-1 border-red-300 cursor-pointer`} onClick={() => handleEditDelete(index)}>
+                                    DELETE
                                 </div>
+                            </div>
+                        ))
+                        }
 
-                                <div className="flex mt-10 items-center">
-                                    <div className="lg:flex hidden gap-10">
-                                        {["full week", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day, index) => (
-                                            <p key={index} className={`p-2 cursor-pointer rounded-full transition ${showDay === day ? "bg-gray-900 text-white" : "hover:bg-gray-200"}`} onClick={() => handleNav(day)}>
-                                                {day === "full week" ? "Full Week" : day}
-                                            </p>
-                                        ))}
-                                    </div>
-
-                                    {/* PARA MOBILE UI */}
-                                    <div className="flex flex-col lg:hidden">
-                                        <select className="border-gray-500 border p-2 outline-none " value={showDay} onChange={(e) => handleNav(e.target.value)}>
-                                            <option value="full week">Full Week</option>
-                                            <option value="Monday">Monday</option>
-                                            <option value="Tuesday">Tuesday</option>
-                                            <option value="Wednesday">Wednesday</option>
-                                            <option value="Thursday">Thursday</option>
-                                            <option value="Friday">Friday</option>
-                                            <option value="Saturday">Saturday</option>
-                                            <option value="Sunday">Sunday</option>
-                                        </select>
-                                    </div>
+                        <div className="flex justify-center mt-10">
+                            <div className="w-1/5 flex justify-center items-center">
+                                <div className="bg-indigo-100 text-indigo-500 px-3 py-2 rounded-md border-1 border-indigo-300 cursor-pointer" onClick={() => AddRow()}>
+                                    Add Row
                                 </div>
-                            </>
-                        )}
+                            </div>
+                        </div>
+                    </div>
 
-                        {(() => {
-
-                            const filtered = showDay === "full week" ? links : links.filter(item => item.day === showDay)
-
-                            const groups = filtered.reduce((acc, item) => {
-                                (acc[item.day] = acc[item.day] || []).push(item)
-                                return acc
-                            }, {})
-
-                            const sortedDay = Object.keys(groups).sort((a, b) => (dayOrder[a] || 0) - (dayOrder[b] || 0));
-
-                            return links.length > 0 ? (
-                                sortedDay.map((day) => (
-                                    <div key={day} className="mt-10">
-                                        <p className="font-medium text-lg mb-2">{day}</p>
-                                        {groups[day].map((item, index) => (
-                                            <div key={index} className="border-l-4 border-teal-500 rounded-md overflow-hidden mb-2">
-                                                <div className="flex flex-wrap gap-4 items-center justify-between border border-gray-500 hover:border-sky-500 hover:bg-sky-100 p-3 transition cursor-pointer">
-                                                    <p className="m-0 flex-1 min-w-[100px] font-medium">{CutLength(item.title, 9)}</p>
-                                                    <a className="m-0 flex-1 min-w-[150px] text-sky-600 truncate" href={item.links} target="_blank" rel="noreferrer">
-                                                        {CutLength(item.links, 20)}
-                                                    </a>
-                                                    <p className="m-0 text-sm text-gray-500">{item.day}</p>
-                                                    <p className="m-0 text-sm text-gray-500">{item.time}</p>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                ))
-                            ) : (
-                                <div className="text-center text-gray-400 mt-10">No links found</div>
-                            );
-                        })()}
+                    <div className={`${links.length > 0 ? "hidden" : ""} text-center text-gray-500`}>
+                        No Schedule Found
                     </div>
                 </div>
-            </div>
+            </section >
         </>
     )
 }
