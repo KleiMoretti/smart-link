@@ -22,136 +22,6 @@ const getCurrentTime = () => {
 };
 
 
-// SAVE LINK (CREATE)
-export const SaveLinks = async (req, res) => {
-    try {
-
-        const proxyIp = req.ip;
-
-        const forwardedFor = req.headers['x-forwarded-for'];
-        const realIp = forwardedFor ? forwardedFor.split(',')[0] : proxyIp;
-
-
-
-        function generateCode() {
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            let code = "";
-
-            for (let i = 0; i < 6; i++) {
-                const randomIndex = Math.floor(Math.random() * chars.length);
-                code += chars[randomIndex];
-            }
-
-            return code;
-        }
-
-        const codeKey = generateCode();
-
-        const firebaseUID = req.user.uid
-        const firebaseName = req.user.name || req.user.email || "Anonymous User";
-
-        const { Links, Title } = req.body;
-
-        if (!Links || !Array.isArray(Links)) {
-            return res.status(400).json({
-                success: false,
-                message: "Invalid Data format."
-            });
-        }
-
-        const isValidTime = (time) => /^([01]\d|2[0-3]):([0-5]\d)$/.test(time);
-
-        const validDays = [
-            "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-        ];
-
-        if (!Title || Title.length <= 1) {
-            return res.status(400).json({
-                message: "Invalid Title",
-                success: false
-            });
-        }
-
-        const isValid = Links.every((item) => {
-            return (
-                item.title &&
-                item.title.length > 1 &&
-                item.title.length < 50 &&
-
-                item.link &&
-                item.link.startsWith("https://") &&
-
-                validDays.includes(item.day) &&
-
-                item.time &&
-                isValidTime(item.time)
-
-            );
-        });
-
-        if (!isValid) {
-            return res.status(400).json({
-                message: "Invalid Link Data",
-                success: false
-            });
-        }
-
-        const linksToInsert = Links.map(item => ({
-            title: item.title,
-            links: item.link?.trim(),
-            day: item.day,
-            time: item.time,
-            uid: firebaseUID,
-            name: firebaseName,
-            code: codeKey,
-            schedule_name: Title
-        }));
-
-        const { data, error } = await SupabaseConnect
-            .from("Links")
-            .insert(linksToInsert)
-            .select();
-
-        if (error) {
-            console.log("SUPABASE ERROaR:", error);
-            return res.status(500).json({ success: false, message: error.message });
-        }
-
-        const firebaseEmail = req.user?.email;
-
-        console.log("=============================SAVE LINK==========================================");
-        console.log("Headers: ", req.headers);
-        console.log("user-agents: ", req.headers['user-agent']);
-        console.log("forward: ", forwardedFor)
-        console.log("Internal Proxy IP:", proxyIp);
-        console.log("User Public IP:", realIp);
-        console.log("Firebase UID: ", firebaseUID)
-        console.log("Firebase Name: ", firebaseName)
-        console.log("Firebase Email: ", firebaseEmail)
-        console.log("Created Links: ", Links.map((item => item.link)))
-        console.log("Date Created: ", new Date().toLocaleDateString("en-US",
-            {
-                weekday: "long",
-                timeZone: "Asia/Manila"
-            }))
-        console.log("Time Created: ", new Date().toLocaleTimeString("en-US",
-            {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: false,
-                timeZone: "Asia/Manila"
-            }))
-
-        console.log("=================================================================================");
-
-        return res.status(200).json({ success: true, data: data });
-
-    } catch (error) {
-        console.error("❌ Controller Error man:", error);
-        return res.status(500).json({ success: false, message: error.message });
-    }
-};
-
 //FETCHING LINK
 export const GetLinks = async (req, res) => {
     try {
@@ -441,7 +311,9 @@ export const SaveRow = async (req, res) => {
     const { AddRow, code, schedule_name } = req.body;
     const firebaseUID = req.user?.uid;
     const firebaseName = req.user?.name;
-    console.log(firebaseName)
+
+    const cacheKey = `links:${firebaseUID}`;
+    await redisClient.del(cacheKey);
 
     try {
         await Promise.all(
