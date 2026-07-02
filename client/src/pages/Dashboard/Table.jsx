@@ -5,11 +5,9 @@ import { auth } from "../../firebase/firebase"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 
-
 export default function Table() {
 
     const redirectLink = import.meta.env.VITE_REDIRECT_FRONTEND_URL;
-
     const [token, setToken] = useState(null)
     const [links, setLinks] = useState([])
     const [code, setCode] = useState("")
@@ -88,18 +86,16 @@ export default function Table() {
             )
         );
     };
-    const SaveLinks = async () => {
+    const SaveEdit = async () => {
         if (!auths) return;
         const tkn = token;
 
-        const res = await axios.post(import.meta.env.VITE_API_SAVEEDIT, { editedLinks: links }, {
+        const res = await axios.post(import.meta.env.VITE_API_SAVE_EDIT, { editedLinks: links }, {
             headers: {
                 authorization: `Bearer ${tkn}`
             }
         })
     }
-
-
 
     const SaveRow = async () => {
         if (!auths) return;
@@ -149,7 +145,12 @@ export default function Table() {
     const handleEditDelete = (index) => {
         setAddRow(prev => prev.filter((_, i) => i != index))
     }
+    const editDelete = async (id) => {
+        if (!id) return;
 
+        const res = await axios.post(import.meta.env.VITE_API_DELETE_EDIT, { rowID: id }, { headers: { authorization: `Bearer ${token}` } })
+
+    }
 
     return (
         <>
@@ -157,10 +158,10 @@ export default function Table() {
                 <div className="max-w-[1000px] w-full">
 
                     {/* HEAD */}
-                    <div className={`${links.length > 0 ? "" : "hidden"} border border-gray-100 px-5 py-4 rounded-2xl shadow-sm `}>
+                    <div className={`${links.length > 0 ? "" : "hidden"} border border-gray-100 p-4 rounded-2xl shadow-sm `}>
                         <div className="text-sm flex justify-end">
                             <a className={`${edit_On ? "flex" : "hidden"} px-3 py-2 cursor-pointer`}
-                                onClick={() => { setEditOn(prev => !prev); SaveRow(); SaveLinks(); }}>Save</a>
+                                onClick={() => { setEditOn(prev => !prev); SaveRow(); SaveEdit(); }}>Save</a>
 
                             <a className={`${edit_On ? "hidden" : "flex"} text-black px-3 py-2 cursor-pointer`}
                                 onClick={() => { setEditOn(prev => !prev) }}>Edit</a>
@@ -186,13 +187,14 @@ export default function Table() {
                         </div>
 
                         <div>
-                            <table className="w-full text-md mt-10">
+                            <table className="w-full text-md mt-10 table-fixed">
                                 <thead>
                                     <tr className="bg-indigo-400 text-white">
-                                        <th className="w-1/4 px-6 py-4 text-left rounded-l-lg">Time</th>
-                                        <th className="w-1/4 px-6 py-4 text-left">Subject</th>
-                                        <th className="w-1/3 px-6 py-4 text-left">Links</th>
-                                        <th className="w-1/4 px-6 py-4 text-left rounded-r-lg">Day</th>
+                                        <th className="w-1/6 px-6 py-4 text-left rounded-l-lg">Time</th>
+                                        <th className="w-1/6 px-6 py-4 text-left">Subject</th>
+                                        <th className="w-1/6 px-6 py-4 text-left">Links</th>
+                                        <th className={`w-1/6 px-6 py-4 text-left ${edit_On ? "" : " rounded-r-lg"}`}>Day</th>
+                                        <th className={`px-6 py-4 text-left  ${!edit_On ? "hidden" : "w-1/6"} rounded-r-lg`}>Action</th>
                                     </tr>
                                 </thead>
 
@@ -252,6 +254,11 @@ export default function Table() {
                                                                 </select>
                                                                 : items.day
                                                             }
+                                                        </td>
+
+                                                        <td className={`w-1/6 px-6 py-4 text-left text-sm text-red-500 cursor-pointer ${!edit_On ? "hidden" : ""}`}
+                                                            onClick={() => editDelete(items.id)}>
+                                                            Delete
                                                         </td>
                                                     </tr >
                                                 ))
