@@ -186,7 +186,7 @@ export default function Table() {
                             </div>
                         </div>
 
-                        <div className="sm:overflow-x-scroll md:overflow-x-scroll ">
+                        <div className="overflow-x-scroll ">
                             <table className="lg:w-full text-md mt-10 table-fixed">
                                 <thead>
                                     <tr className="bg-indigo-400 text-white text-[clamp(8px,3vw,14px)]">
