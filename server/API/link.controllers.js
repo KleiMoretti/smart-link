@@ -87,6 +87,13 @@ export const AskGemini = async (req, res) => {
     try {
         const { prompt } = req.body;
 
+        if (!prompt) {
+            return res.status(400).json({
+                success: false,
+                message: "Walang prompt na pinadala!"
+            });
+        }
+
         if (prompt.length > 1000) {
             return res.status(400).json({ success: false, message: "Number of characters reach the limits" });
         }
@@ -94,12 +101,6 @@ export const AskGemini = async (req, res) => {
         const firebaseUID = req.user?.uid;
         const firebaseName = req.user?.name;
 
-        if (!prompt) {
-            return res.status(400).json({
-                success: false,
-                message: "Walang prompt na pinadala!"
-            });
-        }
 
         await redisClient.del(`links:${firebaseUID}`);
 
@@ -156,7 +157,6 @@ export const AskGemini = async (req, res) => {
         }
 
         console.log(text);
-
 
         if (!Array.isArray(parsed)) {
             parsed = [parsed];
